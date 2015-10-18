@@ -12,7 +12,7 @@ gulp.task('build:config',function(cb){
     cb();
 });
 gulp.task('build:assets', ['clean'], function (cb) {
-    runSequence(['styles', 'bundle'], cb);
+    runSequence(['styles', 'bundle','assets'], cb);
 });
 
 gulp.task('build',['build:config'],function(cb){

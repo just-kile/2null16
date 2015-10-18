@@ -31,7 +31,7 @@ server.register([
             path: '/assets/{p*}',
             handler: {
                 directory: {
-                    path: './build/assets'
+                    path: './build'
                 }
             }
         });

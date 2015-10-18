@@ -4,8 +4,19 @@ var Link = Router.Link;
 var RouteHandler = Router.RouteHandler;
 var injectTapEventPlugin = require("react-tap-event-plugin");
 injectTapEventPlugin();
+var ThemeManager = require('material-ui/lib/styles/theme-manager');
+var MyRawTheme = require('./../theme');
 
 var App = React.createClass({
+    childContextTypes : {
+        muiTheme: React.PropTypes.object
+    },
+
+    getChildContext() {
+        return {
+            muiTheme: ThemeManager.getMuiTheme(MyRawTheme)
+        };
+    },
     render () {
         return (
             <div>

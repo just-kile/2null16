@@ -9,13 +9,13 @@ itemtype="http://schema.org/Product")
         meta(name="viewport", content="width=device-width,initial-scale=1, user-scalable=no")
         title 2null16
         link(href='http://fonts.googleapis.com/css?family=Dosis' rel='stylesheet' type='text/css')
-        link(rel="stylesheet", href="/assets/css/#{bundleCss}")
+        link(rel="stylesheet", href="#{bundleCss}")
         meta(http-equiv="Content-type", content="text/html;charset=UTF-8")
         script
             | window.TOTR = !{props}
     body
         block content
-        script(src="/assets/js/#{bundleJs}")
+        script(src="#{bundleJs}")
 
         if !isProd
             script(type='text/javascript' id="__bs_script__") document.write("<script async src='//HOST:3000/browser-sync/browser-sync-client.1.9.2.js'><\/script>".replace(/HOST/g, location.hostname).replace(/PORT/g, location.port));

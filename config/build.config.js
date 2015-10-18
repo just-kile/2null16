@@ -17,10 +17,10 @@ module.exports = {
 
   // build directories
   buildDir: buildDir,
-  buildCss: buildDir + 'assets/css',
+  buildCss: buildDir + 'css',
   buildFonts: buildDir + 'fonts/',
-  buildImages: buildDir + 'images/',
-  buildJs: buildDir + 'assets/js',
+  buildPublic: buildDir + 'public/',
+  buildJs: buildDir + 'js',
 
   appPath: process.cwd() + '/'
 };

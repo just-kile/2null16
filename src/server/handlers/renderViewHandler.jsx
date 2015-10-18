@@ -5,9 +5,10 @@ var bluebird = require("bluebird");
 var _ = require("lodash");
 var routes = require('../../client/js/routes.jsx');
 var Router = require("react-router");
+var config = require("./../../../config/build.config")
 try{
-    var jsManifest = require("./../../../build/assets/js/rev-manifest.json");
-    var cssManifest = require("./../../../build/assets/css/rev-manifest.json");
+    var jsManifest = require("./../../../build/js/rev-manifest.json");
+    var cssManifest = require("./../../../build/css/rev-manifest.json");
 
 }catch(e){
     jsManifest = {};
@@ -19,20 +20,16 @@ var argv = require('minimist')(process.argv.slice(2)),
 
 module.exports = function handleRender(propertyHandler,view) {
     return function (request, reply) {
-        var time1 = new Date();
         bluebird.props(propertyHandler(request,reply)).then(function(reactAppProps){
             Router.run(routes, request.path, function (Handler,state) {
                 var model = {
                     content:  React.renderToStaticMarkup(<Handler {...state} {...reactAppProps}/>),
-                  //  content:  React.renderToString(<Handler {...state} {...reactAppProps}/>),
                     props:safeStringify(reactAppProps),
-                    bundleJs:jsManifest["bundle.js"]||"bundle.js",
-                    bundleCss:cssManifest["styles.css"]||"styles.css",
+                    bundleJs:"/assets/js/" + (jsManifest["bundle.js"]||"bundle.js"),
+                    bundleCss:"/assets/css/" +(cssManifest["styles.css"]||"styles.css"),
                     isProd: isProd
                 };
                 reply.view(view,model).type('Content-Type', 'text/html');
-                var time2 = new Date();
-                console.log(time2-time1,"ms for rendering");
             });
 
         }).catch(errorHandler(reply));

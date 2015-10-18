@@ -5,8 +5,14 @@ var bluebird = require("bluebird");
 var _ = require("lodash");
 var routes = require('../../client/js/routes.jsx');
 var Router = require("react-router");
-var jsManifest = require("./../build/assets/js/rev-manifest");
-var cssManifest = require("./../build/assets/css/rev-manifest");
+try{
+    var jsManifest = require("./../../../build/assets/js/rev-manifest.json");
+    var cssManifest = require("./../../../build/assets/css/rev-manifest.json");
+
+}catch(e){
+    jsManifest = {};
+    cssManifest = {};
+}
 
 var argv = require('minimist')(process.argv.slice(2)),
     isProd = argv.prod || false;
@@ -20,8 +26,8 @@ module.exports = function handleRender(propertyHandler,view) {
                     content:  React.renderToStaticMarkup(<Handler {...state} {...reactAppProps}/>),
                   //  content:  React.renderToString(<Handler {...state} {...reactAppProps}/>),
                     props:safeStringify(reactAppProps),
-                    bundleJs:jsManifest["bundle.js"],
-                    bundleCss:cssManifest["styles.js"],
+                    bundleJs:jsManifest["bundle.js"]||"bundle.js",
+                    bundleCss:cssManifest["styles.css"]||"styles.css",
                     isProd: isProd
                 };
                 reply.view(view,model).type('Content-Type', 'text/html');

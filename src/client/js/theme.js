@@ -28,9 +28,9 @@ module.exports = {
         accent2Color: colorsStyleguide._bahia,
         accent3Color: Colors.grey500,
         textColor: Colors.fullWhite,
-        alternateTextColor: Colors.white,
+        alternateTextColor: colorsStyleguide._lipstick,
         canvasColor: Colors.white,
         borderColor: Colors.grey300,
-        disabledColor: ColorManipulator.fade(Colors.darkBlack, 0.3),
+        disabledColor: colorsStyleguide._mercury,
     },
 };

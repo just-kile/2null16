@@ -7,13 +7,15 @@ var React = require('react'),
 var App = require("./components/app.jsx"),
     Article = require("./components/article.jsx"),
     Dashboard = require("./components/dashboard.jsx"),
-    EntryList = require("./components/entrylist.jsx");
+    Login = require("./components/login.jsx");
 
 var routes = (
-    <Route name="index" path="/" handler={App}>
-        <Route name="article" path="article/:articleId" handler={Article}/>
-        <Route name="dashboard" path="dashboard" handler={Dashboard}/>
-        <DefaultRoute name="articles" handler={EntryList}/>
+    <Route name="index">
+        <Route name="wuff" path="/blog" handler={App}>
+            <Route name="article" path="article/:articleId" handler={Article}/>
+            <Route name="dashboard" path="dashboard" handler={Dashboard}/>
+       </Route>
+       <Route path="/" name="articles" handler={Login}/>
     </Route>
 );
 

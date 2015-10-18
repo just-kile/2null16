@@ -8,12 +8,12 @@ itemtype="http://schema.org/Product")
         meta(http-equiv="X-UA-Compatible", content="IE=edge,chrome=1")
         meta(name="viewport", content="width=device-width,initial-scale=1, user-scalable=no")
         title 2null16
-        link(href='http://fonts.googleapis.com/css?family=Dosis' rel='stylesheet' type='text/css')
-        link(rel="stylesheet", href="#{bundleCss}")
         meta(http-equiv="Content-type", content="text/html;charset=UTF-8")
         script
             | window.TOTR = !{props}
     body
+        link(href='http://fonts.googleapis.com/css?family=Dosis' rel='stylesheet' type='text/css')
+        link(rel="stylesheet", href="#{bundleCss}")
         block content
         script(src="#{bundleJs}")
 

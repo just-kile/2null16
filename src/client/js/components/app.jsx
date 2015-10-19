@@ -2,8 +2,7 @@ var React = require('react');
 var Router = require('react-router');
 var Link = Router.Link;
 var RouteHandler = Router.RouteHandler;
-var injectTapEventPlugin = require("react-tap-event-plugin");
-injectTapEventPlugin();
+
 var ThemeManager = require('material-ui/lib/styles/theme-manager');
 var MyRawTheme = require('./../theme');
 

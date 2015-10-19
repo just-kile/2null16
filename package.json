@@ -77,6 +77,8 @@
     ]
   },
   "devDependencies": {
-    "gulp-rev": "^2.0.1"
+    "gulp-rev": "^2.0.1",
+    "nib": "^1.1.0",
+    "rupture": "^0.6.1"
   }
 }

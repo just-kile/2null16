@@ -19,20 +19,19 @@ var Login = React.createClass({
 
     render () {
         return (
-            <div className="login-wrapper">
             <div className="login">
                 <div className="login-logo">
                     <img className="" src="/assets/public/logo-complete-square-dark.png" />
                 </div>
-                <section>
-                    <form className="register-form">
-                        <div><TextField style={{marginRight:"5px"}} floatingLabelText="E-Mail" /></div>
-                        <div><TextField type="password" floatingLabelText="Passwort" /></div>
-                        <div><FlatButton label="Registrieren" primary={true} /></div>
+                <div className="register-form">
+                    <form>
+                        <TextField style={{marginRight:"5px"}} floatingLabelText="E-Mail" />
+                        <TextField type="password" floatingLabelText="Passwort" />
+                        <FlatButton label="Registrieren" primary={true} />
                     </form>
-                </section>
+                </div>
             </div>
-           </div>
+
         );
     }
 });

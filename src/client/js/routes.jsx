@@ -9,6 +9,7 @@ var App = require("./components/app.jsx"),
     Dashboard = require("./components/dashboard.jsx"),
     Login = require("./components/login.jsx");
 
+
 var routes = (
     <Route name="index">
         <Route name="wuff" path="/blog" handler={App}>

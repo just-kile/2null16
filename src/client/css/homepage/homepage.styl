@@ -1,24 +1,29 @@
 @import 'jeet'
-
-.login-wrapper
-
+bp = 900px
 .login
-  center(800px)
-
+  center()
+  align()
 .register-form
-  +above(768px)
+  stack()
+  +above(bp)
     col(1/2)
   form
-    center()
-    width:260px
+    .text-field
+       text-align:center
+       &:last-child
+         margin-top:10px
+
 
 
 .login-logo
-  +above(768px)
+  stack()
+  +above(bp)
     col(1/2)
   img
     center()
     animation-iteration-count:infinite;
     animation-duration: 1s;
     animation-delay: 5s;
-    max-width:300px
+    max-width:350px
+    min-width:150px
+    width:100%

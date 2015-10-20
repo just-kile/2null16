@@ -42,7 +42,7 @@ gulp.task('bundle', function () {
             // log errors if they happen
             .on('error', $.util.log.bind($.util, 'Browserify Error'))
             .pipe($.vinylSourceStream('bundle.js'))
-            .pipe($.if(isProd, $.streamify($.uglify(uglifyOptions))))
+            .pipe($.if(isProd, $.streamify($.uglify(uglifyOptions).on('error', $.util.log.bind($.util, 'Uglify Error')))))
             .pipe($.if(isProd, $.streamify($.rev())))
             .pipe(gulp.dest(buildConfig.buildJs))
             .pipe($.streamify($.rev.manifest({merge:true})))

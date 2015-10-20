@@ -5,7 +5,8 @@
     "npm": ">=2.1.5"
   },
   "scripts": {
-    "postinstall": "node ./node_modules/gulp/bin/gulp.js build --prod",
+    "postinstall": "gulp build --prod",
+    "watch":"gulp",
     "test": "jest",
     "start": "node src/server/index.js --prod"
   },

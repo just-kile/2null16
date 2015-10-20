@@ -21,13 +21,14 @@ var Login = React.createClass({
         return (
             <div className="login">
                 <div className="login-logo">
-                    <img className="" src="/assets/public/logo-complete-square-dark.png" />
+                    <img src="/assets/public/logo-complete-square-dark.png" />
                 </div>
                 <div className="register-form">
                     <form>
-                        <TextField style={{marginRight:"5px"}} floatingLabelText="E-Mail" />
-                        <TextField type="password" floatingLabelText="Passwort" />
-                        <FlatButton label="Registrieren" primary={true} />
+                        <div className="text-field"><TextField style={{marginRight:"5px"}} floatingLabelText="Name" /></div>
+                        <div className="text-field"><TextField style={{marginRight:"5px"}} floatingLabelText="E-Mail" /></div>
+                        <div className="text-field"><TextField type="password" floatingLabelText="Passwort" /></div>
+                        <div className="text-field"><FlatButton label="Registrieren" primary={true} /></div>
                     </form>
                 </div>
             </div>

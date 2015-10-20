@@ -1,11 +1,11 @@
 
 'use strict';
 
-let Colors = require('material-ui/lib/styles/colors');
-let ColorManipulator = require('material-ui/lib/utils/color-manipulator');
-let Spacing = require('material-ui/lib/styles/spacing');
+var Colors = require('material-ui/lib/styles/colors');
+var ColorManipulator = require('material-ui/lib/utils/color-manipulator');
+var Spacing = require('material-ui/lib/styles/spacing');
 
-let colorsStyleguide = {
+var colorsStyleguide = {
     "_lipstick": "#AC0263",
     "_roseCherry": "#F4008C",
     "_ripeLemon": "#F6D919",
@@ -31,6 +31,6 @@ module.exports = {
         alternateTextColor: colorsStyleguide._lipstick,
         canvasColor: Colors.white,
         borderColor: Colors.grey300,
-        disabledColor: colorsStyleguide._mercury,
-    },
+        disabledColor: colorsStyleguide._mercury
+    }
 };

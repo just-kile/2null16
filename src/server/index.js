@@ -20,12 +20,15 @@ server.views({
 });
 server.connection({port: process.env.PORT || 1337});
 server.register([
-        {register: require('bell')},
-        {register: require('hapi-auth-cookie')},
-        {register: require('./plugins/auth')}],
+        {register: require('hapi-auth-jwt2')}],
     function (err) {
         if (err) throw err;
-
+        server.auth.strategy('jwt', 'jwt',
+            { key: 'NeverShareYourSecret',          // Never Share your secret key
+                validateFunc: require("./auth/authHandler").validate,            // validate function defined above
+                verifyOptions: { algorithms: [ 'HS256' ] }
+        });
+        server.auth.default('jwt');
         server.route({
             method: 'GET',
             path: '/assets/{p*}',
@@ -33,40 +36,23 @@ server.register([
                 directory: {
                     path: './build'
                 }
-            }
+            },
+            config:{auth:false}
         });
 //Api
         //PUBLIC
         server.route({
             method: 'GET',
-            path: '/api/article/{articleId}',
-            handler: renderJsonHandler(articleService.get)
+            path: '/login',
+            handler: function(req,reply){
+                
+            }
         });
 
         server.route({
             method: 'GET',
-            path: '/api/article/list',
-            handler: renderJsonHandler(articleService.list)
-        });
-        //PRIVATE
-        server.route({
-            method: 'PUT',
-            path: '/api/article/create',
-            config: {
-                auth: "session",
-                handler: renderJsonHandler(articleService.save)
-            }
-
-        });
-
-        server.route({
-            method: 'DELETE',
-            path: '/api/article/{articleId}',
-            config: {
-                auth: "session",
-                handler: renderJsonHandler(articleService.remove)
-            }
-
+            path: '/api/blog/{articleId}',
+            handler: renderJsonHandler(articleService.get)
         });
 
 
@@ -74,23 +60,17 @@ server.register([
         server.route({
             method: 'GET',
             path: '/',
-            handler: renderViewHandler(articleService.list, "index")
+            handler: renderViewHandler(articleService.list, "index"),
+            config:{auth:false}
         });
 
         server.route({
             method: 'GET',
-            path: '/article/{articleId}',
+            path: '/blog',
             handler: renderViewHandler(articleService.get, "article")
+
         });
 
-        server.route({
-            method: 'GET',
-            path: '/dashboard',
-            config: {
-                auth: 'session',
-                handler: renderViewHandler(articleService.list, "index")
-            }
-        });
 
         server.start(function () {
             console.log('Server running at:', server.info.uri);

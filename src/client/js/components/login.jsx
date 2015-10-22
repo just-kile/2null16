@@ -16,19 +16,21 @@ var Login = React.createClass({
             muiTheme: ThemeManager.getMuiTheme(MyRawTheme)
         };
     },
-
+    register(){
+        alert("Wuff")
+    },
     render () {
         return (
             <div className="login">
                 <div className="login-logo">
-                    <img src="/assets/public/logo-complete-square-dark.png" />
+                    <img className="pulse animated" src="/assets/public/logo-complete-square-dark.png" />
                 </div>
                 <div className="register-form">
                     <form>
-                        <div className="text-field"><TextField style={{marginRight:"5px"}} floatingLabelText="Name" /></div>
-                        <div className="text-field"><TextField style={{marginRight:"5px"}} floatingLabelText="E-Mail" /></div>
+                        <div className="text-field"><TextField floatingLabelText="Name" /></div>
+                        <div className="text-field"><TextField floatingLabelText="E-Mail" /></div>
                         <div className="text-field"><TextField type="password" floatingLabelText="Passwort" /></div>
-                        <div className="text-field"><FlatButton label="Registrieren" primary={true} /></div>
+                        <div className="text-field"><FlatButton onClick={this.register} label="Registrieren" primary={true} /></div>
                     </form>
                 </div>
             </div>

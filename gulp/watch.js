@@ -33,7 +33,7 @@ gulp.task('nodemon', function (cb) {
     return $.nodemon({
         script: './src/server/index.js',
         ext: 'jade js jsx',
-        watch: ["./src/server", "./src/client"]
+        watch: ["./src/server", "./build"]
     }).on("restart",function(){
         browserSyncReload();
     })

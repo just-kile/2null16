@@ -5,7 +5,7 @@ var bluebird = require("bluebird");
 var _ = require("lodash");
 var routes = require('../../client/js/routes.jsx');
 var Router = require("react-router");
-var config = require("./../../../config/build.config")
+var config = require("./../../../config/build.config");
 try{
     var jsManifest = require("./../../../build/js/rev-manifest.json");
     var cssManifest = require("./../../../build/css/rev-manifest.json");
@@ -20,6 +20,7 @@ var argv = require('minimist')(process.argv.slice(2)),
 
 module.exports = function handleRender(propertyHandler,view) {
     return function (request, reply) {
+
         bluebird.props(propertyHandler(request,reply)).then(function(reactAppProps){
             Router.run(routes, request.path, function (Handler,state) {
                 var model = {

@@ -5,19 +5,29 @@ var {getJSON} = require("../services/ajaxService.jsx");
 var TextField = require("material-ui/lib/text-field");
 var FlatButton = require("material-ui/lib/flat-button");
 var ThemeManager = require('material-ui/lib/styles/theme-manager');
+var ajaxService = require("./../services/ajaxService.jsx");
 var MyRawTheme = require('./../theme');
 var Login = React.createClass({
     childContextTypes : {
         muiTheme: React.PropTypes.object
     },
-
+    getInitialState(){
+        return {name: '',email:"",pass:""};
+    },
     getChildContext() {
         return {
             muiTheme: ThemeManager.getMuiTheme(MyRawTheme)
         };
     },
+    handleTextfieldChange(key,event){
+        this.setState({[key]: event.target.value});
+    },
     register(){
-        alert("Wuff")
+        ajaxService.auth(this.state.user,this.state.email,this.state.pass,()=>
+            this.context.router.transitionTo('restricted')
+        ,function(){
+            alert("fail")
+        })
     },
     render () {
         return (
@@ -27,9 +37,9 @@ var Login = React.createClass({
                 </div>
                 <div className="register-form">
                     <form>
-                        <div className="text-field"><TextField floatingLabelText="Name" /></div>
-                        <div className="text-field"><TextField floatingLabelText="E-Mail" /></div>
-                        <div className="text-field"><TextField type="password" floatingLabelText="Passwort" /></div>
+                        <div className="text-field"><TextField floatingLabelText="Name" value={this.state.name} onChange={this.handleTextfieldChange.bind(this,"name")}/></div>
+                        <div className="text-field"><TextField floatingLabelText="E-Mail" value={this.state.email} onChange={this.handleTextfieldChange.bind(this,"email")}/></div>
+                        <div className="text-field"><TextField type="password" floatingLabelText="Passwort" value={this.state.pass} onChange={this.handleTextfieldChange.bind(this,"pass")}/></div>
                         <div className="text-field"><FlatButton onClick={this.register} label="Registrieren" primary={true} /></div>
                     </form>
                 </div>

@@ -14,6 +14,7 @@ var routes = (
     <Route name="index">
         <Route name="wuff" path="/blog" handler={App}>
             <Route name="article" path="article/:articleId" handler={Article}/>
+            <Route name="restricted" path="restricted" handler={Article}/>
             <Route name="dashboard" path="dashboard" handler={Dashboard}/>
        </Route>
        <Route path="/" name="articles" handler={Login}/>

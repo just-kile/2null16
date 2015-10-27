@@ -1,3 +1,5 @@
+var request = require("superagent");
+
 function getJSON(url) {
     if (getJSON._cache[url])
         return Promise.resolve(getJSON._cache[url]);
@@ -19,4 +21,24 @@ function getJSON(url) {
 }
 getJSON._cache = {};
 
+function auth (name,username,pass,success,error){
+
+
+    request
+        .post('/login')
+        .send({
+            user:username,
+            name:name,
+            password:pass
+        }).end(function(err,res){
+            if (res.ok) {
+                success(res.body);
+            } else {
+                error(res.text);
+            }
+        });
+}
+
+
 module.exports.getJSON = getJSON;
+module.exports.auth = auth;

@@ -1,8 +1,10 @@
-require('node-jsx').install({harmony: true,extension: '.jsx'});
+require('node-jsx').install({harmony: true, extension: '.jsx'});
 
 var http = require('http'),
     Hapi = require('hapi'),
     _ = require('lodash'),
+    aguid = require("aguid"),
+    JWT = require("jsonwebtoken"),
     path = require("path");
 
 var
@@ -18,16 +20,27 @@ server.views({
         pretty: true
     }
 });
+var SECRET = "NeverShareYourSecret ";
+var cookie_options = {
+    ttl: 365 * 24 * 60 * 60 * 1000, // expires a year from today
+    encoding: 'none',    // we already used JWT to encode
+    isSecure: true,      // warm & fuzzy feelings
+    isHttpOnly: true,    // prevent client alteration
+    clearInvalid: false, // remove invalid cookies
+    strictHeader: true   // don't allow violations of RFC 6265
+};
 server.connection({port: process.env.PORT || 1337});
 server.register([
         {register: require('hapi-auth-jwt2')}],
     function (err) {
         if (err) throw err;
         server.auth.strategy('jwt', 'jwt',
-            { key: 'NeverShareYourSecret',          // Never Share your secret key
+            {
+                key: SECRET,          // Never Share your secret key
                 validateFunc: require("./auth/authHandler").validate,            // validate function defined above
-                verifyOptions: { algorithms: [ 'HS256' ] }
-        });
+                verifyOptions: {algorithms: ['HS256']}
+            });
+
         server.auth.default('jwt');
         server.route({
             method: 'GET',
@@ -37,22 +50,36 @@ server.register([
                     path: './build'
                 }
             },
-            config:{auth:false}
+            config: {auth: false}
         });
 //Api
         //PUBLIC
         server.route({
-            method: 'GET',
+            method: ['POST'],
             path: '/login',
-            handler: function(req,reply){
-                
-            }
+            handler: function (req, reply) {
+                var session = {
+                    valid: true, // this will be set to false when the person logs out
+                    id: aguid(), // a random session id
+                    exp: new Date().getTime() + 30 * 60 * 1000 // expires in 30 minutes time
+                };
+                var token = JWT.sign(session, SECRET); // synchronous
+                console.log(token);
+                reply({text: 'Check Auth Header for your Token'})
+                    .header("Authorization", token)
+                    .state("token", token, cookie_options)
+            },
+            config: {auth: false}
         });
 
         server.route({
-            method: 'GET',
-            path: '/api/blog/{articleId}',
-            handler: renderJsonHandler(articleService.get)
+            method: ['GET','POST'], path: '/restricted', config: { auth: 'jwt' },
+            handler: function(request, reply) {
+                reply({text: 'You used a Token!'});
+                    //.header("Authorization", request.headers.authorization)
+                    //.state("token", request.headers.authorization, {ttl: 365 * 30 * 7 * 24 * 60 * 60 * 1000})
+                // .set(token)
+            }
         });
 
 
@@ -60,8 +87,8 @@ server.register([
         server.route({
             method: 'GET',
             path: '/',
-            handler: renderViewHandler(articleService.list, "index"),
-            config:{auth:false}
+            handler: renderViewHandler(function(){return {}}, "index"),
+            config: {auth: false}
         });
 
         server.route({

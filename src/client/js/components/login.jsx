@@ -24,7 +24,8 @@ var Login = React.createClass({
     },
     register(){
         ajaxService.auth(this.state.user,this.state.email,this.state.pass,()=>
-            this.context.router.transitionTo('restricted')
+                this.props.history.pushState(null,'/blog/restricted')
+
         ,function(){
             alert("fail")
         })

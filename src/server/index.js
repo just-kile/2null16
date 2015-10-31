@@ -99,7 +99,8 @@ server.register([
         server.route({
             method: 'GET',
             path: '/blog',
-            handler: renderViewHandler(articleService.get, "article")
+            handler: renderViewHandler(articleService.get, "article"),
+            config: {auth: false}
 
         });
 

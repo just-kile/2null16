@@ -1,7 +1,6 @@
 var React = require('react');
 var Router = require('react-router');
 var Link = Router.Link;
-var RouteHandler = Router.RouteHandler;
 
 var ThemeManager = require('material-ui/lib/styles/theme-manager');
 var MyRawTheme = require('./../theme');
@@ -22,7 +21,7 @@ var App = React.createClass({
                 <header>
                     <Link to="index">ZM2k Blog</Link>
                 </header>
-                <RouteHandler {...this.props}/>
+                {this.props.children}
             </div>
         );
     }

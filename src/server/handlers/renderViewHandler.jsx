@@ -4,13 +4,15 @@ var errorHandler = require("./errorHandler");
 var bluebird = require("bluebird");
 var _ = require("lodash");
 var routes = require('../../client/js/routes.jsx');
+var appReducer = require('../../client/js/reducers/appReducer');
 var Router = require("react-router");
-//var renderToStaticMarkup  = require('react-dom/server').renderToStaticMarkup;
 var renderToStaticMarkup  = require('react-dom/server').renderToStaticMarkup;
 
 var match = Router.match,
     RoutingContext =Router.RoutingContext;
 var config = require("./../../../config/build.config");
+var { createStore } = require('redux');
+var { Provider } = require('react-redux');
 try{
     var jsManifest = require("./../../../build/js/rev-manifest.json");
     var cssManifest = require("./../../../build/css/rev-manifest.json");
@@ -27,16 +29,18 @@ module.exports = function handleRender(propertyHandler,view) {
     return function (request, reply) {
 
         bluebird.props(propertyHandler(request,reply)).then(function(reactAppProps){
-            match({ routes, location: request.path }, (error, redirectLocation, renderProps) => {
-            //Router.run(routes, request.path, function (Handler,state) {
 
+            match({ routes, location: request.path }, (error, redirectLocation, renderProps) => {
+                var store = createStore(appReducer, reactAppProps)
                 var reactApp = renderToStaticMarkup(
-                    <RoutingContext {...reactAppProps} {...renderProps}/>
+                    <Provider store={store}>
+                        <RoutingContext {...renderProps}/>
+                    </Provider>
                 );
 
                 var model = {
                     content:  reactApp,
-                    props:safeStringify(reactAppProps),
+                    props:JSON.stringify(store.getState()||{}),
                     bundleJs:"/assets/js/" + (jsManifest["bundle.js"]||"bundle.js"),
                     bundleCss:"/assets/css/" +(cssManifest["styles.css"]||"styles.css"),
                     isProd: isProd
@@ -50,8 +54,4 @@ module.exports = function handleRender(propertyHandler,view) {
 
     }
 };
-
-function safeStringify(obj) {
-    return JSON.stringify(obj).replace(/<\/script/g, '<\\/script').replace(/<!--/g, '<\\!--')
-}
 

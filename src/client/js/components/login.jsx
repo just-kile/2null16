@@ -23,11 +23,11 @@ var Login = React.createClass({
         this.setState({[key]: event.target.value});
     },
     register(){
-        ajaxService.auth(this.state.user,this.state.email,this.state.pass,()=>
-                this.props.history.pushState(null,'/blog/restricted')
+        ajaxService.auth(this.state.name,this.state.email,this.state.pass,()=>
+                this.props.history.pushState(null,'/blog')
 
         ,function(){
-            alert("fail")
+            alert("Bitte gib korrekte Daten ein!")
         })
     },
     render () {

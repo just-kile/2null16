@@ -19,7 +19,7 @@ var App = React.createClass({
         return (
             <div>
                 <header>
-                    <Link to="index">ZM2k Blog</Link>
+                    <Link to="/">Logout</Link>
                 </header>
                 {this.props.children}
             </div>

@@ -21,14 +21,14 @@ function getJSON(url) {
 }
 getJSON._cache = {};
 
-function auth (name,username,pass,success,error){
+function auth (name,email,pass,success,error){
 
 
     request
-        .post('/login')
+        .post('/register')
         .send({
-            user:username,
             name:name,
+            email:email,
             password:pass
         }).end(function(err,res){
             if (res.ok) {

@@ -42,11 +42,11 @@ gulp.task('nodemon', function (cb) {
             }
         });
 });
-gulp.task("reload:scripts",function(done){
-    runSequence('bundle',  $.browserSync.reload,done);
+gulp.task("reload:scripts",["bundle"],function(){
+     $.browserSync.reload();
 });
-gulp.task("reload:styles",function(done){
-    runSequence('styles',  $.browserSync.reload,done);
+gulp.task("reload:styles",["styles"],function(done){
+    $.browserSync.reload();
 });
 
 gulp.task('watch', function () {

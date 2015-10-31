@@ -10,7 +10,7 @@ var buildConfig = require('../config/build.config.js'),
 
 gulp.task('browserSync', ['nodemon'], function () {
     $.browserSync.init(null, {
-        proxy: "http://localhost:5000"
+      //  proxy: "http://localhost:1337"
 
     });
 });
@@ -42,12 +42,16 @@ gulp.task('nodemon', function (cb) {
             }
         });
 });
-gulp.task("reload:scripts",function(){
-    runSequence('bundle',  $.browserSync.reload);
+gulp.task("reload:scripts",function(done){
+    runSequence('bundle',  $.browserSync.reload,done);
 });
+gulp.task("reload:styles",function(done){
+    runSequence('styles',  $.browserSync.reload,done);
+});
+
 gulp.task('watch', function () {
     //$.browserSync.reload();
-  //  gulp.watch([buildConfig.appBase + '**/*.js','./src/server/**/*.js'], [$.browserSync.reload]);
-    gulp.watch([buildConfig.appBase + '**/*.styl'], ['styles', $.browserSync.reload]);
+    gulp.watch([buildConfig.appBase + '**/*.js','./src/server/**/*.js'], ["reload:scripts"]);
+    gulp.watch([buildConfig.appBase + '**/*.styl'], ['reload:styles']);
     gulp.watch([buildConfig.appBase + '**/*.jade'], [$.browserSync.reload]);
 });

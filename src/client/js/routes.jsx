@@ -9,7 +9,7 @@ var App = require("./components/app.jsx"),
     Login = require("./components/login.jsx");
 
 
-/*var routes = (
+var routes = (
     <Route>
         <Route path="blog" component={App}>
             <Route  path="article/:articleId" component={Article}/>
@@ -19,7 +19,5 @@ var App = require("./components/app.jsx"),
        <Route path="/" component={Login}/>
     </Route>
 );
-*/
 
-//module.exports = routes;
-module.exports =  (<Route path="/" component={Login}/>);
+module.exports = routes;

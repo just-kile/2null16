@@ -10,10 +10,8 @@ var buildConfig = require('../config/build.config.js'),
 
 gulp.task('browserSync', ['nodemon'], function () {
     $.browserSync.init(null, {
-        proxy: {
-            host: "http://localhost",
-            port: "5000"
-        }
+        proxy: "http://localhost:5000"
+
     });
 });
 var timeout = null;

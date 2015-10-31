@@ -7,19 +7,11 @@ var http = require('http'),
     JWT = require("jsonwebtoken"),
     path = require("path");
 
-var
-    renderViewHandler = require("./handlers/renderViewHandler"),
+var renderViewHandler = require("./handlers/renderViewHandler"),
     renderJsonHandler = require("./handlers/renderJsonHandler"),
     articleService = require("./services/articleService");
 
 var server = new Hapi.Server();
-server.views({
-    engines: {jade: require('jade')},
-    path: __dirname + '/views',
-    compileOptions: {
-        pretty: true
-    }
-});
 var SECRET = "NeverShareYourSecret ";
 var cookie_options = {
     ttl: 365 * 24 * 60 * 60 * 1000, // expires a year from today
@@ -31,9 +23,22 @@ var cookie_options = {
 };
 server.connection({port: process.env.PORT || 1337});
 server.register([
-        {register: require('hapi-auth-jwt2')}],
+        {register: require('hapi-auth-jwt2')},
+        require('vision'),
+        require('inert')
+    ],
     function (err) {
         if (err) throw err;
+        server.views({
+            engines: {jade: require('jade')},
+            relativeTo: __dirname ,
+            path: './views',
+            layoutKeyword: 'layout',
+            compileOptions: {
+                pretty: true
+            }
+        });
+
         server.auth.strategy('jwt', 'jwt',
             {
                 key: SECRET,          // Never Share your secret key

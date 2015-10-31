@@ -1,7 +1,6 @@
 var React = require('react'),
     Router = require('react-router'),
-    Route = Router.Route,
-    DefaultRoute = Router.DefaultRoute;
+    Route = Router.Route;
 
 
 var App = require("./components/app.jsx"),
@@ -10,16 +9,17 @@ var App = require("./components/app.jsx"),
     Login = require("./components/login.jsx");
 
 
-var routes = (
-    <Route name="index">
-        <Route name="wuff" path="/blog" handler={App}>
-            <Route name="article" path="article/:articleId" handler={Article}/>
-            <Route name="restricted" path="restricted" handler={Article}/>
-            <Route name="dashboard" path="dashboard" handler={Dashboard}/>
+/*var routes = (
+    <Route>
+        <Route path="blog" component={App}>
+            <Route  path="article/:articleId" component={Article}/>
+            <Route  path="restricted" component={Article}/>
+            <Route  path="dashboard" component={Dashboard}/>
        </Route>
-       <Route path="/" name="articles" handler={Login}/>
+       <Route path="/" component={Login}/>
     </Route>
 );
+*/
 
-
-module.exports = routes;
+//module.exports = routes;
+module.exports =  (<Route path="/" component={Login}/>);

@@ -2,10 +2,7 @@ require('node-jsx').install({harmony: true, extension: '.jsx'});
 
 var http = require('http'),
     Hapi = require('hapi'),
-    Joi = require('joi'),
     _ = require('lodash'),
-    aguid = require("aguid"),
-    JWT = require("jsonwebtoken"),
     path = require("path");
 
 var renderViewHandler = require("./handlers/renderViewHandler"),
@@ -13,15 +10,8 @@ var renderViewHandler = require("./handlers/renderViewHandler"),
     articleService = require("./services/articleService");
 
 var server = new Hapi.Server();
-var SECRET = "NeverShareYourSecret";
-var cookie_options = {
-    ttl: 365 * 24 * 60 * 60 * 1000, // expires a year from today
-    encoding: 'none',    // we already used JWT to encode
-    //isSecure: true,      // warm & fuzzy feelings
-   // isHttpOnly: true,    // prevent client alteration
-    clearInvalid: false, // remove invalid cookies
-    strictHeader: true   // don't allow violations of RFC 6265
-};
+var SECRET = require("./config/config").jwtSecret;
+
 server.connection({port: process.env.PORT || 1337});
 server.register([
         {register: require('hapi-auth-jwt2')},
@@ -63,28 +53,12 @@ server.register([
         server.route({
             method: ['POST'],
             path: '/register',
-            handler: function (req, reply) {
-                var session = {
-                    valid: true, // this will be set to false when the person logs out
-                    id: aguid(), // a random session id
-                    exp: new Date().getTime() + 30 * 60 * 1000 // expires in 30 minutes time
-                };
-                var token = JWT.sign(session, SECRET); // synchronous
-                reply({status: 'success'})
-                    .header("Authorization", token)
-                    .state("token", token, cookie_options)
-            },
-
+            handler: require("./handlers/registerHandler"),
             config: {
                 auth: false,
-                validate:{
-                    payload:{
-                        name:Joi.string().required(),
-                        email:Joi.string().email().required(),
-                        password:Joi.string().required()
-                    }
-                }
+                validate:require("./handlers/registerHandler").validation
             }
+
         });
 
         server.route({
@@ -109,8 +83,7 @@ server.register([
         server.route({
             method: 'GET',
             path: '/blog',
-            handler: renderViewHandler(articleService.get, "article"),
-          //  config: {auth: false}
+            handler: renderViewHandler(articleService.get, "article")
 
         });
 

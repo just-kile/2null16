@@ -6,7 +6,7 @@ var collections = ["articles"],
     MongoClient = require("mongodb").MongoClient,
     _ = require("lodash"),
     db,
-    accountsCol;
+    accountsCol,sessionsCol;
 // db = mongojs.connect(databaseUrl, collections);
 MongoClient.connect(databaseUrl, function (err, database) {
     if (err) {
@@ -15,6 +15,7 @@ MongoClient.connect(databaseUrl, function (err, database) {
     }
     db = database;
     accountsCol = db.collection("accounts");
+    sessionsCol = db.collection("sessions");
 });
 function findAccountByAccountId(accountId) {
     accountsCol.find({_id: accountId}).limit(1)
@@ -25,9 +26,9 @@ function createAccount(credentials) {
             if(account){
                 return reject({message:"Account exists!"});
             }
-            accountsCol.insert(credentials, function (err) {
+            accountsCol.insert(credentials, function (err,resultAccount) {
                 if (err)reject(err);
-                resolve({success: true});
+                resolve(resultAccount.ops[0]);
 
             });
         });
@@ -50,15 +51,25 @@ function removeArticle(id) {
 
 function findAccountByEmail(email) {
     return new Promise(function (resolve, reject) {
-        accountsCol.find({email: email}).toArray(function (err, accounts) {
+        accountsCol.find({email: email}).limit(1).toArray(function (err, accounts) {
             if (err)reject(err);
             resolve(accounts[0]);
+        });
+    });
+}
+function saveSession(session){
+    return new Promise(function (resolve, reject) {
+        sessionsCol.insert(session,function (err) {
+            if (err)reject(err);
+            resolve({success: true});
         });
     });
 }
 
 module.exports = {
     findAccountByAccountId,
+    findAccountByEmail,
+    saveSession,
     createAccount,
     getArticleWithId,
     saveArticle,

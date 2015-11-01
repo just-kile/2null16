@@ -61,6 +61,7 @@ server.register([
             }
 
         });
+
         server.route({
             method: ['POST'],
             path: '/login',

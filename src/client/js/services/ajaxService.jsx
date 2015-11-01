@@ -29,7 +29,7 @@ function auth (name,email,pass,success,error){
             email:email,
             password:pass
         }).end(function(err,res){
-            if (res.ok) {
+            if (res && res.ok) {
                 success(res.body);
             } else {
                 error(res.text);

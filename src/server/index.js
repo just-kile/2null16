@@ -22,7 +22,7 @@ server.register([
         if (err) throw err;
         server.views({
             engines: {jade: require('jade')},
-            relativeTo: __dirname ,
+            relativeTo: __dirname,
             path: './views',
             layoutKeyword: 'layout',
             compileOptions: {
@@ -38,6 +38,7 @@ server.register([
             });
 
         server.auth.default('jwt');
+        //public assets
         server.route({
             method: 'GET',
             path: '/assets/{p*}',
@@ -48,35 +49,37 @@ server.register([
             },
             config: {auth: false}
         });
-//Api
-        //PUBLIC
+        //API PUBLIC
+
         server.route({
             method: ['POST'],
             path: '/register',
             handler: require("./handlers/registerHandler"),
             config: {
                 auth: false,
-                validate:require("./handlers/registerHandler").validation
+                validate: require("./handlers/registerHandler").validation
             }
 
         });
-
         server.route({
-            method: ['GET','POST'], path: '/restricted', config: { auth: 'jwt' },
-            handler: function(request, reply) {
-                reply({text: 'You used a Token!'});
-                    //.header("Authorization", request.headers.authorization)
-                    //.state("token", request.headers.authorization, {ttl: 365 * 30 * 7 * 24 * 60 * 60 * 1000})
-                // .set(token)
+            method: ['POST'],
+            path: '/login',
+            handler: require("./handlers/loginHandler"),
+            config: {
+                auth: false,
+                validate: require("./handlers/loginHandler").validation
             }
+
         });
 
 
-//Views
+        //Views
         server.route({
             method: 'GET',
             path: '/',
-            handler: renderViewHandler(function(){return {}}, "index"),
+            handler: renderViewHandler(function () {
+                return {}
+            }, "index"),
             config: {auth: false}
         });
 

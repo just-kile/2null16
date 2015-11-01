@@ -22,8 +22,6 @@ function getJSON(url) {
 getJSON._cache = {};
 
 function auth (name,email,pass,success,error){
-
-
     request
         .post('/register')
         .send({

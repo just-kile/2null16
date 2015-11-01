@@ -26,8 +26,13 @@ var Login = React.createClass({
         ajaxService.auth(this.state.name,this.state.email,this.state.pass,()=>
                 this.props.history.pushState(null,'/blog')
 
-        ,function(){
-            alert("Bitte gib korrekte Daten ein!")
+        ,function(err){
+                try{
+                    alert(JSON.parse(err).message);
+                }catch(e){
+                    alert("Ein unbekannter Fehler ist aufgetreten.")
+                }
+
         })
     },
     render () {

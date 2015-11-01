@@ -6,7 +6,6 @@ var buildConfig = require('../config/build.config.js'),
             'browser-sync',
             'browserify',
             'watchify',
-            'es6ify',
             'vinyl-source-stream'
         ]
     });

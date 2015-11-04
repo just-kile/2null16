@@ -13,7 +13,6 @@ module.exports = function (req, reply) {
         credentials.password = hash;
         mongoClient.createAccount(credentials)
             .then(function (account) {
-                console.log(account)
                 var session = {
                     valid: true, // this will be set to false when the person logs out
                     id:account._id.toString(), // a random session id

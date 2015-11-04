@@ -73,6 +73,15 @@ server.register([
 
         });
 
+        server.route({
+            method: ['GET','POST'],
+            path: '/logout',
+            handler: require("./handlers/logoutHandler"),
+            config:{auth:false}
+
+
+        });
+
 
         //Views
         server.route({

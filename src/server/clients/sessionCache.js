@@ -31,15 +31,10 @@ function isValid(id) {
     });
 }
 function invalidateSession(session) {
-    return new Promise(function(resolve,reject){
-        sessionCache.delete(session.i,function(err){
-            if(err){
-                return reject(err);
-            }
-            resolve();
-        });
-    })
+    if(session){
+        sessionCache.del(session.id)
 
+    }
 
 }
 module.exports.save = save;

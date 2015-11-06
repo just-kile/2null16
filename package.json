@@ -7,7 +7,7 @@
   "scripts": {
     "build": "gulp build --prod",
     "watch": "gulp",
-    "test": "jest",
+    "test": "echo 'No test specified'",
     "start": "npm install && gulp build --prod && node src/server/index.js --prod"
   },
   "version": "0.0.1",

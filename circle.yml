@@ -1,5 +1,3 @@
-deployment:
-  dockerhub:
-    branch: master
-    commands:
-      - $TRIGGER_DOCKER_HUB_BUILD
+notify:
+  webhooks:
+    - url: $TRIGGER_DOCKER_HUB_BUILD

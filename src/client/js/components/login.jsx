@@ -20,7 +20,9 @@ var Login = React.createClass({
         };
     },
     handleTextfieldChange(key,event){
-        this.setState({[key]: event.target.value});
+        var state = {};
+        state[key] = event.target.value;
+        this.setState(state);
     },
     register(){
         ajaxService.auth(this.state.name,this.state.email,this.state.pass,()=>

@@ -32,7 +32,10 @@ gulp.task('bundle', function () {
     console.log("Is Build:",buildConfig.isBuild);
     if(!buildConfig.isBuild)bundler = $.watchify(bundler);
     bundler.transform('reactify',{"es6": true});
-
+    if(isProd){
+        console.info("Wuff")
+        bundler.transform({global:true},"uglifyify");
+    }
 
     bundler.on('update', rebundle);
 
@@ -41,7 +44,7 @@ gulp.task('bundle', function () {
             // log errors if they happen
             .on('error', $.util.log.bind($.util, 'Browserify Error'))
             .pipe($.vinylSourceStream('bundle.js'))
-            .pipe($.if(isProd, $.streamify($.uglify(uglifyOptions).on('error', $.util.log.bind($.util, 'Uglify Error')))))
+            //.pipe($.if(isProd, $.streamify($.uglify(uglifyOptions).on('error', $.util.log.bind($.util, 'Uglify Error')))))
             .pipe($.if(isProd, $.streamify($.rev())))
             .pipe(gulp.dest(buildConfig.buildJs))
             .pipe($.streamify($.rev.manifest({merge:true})))

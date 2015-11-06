@@ -1,0 +1,12 @@
+app:
+  image: node:4
+  volumes:
+    - ./:/root/
+  working_dir: /root/
+  command: npm start
+  ports:
+    - "3000:1337"
+  links:
+    - database
+database:
+  image: mongo

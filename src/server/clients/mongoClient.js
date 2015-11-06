@@ -1,4 +1,6 @@
-var databaseUrl = process.env.MONGODB_URL || "mongodb://localhost:27017/2null16";
+//var databaseUrl = process.env.MONGODB_URL || "mongodb://localhost:27017/2null16";
+
+var databaseUrl =  process.env.MONGODB || 'mongodb://' + (process.env.DATABASE_1_PORT_27017_TCP_ADDR || 'localhost') + ':' + (process.env.DATABASE_1_PORT_27017_TCP_PORT || '27017') + '/2null16';
 
 var collections = ["articles"],
     bluebird = require("bluebird"),

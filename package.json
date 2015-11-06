@@ -8,13 +8,13 @@
     "build": "gulp build --prod",
     "watch": "gulp",
     "test": "jest",
-    "start": "node src/server/index.js --prod"
+    "start": "npm install && gulp build --prod && node src/server/index.js --prod"
   },
   "version": "0.0.1",
   "license": "MIT",
   "dependencies": {
     "aguid": "^1.0.3",
-    "bcrypt": "^0.8.5",
+    "bcrypt": "*",
     "bluebird": "^3.0.2",
     "boom": "^3.0.0",
     "confidence": "^1.4.2",

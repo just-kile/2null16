@@ -25,7 +25,8 @@ var Login = React.createClass({
         state[key] = event.target.value;
         this.setState(state);
     },
-    register(){
+    register(e){
+        e.preventDefault();
         ajaxService.register(this.state.name,this.state.email,this.state.pass,()=>
                 this.props.history.pushState(null,'/blog')
 
@@ -38,7 +39,8 @@ var Login = React.createClass({
 
         })
     },
-    login(){
+    login(e){
+        e.preventDefault();
         ajaxService.login(this.state.email,this.state.pass,()=>
                 this.props.history.pushState(null,'/blog')
 
@@ -59,20 +61,20 @@ var Login = React.createClass({
                     <img className="pulse animated" src="/assets/public/logo-complete-square-dark.png" />
                 </div>
                 <div className="register-form">
-                    <Tabs>
+                    <Tabs tabItemContainerStyle={{backgroundColor:"black",color:"white"}} contentContainerStyle={{color:"white"}}>
                         <Tab label="Registrieren">
-                            <form>
+                            <form onSubmit= {this.register}>
                                 <div className="text-field"><TextField floatingLabelText="Name" value={this.state.name} onChange={this.handleTextfieldChange.bind(this,"name")}/></div>
                                 <div className="text-field"><TextField floatingLabelText="E-Mail" value={this.state.email} onChange={this.handleTextfieldChange.bind(this,"email")}/></div>
                                 <div className="text-field"><TextField type="password" floatingLabelText="Passwort" value={this.state.pass} onChange={this.handleTextfieldChange.bind(this,"pass")}/></div>
-                                <div className="text-field"><FlatButton onClick={this.register} label="Registrieren" primary={true} /></div>
+                                <div className="text-field"><FlatButton type="submit" label="Registrieren" primary={true} /></div>
                             </form>
                         </Tab>
                         <Tab label="Login">
-                            <form>
+                            <form onSubmit={this.login}>
                                 <div className="text-field"><TextField floatingLabelText="E-Mail" value={this.state.email} onChange={this.handleTextfieldChange.bind(this,"email")}/></div>
                                 <div className="text-field"><TextField type="password" floatingLabelText="Passwort" value={this.state.pass} onChange={this.handleTextfieldChange.bind(this,"pass")}/></div>
-                                <div className="text-field"><FlatButton onClick={this.login} label="Login" primary={true} /></div>
+                                <div className="text-field"><FlatButton type="submit" label="Login" primary={true} /></div>
                             </form>
                         </Tab>
                     </Tabs>

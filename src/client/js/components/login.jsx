@@ -4,6 +4,7 @@ var Link = Router.Link;
 var {getJSON} = require("../services/ajaxService.jsx");
 var TextField = require("material-ui/lib/text-field");
 var FlatButton = require("material-ui/lib/flat-button");
+var {Tab, Tabs } = require('material-ui');
 var ThemeManager = require('material-ui/lib/styles/theme-manager');
 var ajaxService = require("./../services/ajaxService.jsx");
 var MyRawTheme = require('./../theme');
@@ -12,7 +13,7 @@ var Login = React.createClass({
         muiTheme: React.PropTypes.object
     },
     getInitialState(){
-        return {name: '',email:"",pass:""};
+        return {name: '',email:"",pass:"",tabsValue:"register"};
     },
     getChildContext() {
         return {
@@ -25,7 +26,7 @@ var Login = React.createClass({
         this.setState(state);
     },
     register(){
-        ajaxService.auth(this.state.name,this.state.email,this.state.pass,()=>
+        ajaxService.register(this.state.name,this.state.email,this.state.pass,()=>
                 this.props.history.pushState(null,'/blog')
 
         ,function(err){
@@ -37,6 +38,20 @@ var Login = React.createClass({
 
         })
     },
+    login(){
+        ajaxService.login(this.state.email,this.state.pass,()=>
+                this.props.history.pushState(null,'/blog')
+
+            ,function(err){
+                try{
+                    alert(JSON.parse(err).message);
+                }catch(e){
+                    alert("Ein unbekannter Fehler ist aufgetreten.")
+                }
+
+            })
+    },
+
     render () {
         return (
             <div className="login">
@@ -44,17 +59,29 @@ var Login = React.createClass({
                     <img className="pulse animated" src="/assets/public/logo-complete-square-dark.png" />
                 </div>
                 <div className="register-form">
-                    <form>
-                        <div className="text-field"><TextField floatingLabelText="Name" value={this.state.name} onChange={this.handleTextfieldChange.bind(this,"name")}/></div>
-                        <div className="text-field"><TextField floatingLabelText="E-Mail" value={this.state.email} onChange={this.handleTextfieldChange.bind(this,"email")}/></div>
-                        <div className="text-field"><TextField type="password" floatingLabelText="Passwort" value={this.state.pass} onChange={this.handleTextfieldChange.bind(this,"pass")}/></div>
-                        <div className="text-field"><FlatButton onClick={this.register} label="Registrieren" primary={true} /></div>
-                    </form>
+                    <Tabs>
+                        <Tab label="Registrieren">
+                            <form>
+                                <div className="text-field"><TextField floatingLabelText="Name" value={this.state.name} onChange={this.handleTextfieldChange.bind(this,"name")}/></div>
+                                <div className="text-field"><TextField floatingLabelText="E-Mail" value={this.state.email} onChange={this.handleTextfieldChange.bind(this,"email")}/></div>
+                                <div className="text-field"><TextField type="password" floatingLabelText="Passwort" value={this.state.pass} onChange={this.handleTextfieldChange.bind(this,"pass")}/></div>
+                                <div className="text-field"><FlatButton onClick={this.register} label="Registrieren" primary={true} /></div>
+                            </form>
+                        </Tab>
+                        <Tab label="Login">
+                            <form>
+                                <div className="text-field"><TextField floatingLabelText="E-Mail" value={this.state.email} onChange={this.handleTextfieldChange.bind(this,"email")}/></div>
+                                <div className="text-field"><TextField type="password" floatingLabelText="Passwort" value={this.state.pass} onChange={this.handleTextfieldChange.bind(this,"pass")}/></div>
+                                <div className="text-field"><FlatButton onClick={this.login} label="Login" primary={true} /></div>
+                            </form>
+                        </Tab>
+                    </Tabs>
                 </div>
             </div>
 
         );
     }
+
 });
 
 

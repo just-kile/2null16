@@ -5,6 +5,9 @@ var
     { render } = require('react-dom'),
     createBrowserHistory = require("history/lib/createBrowserHistory");
 
+
+require("react-tap-event-plugin")();
+
 var { createStore } = require('redux'),
     { Provider } = require('react-redux'),
     appReducer = require('./reducers/appReducer');

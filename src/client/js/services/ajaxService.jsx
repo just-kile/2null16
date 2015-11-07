@@ -21,7 +21,7 @@ function getJSON(url) {
 }
 getJSON._cache = {};
 
-function auth (name,email,pass,success,error){
+function register (name,email,pass,success,error){
     request
         .post('/register')
         .send({
@@ -36,7 +36,22 @@ function auth (name,email,pass,success,error){
             }
         });
 }
+function login (email,pass,success,error){
+    request
+        .post('/login')
+        .send({
+            email:email,
+            password:pass
+        }).end(function(err,res){
+            if (res && res.ok) {
+                success(res.body);
+            } else {
+                error(res.text);
+            }
+        });
+}
 
 
 module.exports.getJSON = getJSON;
-module.exports.auth = auth;
+module.exports.register = register;
+module.exports.login = login;

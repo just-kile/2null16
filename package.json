@@ -45,16 +45,8 @@
     "redux": "^3.0.4",
     "require-dir": "^0.3.0",
     "superagent": "^1.4.0",
-    "vision": "^3.0.0"
-  },
-  "jest": {
-    "rootDir": "app",
-    "scriptPreprocessor": "../config/preprocessor.js",
-    "unmockedModulePathPatterns": [
-      "react"
-    ]
-  },
-  "devDependencies": {
+    "vision": "^3.0.0",
+
     "del": "^2.0.2",
     "jshint-stylish": "^2.0.1",
     "browser-sync": "^2.9.11",
@@ -92,5 +84,13 @@
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.6.0"
+  },
+
+  "jest": {
+    "rootDir": "app",
+    "scriptPreprocessor": "../config/preprocessor.js",
+    "unmockedModulePathPatterns": [
+      "react"
+    ]
   }
 }

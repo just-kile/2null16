@@ -1,5 +1,5 @@
 FROM node:4
 COPY . /root/
-RUN cd /root/; npm install --production
+RUN cd /root/; npm install
 EXPOSE 1337
-CMD ["npm", "start"]
+RUN cd /root/; npm start

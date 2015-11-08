@@ -13,7 +13,7 @@ var Login = React.createClass({
         muiTheme: React.PropTypes.object
     },
     getInitialState(){
-        return {name: '',email:"",pass:"",tabsValue:"register"};
+        return {name: '',email:"",pass:""};
     },
     getChildContext() {
         return {
@@ -45,6 +45,9 @@ var Login = React.createClass({
                 this.props.history.pushState(null,'/blog')
 
             ,function(err){
+                if(err.statusCode===403){
+
+                }
                 try{
                     alert(JSON.parse(err).message);
                 }catch(e){
@@ -61,7 +64,7 @@ var Login = React.createClass({
                     <img className="pulse animated" src="/assets/public/logo-complete-square-dark.png" />
                 </div>
                 <div className="register-form">
-                    <Tabs tabItemContainerStyle={{backgroundColor:"black",color:"white"}} contentContainerStyle={{color:"white"}}>
+                    <Tabs tabItemContainerStyle={{backgroundColor:"black"}}>
                         <Tab label="Registrieren">
                             <form onSubmit= {this.register}>
                                 <div className="text-field"><TextField floatingLabelText="Name" value={this.state.name} onChange={this.handleTextfieldChange.bind(this,"name")}/></div>

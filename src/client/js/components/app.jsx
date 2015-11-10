@@ -3,6 +3,7 @@ var Router = require('react-router');
 var Link = Router.Link;
 
 var ThemeManager = require('material-ui/lib/styles/theme-manager');
+var {IconButton} = require('material-ui');
 var MyRawTheme = require('./../theme');
 
 var App = React.createClass({
@@ -19,9 +20,18 @@ var App = React.createClass({
         return (
             <div>
                 <header>
-                    <Link to="/">Logout</Link>
+                    <div className="n16-header-item n16-logo">
+                        <img src="/assets/public/logo-complete-long-dark-no-background.png" />
+                    </div>
+                    <div className="n16-header-item n16-logout-link">
+                        <Link to="/">
+                            <IconButton iconClassName="material-icons" tooltip="Ausloggen">power_settings_new</IconButton>
+                        </Link>
+                    </div>
                 </header>
-                {this.props.children}
+                <article>
+                    {this.props.children}
+                </article>
             </div>
         );
     }

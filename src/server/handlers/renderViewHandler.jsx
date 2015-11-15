@@ -6,7 +6,7 @@ var _ = require("lodash");
 var routes = require('../../client/js/routes.jsx');
 var appReducer = require('../../client/js/reducers/appReducer');
 var Router = require("react-router");
-var renderToStaticMarkup  = require('react-dom/server').renderToStaticMarkup;
+var {renderToString,renderToStaticMarkup} = require('react-dom/server');
 
 var match = Router.match,
     RoutingContext =Router.RoutingContext;
@@ -27,17 +27,16 @@ var argv = require('minimist')(process.argv.slice(2)),
 
 module.exports = function handleRender(propertyHandler,view) {
     return function (request, reply) {
-
         bluebird.props(propertyHandler(request,reply)).then(function(reactAppProps){
 
             match({ routes, location: request.path }, (error, redirectLocation, renderProps) => {
-                var store = createStore(appReducer, reactAppProps)
+                var store = createStore(appReducer, reactAppProps);
+                global.navigator = {userAgent:request.headers["user-agent"]};
                 var reactApp = renderToStaticMarkup(
                     <Provider store={store}>
                         <RoutingContext {...renderProps}/>
                     </Provider>
                 );
-
                 var model = {
                     content:  reactApp,
                     props:JSON.stringify(store.getState()||{}),

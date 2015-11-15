@@ -32,7 +32,6 @@
     "gulp-load-plugins": "^1.0.0",
     "gulp-nodemon": "^2.0.4",
     "gulp-rev": "^6.0.1",
-    "gulp-size": "*",
     "gulp-streamify": "^1.0.2",
     "gulp-stylus": "^2.1.0",
     "gulp-util": "^3.0.7",

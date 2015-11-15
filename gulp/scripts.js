@@ -49,7 +49,6 @@ gulp.task('bundle', function () {
             .pipe(gulp.dest(buildConfig.buildJs))
             .pipe($.streamify($.rev.manifest({merge:true})))
             .pipe(gulp.dest(buildConfig.buildJs))
-            .pipe($.streamify($.size({title: 'Javascript'})));
 
     }
 

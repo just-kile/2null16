@@ -10,5 +10,4 @@ var buildConfig = require('../config/build.config.js'),
 gulp.task('assets', function () {
     return gulp.src(buildConfig.appAssets)
         .pipe(gulp.dest(buildConfig.buildPublic))
-        .pipe($.size({title: 'assets'}));
 });

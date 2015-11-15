@@ -22,5 +22,4 @@ gulp.task('styles', function () {
         .pipe(gulp.dest(buildConfig.buildCss))
         .pipe($.streamify($.rev.manifest({merge:true})))
         .pipe(gulp.dest(buildConfig.buildCss))
-        .pipe($.size({title: 'styles'}));
 });

@@ -10,7 +10,7 @@ var {Card,CardHeader,
     ListItem,
     CardTitle} = require("material-ui");
 
-var Article = React.createClass({
+var Blog = React.createClass({
 
     render () {
         return (
@@ -81,4 +81,4 @@ var styles = {
     }
 
 };
-module.exports = Article;
+module.exports = Blog;

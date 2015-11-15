@@ -15,6 +15,7 @@ var SECRET = require("./config/config").jwtSecret;
 server.connection({port: process.env.PORT || 1337});
 server.register([
         {register: require('hapi-auth-jwt2')},
+        require('hapi-auth-basic'),
         require('vision'),
         require('inert')
     ],
@@ -38,6 +39,7 @@ server.register([
             });
 
         server.auth.default('jwt');
+        server.auth.strategy('simple', 'basic', { validateFunc: require("./auth/basicAuthHandler").validate });
         //public assets
         server.route({
             method: 'GET',
@@ -90,14 +92,14 @@ server.register([
             handler: renderViewHandler(function () {
                 return {}
             }, "index"),
-            config: {auth: false}
+            config: {auth: "simple"}
         });
 
         server.route({
             method: 'GET',
             path: '/blog',
-            handler: renderViewHandler(articleService.get, "article")
-
+            handler: renderViewHandler(articleService.get, "article"),
+           // config: {auth: false}
         });
 
 

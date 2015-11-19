@@ -1,0 +1,2 @@
+module.exports.GET_ARTICLE ="GET_ARTICLE";
+module.exports.GET_ARTICLE_LIST ="GET_ARTICLE_LIST";

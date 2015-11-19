@@ -6,10 +6,10 @@ var collections = ["articles"],
     bluebird = require("bluebird"),
     Promise = bluebird.Promise,
     MongoClient = require("mongodb").MongoClient,
+    ObjectId = require("mongodb").ObjectId,
     _ = require("lodash"),
     db,
-    accountsCol,sessionsCol;
-// db = mongojs.connect(databaseUrl, collections);
+    accountsCol,sessionsCol,articleCol;
 MongoClient.connect(databaseUrl, function (err, database) {
     if (err) {
         console.error("Database connection can not be established");
@@ -18,6 +18,7 @@ MongoClient.connect(databaseUrl, function (err, database) {
     db = database;
     accountsCol = db.collection("accounts");
     sessionsCol = db.collection("sessions");
+    articleCol = db.collection("articles");
 });
 function findAccountByAccountId(accountId) {
     accountsCol.find({_id: accountId}).limit(1)
@@ -37,15 +38,32 @@ function createAccount(credentials) {
     })
 }
 function getArticleWithId(id) {
+    return new Promise(function (resolve, reject) {
 
+        articleCol.find({_id:id}).limit(1).next(function (err,article) {
+            if (err)reject(err);
+            resolve(article);
+
+        });
+    });
 }
 
 function saveArticle(articleData) {
-
+    return new Promise(function (resolve, reject) {
+        articleCol.insertOne(articleData,{w:1},function (err, article) {
+            if (err)reject(err);
+            resolve(article);
+        });
+    });
 }
 
 function listArticles() {
-
+    return new Promise(function (resolve, reject) {
+        articleCol.find().limit(20).toArray(function (err, articles) {
+            if (err)reject(err);
+            resolve(articles);
+        });
+    });
 }
 function removeArticle(id) {
 

@@ -80,8 +80,22 @@ server.register([
             path: '/logout',
             handler: require("./handlers/logoutHandler"),
             config:{auth:false}
+        });
 
-
+        server.route({
+            method: 'GET',
+            path: '/api/articles',
+            handler: renderJsonHandler(articleService.list),
+        });
+        server.route({
+            method: 'GET',
+            path: '/api/articles/{articleId}',
+            handler: renderJsonHandler(articleService.get),
+        });
+        server.route({
+            method: 'GET',
+            path: '/api/articles/create',
+            handler: renderJsonHandler(articleService.save),
         });
 
 
@@ -98,8 +112,12 @@ server.register([
         server.route({
             method: 'GET',
             path: '/blog',
-            handler: renderViewHandler(articleService.get, "article"),
-           // config: {auth: false}
+            handler: renderViewHandler(articleService.list, "index"),
+        });
+        server.route({
+            method: 'GET',
+            path: '/blog/{articleId}',
+            handler: renderViewHandler(articleService.get, "index"),
         });
 
 

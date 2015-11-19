@@ -21,7 +21,9 @@ var App = React.createClass({
             <div>
                 <header>
                     <div className="n16-header-item n16-logo">
-                        <img src="/assets/public/logo-complete-long-dark-no-background.png" />
+                        <Link to="/blog">
+                            <img src="/assets/public/logo-complete-long-dark-no-background.png" />
+                        </Link>
                     </div>
                     <div className="n16-header-item n16-logout-link">
                         <Link to="/">

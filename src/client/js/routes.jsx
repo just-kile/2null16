@@ -6,7 +6,7 @@ var React = require('react'),
 
 var App = require("./components/app.jsx"),
     Blog = require("./components/blog.jsx"),
-    Dashboard = require("./components/dashboard.jsx"),
+    Article = require("./components/article.jsx"),
     Login = require("./components/login.jsx");
 
 
@@ -14,6 +14,7 @@ var routes = (
     <Route>
         <Route path="blog" component={App}>
             <IndexRoute  component={Blog}/>
+            <Route path=":articleId" component={Article}/>
        </Route>
        <Route path="/" component={Login}/>
     </Route>

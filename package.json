@@ -50,6 +50,7 @@
     "lodash": "^3.10.1",
     "material-ui": "^0.13.1",
     "minimist": "^1.2.0",
+    "moment": "^2.10.6",
     "mongodb": "^2.0.47",
     "nib": "^1.1.0",
     "node-cache": "^3.0.0",

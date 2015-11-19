@@ -1,4 +1,5 @@
 var React = require("react");
+var {receivedArticleList} = require("./../actions/actions.jsx");
 var {getJSON} = require("../services/ajaxService.jsx");
 var {Card,CardHeader,
     CardMedia,
@@ -9,51 +10,49 @@ var {Card,CardHeader,
     List,
     ListItem,
     CardTitle} = require("material-ui");
-
+var { connect } =require('react-redux');
+var {Link} = require("react-router");
+var moment = require("moment");
+function formatDate(date){
+    return moment(new Date(date)).format('MMMM Do YYYY, h:mm:ss a')
+}
 var Blog = React.createClass({
-
+    componentDidMount(){
+        const {dispatch} = this.props;
+        getJSON("/api/articles").then(function(articles){
+            dispatch(receivedArticleList(articles));
+        });
+    },
     render () {
+        const {articles} = this.props;
+        if(!articles){
+            return (<div>Loading</div>);
+        }
         return (
             <div>
             <div className="articles">
-                <Card style={styles.card}>
-                    <CardHeader
-                        title={<strong>Winnii</strong>}
-                        subtitle="erstellt am 23.11.2015 - 4min Lesezeit"
-                        avatar={<Avatar>W</Avatar>}
-                        titleColor={styles.cardHeader.color}
-                        subtitleColor={styles.cardHeader.color}
-                        />
-                    <CardMedia overlay={<CardTitle title="Title" subtitle="Subtitle"/>}>
-                        <img src="http://lorempixel.com/600/337/nature/"/>
-                    </CardMedia>
-                    <CardText>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi.
-                        Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque.
-                        Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.
-                    </CardText>
+                {articles.map(function(article){
+                  return <Link key={article._id} to={"/blog/"+article._id}>
+                            <Card style={styles.card}>
+                                <CardHeader
+                                    title={<strong>{article.meta.author}</strong>}
+                                    subtitle={<span>erstellt am {formatDate(article.meta.createdAt)} - 4min Lesezeit</span>}
+                                    avatar={<Avatar>{article.meta.author.substring(0,1)}</Avatar>}
+                                    titleColor={styles.cardHeader.color}
+                                    subtitleColor={styles.cardHeader.color}
+                                    />
+                                <CardMedia overlay={<CardTitle title={article.article.title} subtitle={article.article.subtitle}/>}>
+                                    <img src="http://lorempixel.com/600/337/nature/"/>
+                                </CardMedia>
+                                <CardText>
+                                    {article.article.text}
+                                </CardText>
 
-                </Card>
+                            </Card>
+                        </Link>
+                })}
+
                 <hr />
-                <Card style={styles.card}>
-                    <CardHeader
-                        title="Willkommen!"
-                        subtitle="erstellt am 23.11.2015 von Winnii"
-                        avatar={<Avatar>A</Avatar>}
-                        titleColor={styles.cardHeader.color}
-                        subtitleColor={styles.cardHeader.color}
-                        />
-                    <CardMedia overlay={<CardTitle title="Title" subtitle="Subtitle"/>}>
-                        <img src="http://lorempixel.com/600/337/nature/"/>
-                    </CardMedia>
-                    <CardText>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi.
-                        Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque.
-                        Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.
-                    </CardText>
-                </Card>
             </div>
                 <div className="sidebar">
                         <ListItem style={styles.sidebarItem}>
@@ -81,4 +80,9 @@ var styles = {
     }
 
 };
-module.exports = Blog;
+
+module.exports = connect(function(state){
+    return {
+        articles:state.articles
+    };
+})(Blog);

@@ -1,5 +1,5 @@
 var React = require("react");
-var {receivedArticleList} = require("./../actions/actions.jsx");
+var {receivedArticleList,receiveArticleListStart} = require("./../actions/actions.jsx");
 var {getJSON} = require("../services/ajaxService.jsx");
 var {Card,CardHeader,
     CardMedia,
@@ -9,7 +9,8 @@ var {Card,CardHeader,
     Avatar,
     List,
     ListItem,
-    CardTitle} = require("material-ui");
+    CardTitle,
+    RefreshIndicator} = require("material-ui");
 var { connect } =require('react-redux');
 var {Link} = require("react-router");
 var moment = require("moment");
@@ -19,6 +20,8 @@ function formatDate(date){
 var Blog = React.createClass({
     componentDidMount(){
         const {dispatch} = this.props;
+
+        dispatch(receiveArticleListStart());
         getJSON("/api/articles").then(function(articles){
             dispatch(receivedArticleList(articles));
         });
@@ -26,7 +29,7 @@ var Blog = React.createClass({
     render () {
         const {articles} = this.props;
         if(!articles){
-            return (<div>Loading</div>);
+            return (<div className="loadingIndicator"><RefreshIndicator size={40} left={0} top={0} status="loading" /></div>)
         }
         return (
             <div>

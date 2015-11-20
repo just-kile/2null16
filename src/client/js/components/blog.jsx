@@ -32,7 +32,8 @@ var Blog = React.createClass({
             <div>
             <div className="articles">
                 {articles.map(function(article){
-                  return <Link key={article._id} to={"/blog/"+article._id}>
+                  return <div key={article._id}>
+                    <Link to={"/blog/"+article._id}>
                             <Card style={styles.card}>
                                 <CardHeader
                                     title={<strong>{article.meta.author}</strong>}
@@ -44,15 +45,17 @@ var Blog = React.createClass({
                                 <CardMedia overlay={<CardTitle title={article.article.title} subtitle={article.article.subtitle}/>}>
                                     <img src="http://lorempixel.com/600/337/nature/"/>
                                 </CardMedia>
-                                <CardText>
-                                    {article.article.text}
+                                <CardText className="articleText">
+                                    {article.article.text.substr(0,300)}...
                                 </CardText>
 
                             </Card>
                         </Link>
+                      <hr/>
+                    </div>
                 })}
 
-                <hr />
+
             </div>
                 <div className="sidebar">
                         <ListItem style={styles.sidebarItem}>

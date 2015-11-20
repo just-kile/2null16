@@ -39,6 +39,7 @@ module.exports.validation = {
     payload: {
         name: Joi.string().required(),
         email: Joi.string().email().required(),
-        password: Joi.string().required()
+        password: Joi.string().required(),
+        location: Joi.string().valid("herrenhaus").valid("lübbenow").insensitive().required()
     }
 };

@@ -38,7 +38,7 @@ server.register([
                 verifyOptions: {algorithms: ['HS256']}
             });
 
-        server.auth.default('jwt');
+      //  server.auth.default('jwt');
         server.auth.strategy('simple', 'basic', { validateFunc: require("./auth/basicAuthHandler").validate });
         //public assets
         server.route({
@@ -78,8 +78,7 @@ server.register([
         server.route({
             method: ['GET','POST'],
             path: '/logout',
-            handler: require("./handlers/logoutHandler"),
-            config:{auth:false}
+            handler: require("./handlers/logoutHandler")
         });
 
         server.route({

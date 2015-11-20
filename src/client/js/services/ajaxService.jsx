@@ -21,13 +21,14 @@ function getJSON(url) {
 }
 getJSON._cache = {};
 
-function register (name,email,pass,success,error){
+function register (state,success,error){
     request
         .post('/register')
         .send({
-            name:name,
-            email:email,
-            password:pass
+            name:state.name,
+            email:state.email,
+            password:state.pass,
+            location:state.location,
         }).end(function(err,res){
             if (res && res.ok) {
                 success(res.body);

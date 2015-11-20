@@ -27,7 +27,7 @@ var Login = React.createClass({
     },
     register(e){
         e.preventDefault();
-        ajaxService.register(this.state.name,this.state.email,this.state.pass,()=>
+        ajaxService.register(this.state,()=>
                 this.props.history.pushState(null,'/blog')
 
         ,function(err){
@@ -70,6 +70,7 @@ var Login = React.createClass({
                                 <div className="text-field"><TextField floatingLabelText="Name" value={this.state.name} onChange={this.handleTextfieldChange.bind(this,"name")}/></div>
                                 <div className="text-field"><TextField floatingLabelText="E-Mail" value={this.state.email} onChange={this.handleTextfieldChange.bind(this,"email")}/></div>
                                 <div className="text-field"><TextField type="password" floatingLabelText="Passwort" value={this.state.pass} onChange={this.handleTextfieldChange.bind(this,"pass")}/></div>
+                                <div className="text-field"><TextField floatingLabelText="Wo gehts hin?" value={this.state.location} onChange={this.handleTextfieldChange.bind(this,"location")}/></div>
                                 <div className="text-field"><FlatButton type="submit" label="Registrieren" primary={true} /></div>
                             </form>
                         </Tab>

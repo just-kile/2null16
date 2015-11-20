@@ -51,8 +51,35 @@ function login (email,pass,success,error){
             }
         });
 }
-
+function resetPass (email,success,error){
+    request
+        .post('/resetpass')
+        .send({
+            email: email
+        }).end(function(err,res){
+            if (res && res.ok) {
+                success(res.body);
+            } else {
+                error(res.text);
+            }
+        });
+}
+function changePass (resetToken,pass,success,error){
+    request
+        .post('/reset/'+resetToken)
+        .send({
+            pass: pass
+        }).end(function(err,res){
+            if (res && res.ok) {
+                success(res.body);
+            } else {
+                error(res.text);
+            }
+        });
+}
 
 module.exports.getJSON = getJSON;
 module.exports.register = register;
 module.exports.login = login;
+module.exports.resetPass = resetPass;
+module.exports.changePass = changePass;

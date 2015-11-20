@@ -85,12 +85,20 @@ function saveSession(session){
         });
     });
 }
-
+function updateAccount(email,pass){
+    return new Promise(function (resolve, reject) {
+        accountsCol.update({email:email},{$set: {password:pass}},function (err) {
+            if (err)reject(err);
+            resolve({success: true});
+        });
+    });
+}
 module.exports = {
     findAccountByAccountId,
     findAccountByEmail,
     saveSession,
     createAccount,
+    updateAccount,
     getArticleWithId,
     saveArticle,
     listArticles,

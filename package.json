@@ -55,6 +55,8 @@
     "nib": "^1.1.0",
     "node-cache": "^3.0.0",
     "node-jsx": "^0.13.3",
+    "nodemailer": "^1.10.0",
+    "nodemailer-smtp-transport": "^1.0.4",
     "react": "^0.14.1",
     "react-addons-create-fragment": "^0.14.1",
     "react-addons-pure-render-mixin": "^0.14.1",

@@ -3,10 +3,13 @@ var NodeCache = require("node-cache"),
     Promise = bluebird.Promise;
 
 var sessionCache = new NodeCache();
-
-function save(session) {
+var TIME = 7*24*60*60;//7 Days
+function save(session,ttl) {
     return new Promise(function (resolve, reject) {
-        sessionCache.set(session.id, session, function (err, success) {
+        console.log("save",session);
+        sessionCache.set(session.id, session,ttl || TIME, function (err, success) {
+            isValid("123").then(console.log)
+
             if (err) {
                 return reject(err);
             }
@@ -37,6 +40,10 @@ function invalidateSession(session) {
     }
 
 }
+function keys(cb){
+    sessionCache.keys(cb);
+}
 module.exports.save = save;
 module.exports.isValid = isValid;
 module.exports.invalidateSession= invalidateSession;
+module.exports.keys= keys;

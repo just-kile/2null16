@@ -7,7 +7,8 @@ var http = require('http'),
 
 var renderViewHandler = require("./handlers/renderViewHandler"),
     renderJsonHandler = require("./handlers/renderJsonHandler"),
-    articleService = require("./services/articleService");
+    articleService = require("./services/articleService"),
+    resetPassService = require("./services/resetPassService");
 
 var server = new Hapi.Server();
 var SECRET = require("./config/config").jwtSecret;
@@ -38,7 +39,7 @@ server.register([
                 verifyOptions: {algorithms: ['HS256']}
             });
 
-      //  server.auth.default('jwt');
+        server.auth.default('jwt');
         server.auth.strategy('simple', 'basic', { validateFunc: require("./auth/basicAuthHandler").validate });
         //public assets
         server.route({
@@ -74,11 +75,30 @@ server.register([
             }
 
         });
+        server.route({
+            method: ['POST'],
+            path: '/resetpass',
+            handler: require("./handlers/resetPasswordHandler"),
+            config: {
+                auth: false,
+                validate: require("./handlers/resetPasswordHandler").validation
+            }
+
+        });
 
         server.route({
             method: ['GET','POST'],
             path: '/logout',
             handler: require("./handlers/logoutHandler")
+        });
+        server.route({
+            method: 'POST',
+            path: '/reset/{resetToken}',
+            handler: require("./handlers/changePasswordHandler"),
+            config:{
+                auth:false,
+                validate:require("./handlers/changePasswordHandler").validation
+            }
         });
 
         server.route({
@@ -105,6 +125,12 @@ server.register([
             handler: renderViewHandler(function () {
                 return {}
             }, "index"),
+            config: {auth: "simple"}
+        });
+        server.route({
+            method: 'GET',
+            path: '/reset/{resetToken}',
+            handler: renderViewHandler(resetPassService.getEmailByResetToken, "index"),
             config: {auth: "simple"}
         });
 

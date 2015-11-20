@@ -4,6 +4,7 @@ var Link = Router.Link;
 var {getJSON} = require("../services/ajaxService.jsx");
 var TextField = require("material-ui/lib/text-field");
 var FlatButton = require("material-ui/lib/flat-button");
+var Snackbar = require('material-ui/lib/snackbar');
 var {Tab, Tabs } = require('material-ui');
 var ThemeManager = require('material-ui/lib/styles/theme-manager');
 var ajaxService = require("./../services/ajaxService.jsx");
@@ -38,6 +39,10 @@ var Login = React.createClass({
                 }
 
         })
+    },
+    forgotPassPhrase(){
+        var email = window.prompt("Bitte gib deine Email Adresse ein!");
+        ajaxService.resetPass(email,this.refs.snackbarSuccess.show,this.refs.snackbarError.show);
     },
     login(e){
         e.preventDefault();
@@ -78,11 +83,16 @@ var Login = React.createClass({
                             <form onSubmit={this.login}>
                                 <div className="text-field"><TextField floatingLabelText="E-Mail" value={this.state.email} onChange={this.handleTextfieldChange.bind(this,"email")}/></div>
                                 <div className="text-field"><TextField type="password" floatingLabelText="Passwort" value={this.state.pass} onChange={this.handleTextfieldChange.bind(this,"pass")}/></div>
-                                <div className="text-field"><FlatButton type="submit" label="Login" primary={true} /></div>
+                                <div className="text-field">
+                                    <FlatButton type="submit" label="Login" primary={true} />
+                                    <a className="forgot-pass" onClick={this.forgotPassPhrase}>Passwort vergessen?</a>
+                                </div>
                             </form>
                         </Tab>
                     </Tabs>
                 </div>
+                <Snackbar ref="snackbarSuccess" message="Eine Email zum Zurücksetzen wurde versandt!" />
+                <Snackbar ref="snackbarError" message="Ein Fehler ist aufgetreten! Eingaben überprüfen" />
             </div>
 
         );

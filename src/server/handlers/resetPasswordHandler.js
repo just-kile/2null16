@@ -13,8 +13,8 @@ var transporter = nodemailer.createTransport(smtpTransport({
     secure:true,
     port: 465,
     auth: {
-        user: 'postmaster@2null16.de',
-        pass: 'Speicher88'
+        user: process.env.MAIL_USER,
+        pass: process.env.MAIL_PASS
     }
 }));
 

@@ -90,9 +90,10 @@ var Login = React.createClass({
                             </form>
                         </Tab>
                     </Tabs>
+                    <Snackbar ref="snackbarSuccess" message="Eine Email zum Zurücksetzen wurde versandt!" />
+                    <Snackbar ref="snackbarError" message="Ein Fehler ist aufgetreten! Eingaben überprüfen" />
                 </div>
-                <Snackbar ref="snackbarSuccess" message="Eine Email zum Zurücksetzen wurde versandt!" />
-                <Snackbar ref="snackbarError" message="Ein Fehler ist aufgetreten! Eingaben überprüfen" />
+
             </div>
 
         );

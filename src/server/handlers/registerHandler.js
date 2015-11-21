@@ -22,7 +22,7 @@ module.exports = function (req, reply) {
                 sessionCache.save(session);
                 reply({status: 'success'})
                     .header("Authorization", token)
-                    .state("token", token, config.cookieOptions)
+                    .state("jwt_secret_token", token, config.cookieOptions)
 
             })
             .catch(function (err) {

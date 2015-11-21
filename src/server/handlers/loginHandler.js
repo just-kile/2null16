@@ -29,7 +29,7 @@ module.exports = function (req, reply) {
                 var token = JWT.sign(session, config.jwtSecret); // synchronous
                 reply({status: 'success'})
                     .header("Authorization", token)
-                    .state("token", token, config.cookieOptions)
+                    .state("jwt_secret_token", token, config.cookieOptions)
 
             });
 

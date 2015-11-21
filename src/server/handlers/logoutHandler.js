@@ -12,7 +12,7 @@ var config = require("../config/config"),
 module.exports = function (req, reply) {
 
     sessionCache.invalidateSession(req.auth.credentials);
-    reply.redirect("/").unstate("token");
+    reply.redirect("/").unstate("jwt_secret_token");
 
 };
 

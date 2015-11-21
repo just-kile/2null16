@@ -36,7 +36,8 @@ server.register([
             {
                 key: SECRET,          // Never Share your secret key
                 validateFunc: require("./auth/authHandler").validate,            // validate function defined above
-                verifyOptions: {algorithms: ['HS256']}
+                verifyOptions: {algorithms: ['HS256']},
+                cookieKey:"jwt_secret_token"
             });
 
         server.auth.default('jwt');
@@ -104,17 +105,17 @@ server.register([
         server.route({
             method: 'GET',
             path: '/api/articles',
-            handler: renderJsonHandler(articleService.list),
+            handler: renderJsonHandler(articleService.list)
         });
         server.route({
             method: 'GET',
             path: '/api/articles/{articleId}',
-            handler: renderJsonHandler(articleService.get),
+            handler: renderJsonHandler(articleService.get)
         });
         server.route({
             method: 'GET',
             path: '/api/articles/create',
-            handler: renderJsonHandler(articleService.save),
+            handler: renderJsonHandler(articleService.save)
         });
 
 
@@ -126,23 +127,25 @@ server.register([
                 return {}
             }, "index"),
             config: {auth: "simple"}
+            //config: {auth: false}
         });
         server.route({
             method: 'GET',
             path: '/reset/{resetToken}',
             handler: renderViewHandler(resetPassService.getEmailByResetToken, "index"),
             config: {auth: "simple"}
+            //config: {auth: false}
         });
 
         server.route({
             method: 'GET',
             path: '/blog',
-            handler: renderViewHandler(articleService.list, "index"),
+            handler: renderViewHandler(articleService.list, "index")
         });
         server.route({
             method: 'GET',
             path: '/blog/{articleId}',
-            handler: renderViewHandler(articleService.get, "index"),
+            handler: renderViewHandler(articleService.get, "index")
         });
 
 

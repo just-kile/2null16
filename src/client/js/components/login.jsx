@@ -42,7 +42,9 @@ var Login = React.createClass({
     },
     forgotPassPhrase(){
         var email = window.prompt("Bitte gib deine Email Adresse ein!");
-        ajaxService.resetPass(email,this.refs.snackbarSuccess.show,this.refs.snackbarError.show);
+        if(email){
+            ajaxService.resetPass(email,this.refs.snackbarSuccess.show,this.refs.snackbarError.show);
+        }
     },
     login(e){
         e.preventDefault();

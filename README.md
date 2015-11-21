@@ -6,7 +6,7 @@
 - JWT_SECRET
 
 ## TODO
-- Reset Password
+- Reset Password (y)
 - AdminPage
   - List of users including email
   - Create / edit delete article

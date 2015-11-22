@@ -93,6 +93,15 @@ function updateAccount(email,pass){
         });
     });
 }
+
+function getUsers(){
+    return new Promise(function (resolve, reject) {
+        accountsCol.find().toArray(function (err,accounts) {
+            if (err)reject(err);
+            resolve(accounts);
+        });
+    });
+}
 module.exports = {
     findAccountByAccountId,
     findAccountByEmail,
@@ -102,5 +111,7 @@ module.exports = {
     getArticleWithId,
     saveArticle,
     listArticles,
-    removeArticle
+    removeArticle,
+
+    getUsers
 };

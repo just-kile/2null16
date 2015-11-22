@@ -1,7 +1,10 @@
 const {GET_ARTICLE,
     GET_ARTICLE_LIST,
+    GET_USERS,
+    GET_USERS_START,
     GET_ARTICLE_START,
-    GET_ARTICLE_LIST_START} = require("./actionTypes");
+    GET_ARTICLE_LIST_START,
+    ACTIVATE_AJAX} = require("./actionTypes");
 
 
 function receivedArticle(article) {
@@ -28,8 +31,30 @@ function receiveArticleListStart(){
         type: GET_ARTICLE_LIST_START
     }
 }
+function getUsersStart(){
+    return {
+        type: GET_USERS_START
+    }
 
-module.exports.receivedArticle = receivedArticle;
-module.exports.receivedArticleList = receivedArticleList;
-module.exports.receiveArticleStart = receiveArticleStart;
-module.exports.receiveArticleListStart = receiveArticleListStart;
+}
+function getUsers(users){
+    return {
+        type: GET_USERS,
+        users:users
+    }
+}
+function activateAjax(){
+    return {
+        type: ACTIVATE_AJAX,
+        activateAjax:true
+    }
+}
+module.exports = {
+    receivedArticle,
+    receivedArticleList,
+    receiveArticleStart,
+    receiveArticleListStart,
+    getUsersStart,
+    getUsers,
+    activateAjax
+}

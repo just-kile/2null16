@@ -1,5 +1,5 @@
 var React = require("react");
-var {receivedArticleList,receiveArticleListStart} = require("./../actions/actions.jsx");
+var {receivedArticleList,receiveArticleListStart,activateAjax} = require("./../actions/actions.jsx");
 var {getJSON} = require("../services/ajaxService.jsx");
 var {Card,CardHeader,
     CardMedia,
@@ -20,7 +20,10 @@ function formatDate(date){
 var Blog = React.createClass({
     componentDidMount(){
         const {dispatch} = this.props;
-
+        if(!this.props.activateAjax){
+            dispatch(activateAjax());
+            return;
+        }
         dispatch(receiveArticleListStart());
         getJSON("/api/articles").then(function(articles){
             dispatch(receivedArticleList(articles));
@@ -89,6 +92,7 @@ var styles = {
 
 module.exports = connect(function(state){
     return {
-        articles:state.articles
+        articles:state.articles,
+        activateAjax: state.activateAjax
     };
 })(Blog);

@@ -3,11 +3,15 @@ var Router = require('react-router');
 var Link = Router.Link;
 var {getJSON} = require("../services/ajaxService.jsx");
 var { connect } =require('react-redux');
-var {receivedArticle,receiveArticleStart} = require("./../actions/actions.jsx");
+var {receivedArticle,receiveArticleStart,activateAjax} = require("./../actions/actions.jsx");
 var {RefreshIndicator} = require("material-ui");
 var Article = React.createClass({
     componentDidMount(){
       const {dispatch} = this.props;
+      if(!this.props.activateAjax){
+        dispatch(activateAjax());
+        return;
+      }
       dispatch(receiveArticleStart());
       getJSON("/api/articles/"+this.props.params.articleId).then(function(article){
           dispatch(receivedArticle(article));
@@ -29,6 +33,7 @@ var Article = React.createClass({
 
 module.exports = connect(function(state){
     return {
-        article:state.article
+        article:state.article,
+        activateAjax: state.activateAjax
     };
 })(Article);

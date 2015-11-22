@@ -8,6 +8,7 @@ var http = require('http'),
 var renderViewHandler = require("./handlers/renderViewHandler"),
     renderJsonHandler = require("./handlers/renderJsonHandler"),
     articleService = require("./services/articleService"),
+    userService = require("./services/userService"),
     resetPassService = require("./services/resetPassService");
 
 var server = new Hapi.Server();
@@ -117,7 +118,11 @@ server.register([
             path: '/api/articles/create',
             handler: renderJsonHandler(articleService.save)
         });
-
+        server.route({
+            method: 'GET',
+            path: '/api/users',
+            handler: renderJsonHandler(userService.getUsers)
+        });
 
         //Views
         server.route({
@@ -146,6 +151,12 @@ server.register([
             method: 'GET',
             path: '/blog/{articleId}',
             handler: renderViewHandler(articleService.get, "index")
+        });
+
+        server.route({
+            method: 'GET',
+            path: '/admin',
+            handler: renderViewHandler(userService.getUsers, "index")
         });
 
 

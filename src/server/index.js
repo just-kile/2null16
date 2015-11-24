@@ -158,6 +158,11 @@ server.register([
             path: '/admin',
             handler: renderViewHandler(userService.getUsers, "index")
         });
+        server.route({
+            method: 'GET',
+            path: '/admin/dashboard',
+            handler: renderViewHandler(function(){return {}}, "index")
+        });
 
 
         server.start(function () {

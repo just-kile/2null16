@@ -9,6 +9,7 @@ var App = require("./components/app.jsx"),
     Article = require("./components/article.jsx"),
     UserList = require("./components/userList.jsx"),
     ResetPass = require("./components/resetPass.jsx"),
+    Dashboard = require("./components/dashboard.jsx"),
     Login = require("./components/login.jsx");
 
 
@@ -20,6 +21,7 @@ var routes = (
        </Route>
         <Route path="admin" component={App}>
             <IndexRoute component={UserList}/>
+            <Route path="dashboard" component={Dashboard}/>
         </Route>
        <Route path="/" component={Login}/>
        <Route path="/reset/:resetToken" component={ResetPass}/>

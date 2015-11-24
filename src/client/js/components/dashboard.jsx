@@ -2,36 +2,35 @@ var React = require("react");
 var Router = require('react-router');
 var Link = Router.Link;
 var {getJSON} = require("../services/ajaxService.jsx");
-var EntryList = React.createClass({
-    statics: {
-        fetchData () {
-            return getJSON('/api/article/list').then((res) => res.articles);
-        }
-    },
-    deleteArticle(article){
-        return function () {
-            console.log("Delete",article)
-        }
+var Remarkable = require("react-remarkable");
 
+var Dashboard = React.createClass({
+    getInitialState(){
+        return {text: ""};
     },
-    renderEntry(article){
-        var params = {articleId: article._id};
-        return (
-            <li key={article.article._id}>
-                <Link to="article" params={params}>{article.article.title}</Link>
-                <a onClick={this.deleteArticle(article)}>Delete</a>
-            </li>
-        )
+    handleTextfieldChange(key,event){
+        var state = {};
+        state[key] = event.target.value;
+        this.setState(state);
     },
-
     render () {
         return (
-            <div>
-                {this.props.articles.map(this.renderEntry)}
+            <div className="admin-col-wrapper">
+                <div className="admin-col text">
+                    <textarea onChange={this.handleTextfieldChange.bind(this,"text")}/>
+                </div>
+                <div className="admin-col images" >
+
+                </div>
+                <div className="admin-col preview">
+                    <Remarkable>
+                        {this.state.text}
+                    </Remarkable>
+                </div>
             </div>
         );
     }
 });
 
 
-module.exports = EntryList;
+module.exports = Dashboard;

@@ -24,11 +24,11 @@ var Article = React.createClass({
         }
         return (
             <table className="articles" styles={styles.list}>
-                <thead><tr><td>Name</td><td>Email</td></tr></thead>
+                <thead><tr><td>Nummer</td><td>Name</td><td>Email</td></tr></thead>
                 <tbody>
                 {
-                    this.props.users.map(function (user) {
-                        return (<tr styles={styles.listItem} key={user._id}><td>{user.name}</td><td>{user.email}</td></tr>)
+                    this.props.users.map(function (user,index) {
+                        return (<tr styles={styles.listItem} key={user._id}><td>{index+1}.</td><td>{user.name}</td><td>{user.email}</td></tr>)
                     })
                 }
                 </tbody>

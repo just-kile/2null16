@@ -160,8 +160,8 @@ server.register([
         });
         server.route({
             method: 'GET',
-            path: '/admin/dashboard',
-            handler: renderViewHandler(function(){return {}}, "index")
+            path: '/admin/dashboard/{articleId}',
+            handler: renderViewHandler(articleService.get, "index")
         });
 
 

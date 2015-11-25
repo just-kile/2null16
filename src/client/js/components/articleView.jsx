@@ -3,11 +3,9 @@ var Router = require('react-router');
 var Link = Router.Link;
 var {getJSON} = require("../services/ajaxService.jsx");
 var { connect } =require('react-redux');
-var {receivedArticle,receiveArticleStart,activateAjax} = require("./../actions/actions.jsx");
 var {RefreshIndicator} = require("material-ui");
 var {CardHeader,Avatar,Card,CardText,CardMedia,CardTitle} = require("material-ui");
 var Remarkable = require("react-remarkable");
-var ArticleView = require("./articleView.jsx");
 var remarkableOptions = {
     linkify:true,
     html:true,
@@ -22,18 +20,7 @@ function calcTimeToRead(text){
     var CHARS_PER_MIN =750;
     return Math.round(text.length/CHARS_PER_MIN)||1;
 }
-var Article = React.createClass({
-    componentDidMount(){
-      const {dispatch} = this.props;
-      if(!this.props.activateAjax){
-        dispatch(activateAjax());
-        return;
-      }
-      dispatch(receiveArticleStart());
-      getJSON("/api/articles/"+this.props.params.articleId).then(function(article){
-          dispatch(receivedArticle(article));
-      });
-    },
+var ArticleView = React.createClass({
     render () {
         const { article } = this.props;
         if(!article){
@@ -41,7 +28,26 @@ var Article = React.createClass({
         }
         return (
             <div className="n16-article">
-                <ArticleView article={this.props.article} />
+                <Card style={styles.card}>
+                    <CardHeader
+                        className="n16-article-text"
+                        title={<strong>{this.props.article.meta.author}</strong>}
+                        subtitle={<span>erstellt am {formatDate(this.props.article.meta.createdAt)} - {calcTimeToRead(this.props.article.article.text)}min Lesezeit</span>}
+                        avatar={<Avatar>{this.props.article.meta.author.substring(0,1)}</Avatar>}
+                        titleColor={styles.cardHeader.color}
+                        subtitleColor={styles.cardHeader.color}
+                        />
+                    <CardMedia>
+                        <img src="http://lorempixel.com/600/337/nature/"/>
+                    </CardMedia>
+                    <CardText className="n16-article-text" style={styles.cardText}>
+                        <h2 className="n16-article-title">{this.props.article.article.title} </h2>
+                        <Remarkable options={remarkableOptions}>
+                            {this.props.article.article.text}
+                        </Remarkable>
+                    </CardText>
+
+                </Card>
             </div>
         );
     }
@@ -66,9 +72,4 @@ var styles = {
 
 };
 
-module.exports = connect(function(state){
-    return {
-        article:state.article,
-        activateAjax: state.activateAjax
-    };
-})(Article);
+module.exports =ArticleView;

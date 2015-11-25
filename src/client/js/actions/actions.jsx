@@ -4,6 +4,7 @@ const {GET_ARTICLE,
     GET_USERS_START,
     GET_ARTICLE_START,
     GET_ARTICLE_LIST_START,
+    CHANGE_DASHBOARD_TEXTAREA,
     ACTIVATE_AJAX} = require("./actionTypes");
 
 
@@ -49,6 +50,12 @@ function activateAjax(){
         activateAjax:true
     }
 }
+function changeDashboardTextarea(val){
+    return {
+        type: CHANGE_DASHBOARD_TEXTAREA,
+        article:val
+    }
+}
 module.exports = {
     receivedArticle,
     receivedArticleList,
@@ -56,5 +63,6 @@ module.exports = {
     receiveArticleListStart,
     getUsersStart,
     getUsers,
-    activateAjax
+    activateAjax,
+    changeDashboardTextarea
 }

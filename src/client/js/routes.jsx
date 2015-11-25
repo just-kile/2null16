@@ -21,7 +21,7 @@ var routes = (
        </Route>
         <Route path="admin" component={App}>
             <IndexRoute component={UserList}/>
-            <Route path="dashboard" component={Dashboard}/>
+            <Route path="dashboard/:articleId" component={Dashboard}/>
         </Route>
        <Route path="/" component={Login}/>
        <Route path="/reset/:resetToken" component={ResetPass}/>

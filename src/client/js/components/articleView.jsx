@@ -6,6 +6,7 @@ var { connect } =require('react-redux');
 var {RefreshIndicator} = require("material-ui");
 var {CardHeader,Avatar,Card,CardText,CardMedia,CardTitle} = require("material-ui");
 var Remarkable = require("react-remarkable");
+var _ = require("lodash");
 var remarkableOptions = {
     linkify:true,
     html:true,
@@ -38,7 +39,7 @@ var ArticleView = React.createClass({
                         subtitleColor={styles.cardHeader.color}
                         />
                     <CardMedia>
-                        <img src="http://lorempixel.com/600/337/nature/"/>
+                        <img src={_.get(this.props,"article.article.titlePicture.url")}/>
                     </CardMedia>
                     <CardText className="n16-article-text" style={styles.cardText}>
                         <h2 className="n16-article-title">{this.props.article.article.title} </h2>

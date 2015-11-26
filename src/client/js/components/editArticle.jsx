@@ -27,23 +27,33 @@ var Dashboard = React.createClass({
     },
     handleTitleImage(imgUrl,event){
         var selectionStart = this.refs.articleText.selectionStart;
-        var insertion = "![alt text]("+imgUrl+ ")";
+        var insertion = "!["+imgUrl.title+"]("+imgUrl.url+ ")";
 
         var newText = this.props.article.article.text.slice(0,selectionStart) + insertion + this.props.article.article.text.slice(selectionStart);
         var {dispatch} = this.props;
         dispatch(changeDashboardTextarea({text:newText}))
     },
+    setTitleImage(titlePicture){
+        var {dispatch} = this.props;
+        dispatch(changeDashboardTextarea({titlePicture:titlePicture}));
+    },
     render () {
+        var {images}  = this.props;
+
         return (
             <div className="admin-col-wrapper">
                 <div className="admin-col images" >
-                    <GridList cellHeight={200}>
-                        <GridTile
-                            title="Picture"
-                            subtitle="Picture"
-                            actionIcon={<IconButton iconClassName="material-icons" onClick={this.handleTitleImage.bind(this,"http://material-ui.com/images/grid-list/water-plant-821293_640.jpg")}>star</IconButton>}>
-                            <img src="http://material-ui.com/images/grid-list/water-plant-821293_640.jpg" />
-                        </GridTile>
+                    <GridList cellHeight={100}>
+                        {images.map(function(image){
+                        return (<GridTile
+                            key={image._id}
+                            title={image.title}
+                            actionIcon={<IconButton iconClassName="material-icons" onClick={this.setTitleImage.bind(this,image)}>star</IconButton>}>
+                            <img style={{cursor:"pointer"}} src={image.url} onClick={this.handleTitleImage.bind(this,image)}/>
+                            </GridTile>)
+                            },this
+                        )}
+
                     </GridList>
                 </div>
                 <div className="admin-col text">
@@ -68,6 +78,6 @@ var Dashboard = React.createClass({
 module.exports = connect(function (state) {
     return {
         article: state.article,
-        pictures:state.pictures
+        images:state.images || []
     };
 })(Dashboard);

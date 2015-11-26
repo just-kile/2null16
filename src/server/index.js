@@ -9,6 +9,7 @@ var http = require('http'),
 var renderViewHandler = require("./handlers/renderViewHandler"),
     renderJsonHandler = require("./handlers/renderJsonHandler"),
     articleService = require("./services/articleService"),
+    imageService = require("./services/imageService"),
     userService = require("./services/userService"),
     resetPassService = require("./services/resetPassService");
 
@@ -162,7 +163,7 @@ server.register([
         server.route({
             method: 'GET',
             path: '/admin/edit/{articleId}',
-            handler: renderViewHandler({article:articleService.get}, "index")
+            handler: renderViewHandler({article:articleService.get,images:imageService.list}, "index")
         });
 
 

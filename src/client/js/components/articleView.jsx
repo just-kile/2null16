@@ -14,7 +14,7 @@ var remarkableOptions = {
 
 var moment =require("moment");
 function formatDate(date){
-    return moment(new Date(date)).format('MMMM Do YYYY, h:mm:ss a')
+    return moment(new Date(date)).format('DD. MM. YYYY')
 }
 function calcTimeToRead(text){
     var CHARS_PER_MIN =750;

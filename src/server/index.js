@@ -41,7 +41,7 @@ server.register([
                 cookieKey:"jwt_secret_token"
             });
 
-        server.auth.default('jwt');
+        //server.auth.default('jwt');
         server.auth.strategy('simple', 'basic', { validateFunc: require("./auth/basicAuthHandler").validate });
         //public assets
         server.route({
@@ -160,7 +160,7 @@ server.register([
         });
         server.route({
             method: 'GET',
-            path: '/admin/dashboard/{articleId}',
+            path: '/admin/edit/{articleId}',
             handler: renderViewHandler(articleService.get, "index")
         });
 

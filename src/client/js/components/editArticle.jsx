@@ -68,5 +68,6 @@ var Dashboard = React.createClass({
 module.exports = connect(function (state) {
     return {
         article: state.article,
+        pictures:state.pictures
     };
 })(Dashboard);

@@ -27,8 +27,15 @@ var argv = require('minimist')(process.argv.slice(2)),
 
 module.exports = function handleRender(propertyHandler,view) {
     return function (request, reply) {
-        bluebird.props(propertyHandler(request,reply)).then(function(reactAppProps){
-
+        var promise;
+        if(typeof propertyHandler ==="function"){
+            promise = bluebird.props(propertyHandler(request, reply));
+        }else{
+            promise = bluebird.props(_.mapValues(propertyHandler,function(handler){
+                return handler(request,reply);
+            }))
+        }
+        promise.then(function(reactAppProps){
             match({ routes, location: request.path }, (error, redirectLocation, renderProps) => {
                 var store = createStore(appReducer, reactAppProps);
                 global.navigator = {userAgent:request.headers["user-agent"]};

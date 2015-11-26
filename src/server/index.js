@@ -3,6 +3,7 @@ require('node-jsx').install({harmony: true, extension: '.jsx'});
 var http = require('http'),
     Hapi = require('hapi'),
     _ = require('lodash'),
+    promise = require('bluebird'),
     path = require("path");
 
 var renderViewHandler = require("./handlers/renderViewHandler"),
@@ -106,22 +107,22 @@ server.register([
         server.route({
             method: 'GET',
             path: '/api/articles',
-            handler: renderJsonHandler(articleService.list)
+            handler: renderJsonHandler({articles:articleService.list})
         });
         server.route({
             method: 'GET',
             path: '/api/articles/{articleId}',
-            handler: renderJsonHandler(articleService.get)
+            handler: renderJsonHandler({article:articleService.get})
         });
         server.route({
             method: 'GET',
             path: '/api/articles/create',
-            handler: renderJsonHandler(articleService.save)
+            handler: renderJsonHandler({article:articleService.save})
         });
         server.route({
             method: 'GET',
             path: '/api/users',
-            handler: renderJsonHandler(userService.getUsers)
+            handler: renderJsonHandler({users:userService.getUsers})
         });
 
         //Views
@@ -145,23 +146,23 @@ server.register([
         server.route({
             method: 'GET',
             path: '/blog',
-            handler: renderViewHandler(articleService.list, "index")
+            handler: renderViewHandler({articles:articleService.list}, "index")
         });
         server.route({
             method: 'GET',
             path: '/blog/{articleId}',
-            handler: renderViewHandler(articleService.get, "index")
+            handler: renderViewHandler({article:articleService.get}, "index")
         });
 
         server.route({
             method: 'GET',
             path: '/admin',
-            handler: renderViewHandler(userService.getUsers, "index")
+            handler: renderViewHandler({users:userService.getUsers}, "index")
         });
         server.route({
             method: 'GET',
             path: '/admin/edit/{articleId}',
-            handler: renderViewHandler(articleService.get, "index")
+            handler: renderViewHandler({article:articleService.get}, "index")
         });
 
 

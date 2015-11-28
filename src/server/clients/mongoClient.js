@@ -61,16 +61,16 @@ function saveArticle(id,articleData) {
     delete articleData._id;
     return new Promise(function (resolve, reject) {
         articleCol.update({_id:ObjectId(id)},articleData,{upsert: true},function (err, article) {
-            console.log(err)
             if (err)reject(err);
             resolve(article);
         });
     });
 }
 
-function listArticles() {
+function listArticles(allArticles) {
     return new Promise(function (resolve, reject) {
-        articleCol.find().limit(20).toArray(function (err, articles) {
+        var cursor = allArticles?articleCol.find():articleCol.find({"meta.active":true});
+        cursor.toArray(function (err, articles) {
             if (err)reject(err);
             resolve(articles);
         });

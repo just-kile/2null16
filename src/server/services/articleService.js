@@ -7,13 +7,16 @@ function getArticle(request) {
 function saveArticle(request) {
     var article = request.payload;
     var articleId = request.params.articleId;
-    console.log(articleId)
-    console.log(article)
     return dao.saveArticle(articleId,article);
 }
 
-function listArticles(){
-    return  dao.listArticles()
+function listArticles(request){
+    var allArticles = !!request.query.allArticles;
+    return  dao.listArticles(allArticles)
+
+}
+function listAllArticles(){
+    return  dao.listArticles(true)
 
 }
 function removeArticle(request){
@@ -24,5 +27,6 @@ module.exports = {
     get: getArticle,
     save: saveArticle,
     list:listArticles,
+    listAll:listAllArticles,
     remove:removeArticle
 };

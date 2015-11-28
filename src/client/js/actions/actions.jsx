@@ -2,6 +2,8 @@ const {GET_ARTICLE,
     GET_ARTICLE_LIST,
     GET_USERS,
     GET_USERS_START,
+    GET_IMAGES,
+    GET_IMAGES_START,
     GET_ARTICLE_START,
     GET_ARTICLE_LIST_START,
     CHANGE_DASHBOARD_TEXTAREA,
@@ -38,6 +40,19 @@ function getUsersStart(){
     }
 
 }
+function getImagesStart(){
+    return {
+        type: GET_IMAGES_START
+    }
+
+}
+function getImages(images){
+    return {
+        type: GET_IMAGES,
+        images:images
+    }
+
+}
 function getUsers(users){
     return {
         type: GET_USERS,
@@ -56,6 +71,7 @@ function changeDashboardTextarea(val){
         article:val
     }
 }
+
 module.exports = {
     receivedArticle,
     receivedArticleList,
@@ -64,5 +80,7 @@ module.exports = {
     getUsersStart,
     getUsers,
     activateAjax,
-    changeDashboardTextarea
+    changeDashboardTextarea,
+    getImagesStart,
+    getImages,
 }

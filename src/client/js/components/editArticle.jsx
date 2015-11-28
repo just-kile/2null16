@@ -2,7 +2,7 @@ var React = require("react");
 var Router = require('react-router');
 var Link = Router.Link;
 var {getJSON,saveArticle} = require("../services/ajaxService.jsx");
-var {receivedArticle,receiveArticleStart,activateAjax} = require("./../actions/actions.jsx");
+var {receivedArticle,receiveArticleStart,activateAjax,getImages,getImagesStart} = require("./../actions/actions.jsx");
 
 var { connect } =require('react-redux');
 var {changeDashboardTextarea} = require("./../actions/actions.jsx");
@@ -16,6 +16,7 @@ var {CardHeader,
     GridTile,
     IconButton,
     FlatButton,
+    RefreshIndicator,
     Snackbar,
     StarBorder} = require("material-ui");
 var Remarkable = require("react-remarkable");
@@ -33,6 +34,10 @@ var Dashboard = React.createClass({
         dispatch(receiveArticleStart());
         getJSON("/api/articles/"+this.props.params.articleId).then(function(article){
             dispatch(receivedArticle(article));
+        });
+        dispatch(getImagesStart());
+        getJSON("/api/images").then(function(images){
+            dispatch(getImages(images));
         });
     },
     handleTextfieldChange(property,event){
@@ -60,7 +65,9 @@ var Dashboard = React.createClass({
     },
     render () {
         var {images}  = this.props;
-
+        if(!this.props.article){
+            return (<div className="loadingIndicator"><RefreshIndicator size={40} left={0} top={0} status="loading" /></div>);
+        }
         return (
             <div className="admin-col-wrapper">
                 <div className="admin-col images" >
@@ -105,6 +112,7 @@ var Dashboard = React.createClass({
 module.exports = connect(function (state) {
     return {
         article: state.article,
-        images:state.images || []
+        images:state.images || [],
+        activateAjax: state.activateAjax
     };
 })(Dashboard);

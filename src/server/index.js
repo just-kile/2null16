@@ -127,11 +127,16 @@ server.register([
             handler: renderJsonHandler({users:userService.getUsers})
         });
         server.route({
+            method: 'GET',
+            path: '/api/images',
+            handler: renderJsonHandler({images:imageService.list})
+        });
+        server.route({
             method: 'PUT',
             path: '/articles/{articleId}',
             handler: renderJsonHandler({users:articleService.save}),
             config:{
-                auth:"simple",
+              //  auth:"simple",
                 validate:{
                     payload:{
                         article:joi.object().required(),
@@ -175,7 +180,7 @@ server.register([
         server.route({
             method: 'GET',
             path: '/admin',
-            handler: renderViewHandler({users:userService.getUsers}, "index")
+            handler: renderViewHandler({users:userService.getUsers,articles:articleService.listAll}, "index")
         });
         server.route({
             method: 'GET',

@@ -42,7 +42,9 @@ var Dashboard = React.createClass({
     },
     handleTextfieldChange(property,event){
         var {dispatch} = this.props;
-        dispatch(changeDashboardTextarea({[property]:event.target.value}))
+        var obj = {};
+        obj[property] = event.target.value;
+        dispatch(changeDashboardTextarea(obj))
 
     },
     handleTitleImage(imgUrl,event){

@@ -5,6 +5,16 @@ var {getJSON,toggleArticle} = require("../services/ajaxService.jsx");
 var { connect } =require('react-redux');
 var {getUsersStart,getUsers,activateAjax} = require("./../actions/actions.jsx");
 var {RefreshIndicator,List,ListDivider,ListItem,Avatar,Toggle,IconButton} = require("material-ui");
+
+var Table = require('material-ui/lib/table/table');
+var TableBody = require('material-ui/lib/table/table-body');
+var TableFooter = require('material-ui/lib/table/table-footer');
+var TableHeader = require('material-ui/lib/table/table-header');
+var TableHeaderColumn = require('material-ui/lib/table/table-header-column');
+var TableRow = require('material-ui/lib/table/table-row');
+var TableRowColumn = require('material-ui/lib/table/table-row-column');
+var {receivedArticleList,receiveArticleListStart} = require("./../actions/actions.jsx");
+
 var Article = React.createClass({
     componentDidMount(){
          const {dispatch} = this.props;
@@ -16,6 +26,10 @@ var Article = React.createClass({
          getJSON("/api/users").then(function(users){
             dispatch(getUsers(users));
          });
+        dispatch(receiveArticleListStart());
+        getJSON("/api/articles?allArticles=true").then(function(articles){
+            dispatch(receivedArticleList(articles));
+        });
     },
     handleToggle(articleId,event,checked){
       console.log(event,checked);
@@ -30,16 +44,20 @@ var Article = React.createClass({
 
             <div>
             <div className="articles">
-                <table className="articles" styles={styles.list}>
-                    <thead><tr><td>Nummer</td><td>Name</td><td>Email</td></tr></thead>
-                    <tbody>
+                <Table selectable={false}>
+                    <TableHeader><TableRow><TableHeaderColumn>Name</TableHeaderColumn><TableHeaderColumn>Email</TableHeaderColumn></TableRow></TableHeader>
+                    <TableBody style={styles.list}>
                     {
                         this.props.users.map(function (user,index) {
-                            return (<tr styles={styles.listItem} key={user._id}><td>{index+1}.</td><td>{user.name}</td><td>{user.email}</td></tr>)
+                            return (
+                            <TableRow styles={styles.listItem} key={user._id}>
+                                <TableRowColumn styles={styles.listItem}>{user.name}</TableRowColumn>
+                                <TableRowColumn styles={styles.listItem}>{user.email}</TableRowColumn>
+                            </TableRow>)
                         })
                     }
-                    </tbody>
-                </table>
+                    </TableBody>
+                </Table>
             </div>
             <div className="sidebar">
                 <List subheader="Artikel verwalten">
@@ -70,7 +88,8 @@ const styles = {
         backgroundColor:"black"
     },
     listItem:{
-        textColor:"black"
+        textColor:"black",
+        backgroundColor:"#000000"
     }
 }
 

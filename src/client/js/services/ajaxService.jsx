@@ -88,7 +88,17 @@ function saveArticle(article,success,error){
             }
         });
 }
-
+function toggleArticle(articleId,type,success,error){
+    request
+        .put('/api/articles/publish/'+articleId+"/"+type)
+        .end(function(err,res){
+            if (res && res.ok) {
+               success &&  success(res.body);
+            } else {
+                error && error(res.text);
+            }
+        });
+}
 
 module.exports.getJSON = getJSON;
 module.exports.register = register;
@@ -96,3 +106,4 @@ module.exports.login = login;
 module.exports.resetPass = resetPass;
 module.exports.changePass = changePass;
 module.exports.saveArticle = saveArticle;
+module.exports.toggleArticle = toggleArticle;

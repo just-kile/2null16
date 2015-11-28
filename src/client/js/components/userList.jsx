@@ -1,7 +1,7 @@
 var React = require("react");
 var Router = require('react-router');
 var Link = Router.Link;
-var {getJSON} = require("../services/ajaxService.jsx");
+var {getJSON,toggleArticle} = require("../services/ajaxService.jsx");
 var { connect } =require('react-redux');
 var {getUsersStart,getUsers,activateAjax} = require("./../actions/actions.jsx");
 var {RefreshIndicator,List,ListDivider,ListItem,Avatar,Toggle,IconButton} = require("material-ui");
@@ -17,8 +17,9 @@ var Article = React.createClass({
             dispatch(getUsers(users));
          });
     },
-    handleToggle(event,checked){
+    handleToggle(articleId,event,checked){
       console.log(event,checked);
+        toggleArticle(articleId,checked)
     },
     render () {
         const {users,articles} = this.props;
@@ -50,7 +51,7 @@ var Article = React.createClass({
                             leftAvatar={<Avatar src={article.article.titlePicture.url} />}
                             //rightIconButton={rightIconMenu}
                             primaryText={article.article.title}
-                            rightToggle={<Toggle defaultToggled={article.meta.active} onToggle={this.handleToggle} />}
+                            rightToggle={<Toggle defaultToggled={article.meta.active} onToggle={this.handleToggle.bind(this,article._id)} />}
                             secondaryText={
                               <p>
                                 <Link to={"/admin/edit/"+article._id}><IconButton iconClassName="material-icons" tooltip="Edit">edit</IconButton></Link>

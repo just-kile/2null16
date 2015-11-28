@@ -133,6 +133,20 @@ server.register([
         });
         server.route({
             method: 'PUT',
+            path: '/api/articles/publish/{articleId}/{type}',
+            handler: renderJsonHandler(articleService.toggle),
+            config:{
+                validate:{
+                    params:{
+                        articleId:joi.string(),
+                        type:joi.boolean()
+                    }
+                }
+            }
+
+        });
+        server.route({
+            method: 'PUT',
             path: '/articles/{articleId}',
             handler: renderJsonHandler({users:articleService.save}),
             config:{

@@ -1,10 +1,11 @@
 {
-  "_id":"55049084eb3607a6022aeca6",
+  "_id":ObjectId("55049084eb3607a6022aeca6"),
   "meta": {
     "keywords":["tag1","tag2"],
     "description":"Wuf wuff wuff",
     "author":"Winnii",
-    "createdAt":"Tue Nov 17 2015 21:27:08 GMT+0100 (CET)"
+    "createdAt":"Tue Nov 17 2015 21:27:08 GMT+0100 (CET)",
+    "active":true
   },
   "article":{
     "title":"Wuff -weil wuff",

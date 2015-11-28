@@ -112,6 +112,11 @@ server.register([
             handler: renderJsonHandler({articles:articleService.list})
         });
         server.route({
+            method: 'POST',
+            path: '/api/articles',
+            handler: renderJsonHandler(articleService.create)
+        });
+        server.route({
             method: 'GET',
             path: '/api/articles/{articleId}',
             handler: renderJsonHandler({article:articleService.get})

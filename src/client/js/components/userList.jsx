@@ -1,11 +1,11 @@
 var React = require("react");
 var Router = require('react-router');
 var Link = Router.Link;
-var {getJSON,toggleArticle} = require("../services/ajaxService.jsx");
+var {getJSON,toggleArticle,createArticle} = require("../services/ajaxService.jsx");
 var { connect } =require('react-redux');
 var {getUsersStart,getUsers,activateAjax} = require("./../actions/actions.jsx");
-var {RefreshIndicator,List,ListDivider,ListItem,Avatar,Toggle,IconButton} = require("material-ui");
-
+var {RefreshIndicator,List,ListDivider,ListItem,Avatar,Toggle,IconButton,FlatButton} = require("material-ui");
+var _ = require("lodash");
 var Table = require('material-ui/lib/table/table');
 var TableBody = require('material-ui/lib/table/table-body');
 var TableFooter = require('material-ui/lib/table/table-footer');
@@ -35,6 +35,13 @@ var Article = React.createClass({
       console.log(event,checked);
         toggleArticle(articleId,checked)
     },
+    createNewArticle(){
+        createArticle(function(result){
+            var id = _.get(result,"result.upserted[0]._id");
+            this.props.history.replaceState(null,"/admin/edit/"+id);
+        }.bind(this))
+
+    },
     render () {
         const {users,articles} = this.props;
         if(!users || !articles){
@@ -60,6 +67,7 @@ var Article = React.createClass({
                 </Table>
             </div>
             <div className="sidebar">
+                <FlatButton type="button" label="Artikel erstellen" primary={true} onClick={this.createNewArticle} />
                 <List subheader="Artikel verwalten">
                 {articles.map(function(article){
                     return (

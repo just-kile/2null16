@@ -30,7 +30,7 @@ function createAccount(credentials) {
                 return reject({message:"Account exists!"});
             }
             accountsCol.insert(credentials, function (err,resultAccount) {
-                if (err)reject(err);
+                if (err){return reject(err);}
                 resolve(resultAccount.ops[0]);
 
             });
@@ -41,7 +41,7 @@ function getArticleWithId(id) {
     return new Promise(function (resolve, reject) {
 
         articleCol.find({_id:ObjectId(id)}).limit(1).next(function (err,article) {
-            if (err)reject(err);
+            if (err){return reject(err);}
             resolve(article);
 
         });
@@ -51,7 +51,7 @@ function getArticleWithId(id) {
 function createArticle(articleData) {
     return new Promise(function (resolve, reject) {
         articleCol.insertOne(articleData,{w:1},function (err, article) {
-            if (err)reject(err);
+            if (err){return reject(err);}
             resolve(article);
         });
     });
@@ -61,7 +61,9 @@ function saveArticle(id,articleData) {
     delete articleData._id;
     return new Promise(function (resolve, reject) {
         articleCol.update({_id:ObjectId(id)},articleData,{upsert: true},function (err, article) {
-            if (err)reject(err);
+            if (err){
+                return reject(err);
+            }
             resolve(article);
         });
     });
@@ -70,8 +72,10 @@ function saveArticle(id,articleData) {
 function listArticles(allArticles) {
     return new Promise(function (resolve, reject) {
         var cursor = allArticles?articleCol.find():articleCol.find({"meta.active":true});
-        cursor.toArray(function (err, articles) {
-            if (err)reject(err);
+        cursor.sort({"meta.createdAt":-1}).toArray(function (err, articles) {
+            if (err){
+                return reject(err);
+            }
             resolve(articles);
         });
     });
@@ -83,7 +87,9 @@ function removeArticle(id) {
 function findAccountByEmail(email) {
     return new Promise(function (resolve, reject) {
         accountsCol.find({email: email}).limit(1).toArray(function (err, accounts) {
-            if (err)reject(err);
+            if (err){
+                return reject(err);
+            }
             resolve(accounts[0]);
         });
     });
@@ -91,7 +97,9 @@ function findAccountByEmail(email) {
 function saveSession(session){
     return new Promise(function (resolve, reject) {
         sessionsCol.insert(session,function (err) {
-            if (err)reject(err);
+            if (err){
+                return reject(err);
+            }
             resolve({success: true});
         });
     });
@@ -99,7 +107,9 @@ function saveSession(session){
 function updateAccount(email,pass){
     return new Promise(function (resolve, reject) {
         accountsCol.update({email:email},{$set: {password:pass}},function (err) {
-            if (err)reject(err);
+            if (err){
+                return reject(err);
+            }
             resolve({success: true});
         });
     });
@@ -108,7 +118,9 @@ function updateAccount(email,pass){
 function getUsers(){
     return new Promise(function (resolve, reject) {
         accountsCol.find().toArray(function (err,accounts) {
-            if (err)reject(err);
+            if (err){
+                return reject(err);
+            }
             resolve(accounts);
         });
     });

@@ -63,6 +63,9 @@ var Dashboard = React.createClass({
     openPreview(){
         window.open('/blog/'+this.props.article._id, '_blank');
     },
+    backToAdmin(){
+      this.props.history.replaceState(null,"/admin");
+    },
     render () {
         var {images}  = this.props;
         if(!this.props.article){
@@ -95,6 +98,7 @@ var Dashboard = React.createClass({
                     </label>
                     <FlatButton type="button" label="Speichern" primary={true} onClick={this.handleSave}/>
                     <FlatButton type="button" label="Preview" secondary={true} onClick={this.openPreview}/>
+                    <FlatButton type="button" label="Zurück Zur Übersicht" onClick={this.backToAdmin}/>
                 </div>
 
                 <div className="admin-col preview">

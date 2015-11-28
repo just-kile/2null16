@@ -1,8 +1,8 @@
 var request = require("superagent");
 
 function getJSON(url) {
-    if (getJSON._cache[url])
-        return Promise.resolve(getJSON._cache[url]);
+   // if (getJSON._cache[url])
+     //   return Promise.resolve(getJSON._cache[url]);
 
     return new Promise((resolve, reject) => {
         var req = new XMLHttpRequest();
@@ -99,6 +99,17 @@ function toggleArticle(articleId,type,success,error){
             }
         });
 }
+function createArticle(success,error){
+    request
+        .post('/api/articles')
+        .end(function(err,res){
+            if (res && res.ok) {
+                success &&  success(res.body);
+            } else {
+                error && error(res.text);
+            }
+        });
+}
 
 module.exports.getJSON = getJSON;
 module.exports.register = register;
@@ -107,3 +118,4 @@ module.exports.resetPass = resetPass;
 module.exports.changePass = changePass;
 module.exports.saveArticle = saveArticle;
 module.exports.toggleArticle = toggleArticle;
+module.exports.createArticle = createArticle;

@@ -71,6 +71,7 @@ function changeDashboardTextarea(val){
         article:val
     }
 }
+
 module.exports = {
     receivedArticle,
     receivedArticleList,

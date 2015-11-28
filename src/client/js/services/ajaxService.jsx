@@ -77,9 +77,22 @@ function changePass (resetToken,pass,success,error){
             }
         });
 }
+function saveArticle(article,success,error){
+    request
+        .put('/articles/'+article._id)
+        .send(article).end(function(err,res){
+            if (res && res.ok) {
+                success(res.body);
+            } else {
+                error(res.text);
+            }
+        });
+}
+
 
 module.exports.getJSON = getJSON;
 module.exports.register = register;
 module.exports.login = login;
 module.exports.resetPass = resetPass;
 module.exports.changePass = changePass;
+module.exports.saveArticle = saveArticle;

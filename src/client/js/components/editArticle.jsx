@@ -1,7 +1,9 @@
 var React = require("react");
 var Router = require('react-router');
 var Link = Router.Link;
-var {getJSON} = require("../services/ajaxService.jsx");
+var {getJSON,saveArticle} = require("../services/ajaxService.jsx");
+var {receivedArticle,receiveArticleStart,activateAjax} = require("./../actions/actions.jsx");
+
 var { connect } =require('react-redux');
 var {changeDashboardTextarea} = require("./../actions/actions.jsx");
 var {CardHeader,
@@ -13,6 +15,8 @@ var {CardHeader,
     GridList,
     GridTile,
     IconButton,
+    FlatButton,
+    Snackbar,
     StarBorder} = require("material-ui");
 var Remarkable = require("react-remarkable");
 var ArticleView = require("./articleView.jsx");
@@ -20,6 +24,17 @@ var _ = require("lodash");
 
 
 var Dashboard = React.createClass({
+    componentDidMount(){
+        const {dispatch} = this.props;
+        if(!this.props.activateAjax){
+            dispatch(activateAjax());
+            return;
+        }
+        dispatch(receiveArticleStart());
+        getJSON("/api/articles/"+this.props.params.articleId).then(function(article){
+            dispatch(receivedArticle(article));
+        });
+    },
     handleTextfieldChange(property,event){
         var {dispatch} = this.props;
         dispatch(changeDashboardTextarea({[property]:event.target.value}))
@@ -36,6 +51,12 @@ var Dashboard = React.createClass({
     setTitleImage(titlePicture){
         var {dispatch} = this.props;
         dispatch(changeDashboardTextarea({titlePicture:titlePicture}));
+    },
+    handleSave(){
+        saveArticle(this.props.article, this.refs.saveSuccess.show,this.refs.saveFail.show)
+    },
+    openPreview(){
+        window.open('/blog/'+this.props.article._id, '_blank');
     },
     render () {
         var {images}  = this.props;
@@ -65,11 +86,17 @@ var Dashboard = React.createClass({
                         <div>Text:</div>
                         <textarea ref="articleText" value={this.props.article.article.text} onChange={this.handleTextfieldChange.bind(this,"text")}/>
                     </label>
+                    <FlatButton type="button" label="Speichern" primary={true} onClick={this.handleSave}/>
+                    <FlatButton type="button" label="Preview" secondary={true} onClick={this.openPreview}/>
                 </div>
 
                 <div className="admin-col preview">
                     <ArticleView article={this.props.article} />
+                    <Snackbar ref="saveSuccess" message="Artikel erfolgreich gespeichert" />
+                    <Snackbar ref="saveFail" message="Fehler beim Speichern aufgetreten" />
+
                 </div>
+
             </div>
         );
     }

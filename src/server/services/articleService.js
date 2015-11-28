@@ -4,8 +4,12 @@ function getArticle(request) {
     var id = request.params.articleId;
     return  dao.getArticleWithId(id)
 }
-function saveArticle() {
-    return dao.saveArticle(articleJson);
+function saveArticle(request) {
+    var article = request.payload;
+    var articleId = request.params.articleId;
+    console.log(articleId)
+    console.log(article)
+    return dao.saveArticle(articleId,article);
 }
 
 function listArticles(){

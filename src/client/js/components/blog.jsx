@@ -49,7 +49,7 @@ var Blog = React.createClass({
                                     subtitleColor={styles.cardHeader.color}
                                     />
                                 <CardMedia overlay={<CardTitle title={article.article.title} subtitle={article.article.subtitle}/>}>
-                                    <img src="http://lorempixel.com/600/337/nature/"/>
+                                    <img src={article.article.titlePicture.url}l/>
                                 </CardMedia>
                                 <CardText className="articleText">
                                     {article.article.text.substr(0,300)}...

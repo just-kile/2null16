@@ -37,8 +37,9 @@ module.exports = function(state,action){
             return Object.assign({}, state, {
                 article:{
                     article:_.extend( {},state.article.article,action.article),
-                    meta:state.article.meta
-                },
+                    meta:state.article.meta,
+                    _id:state.article._id
+                }
             });
         default:
             return state;

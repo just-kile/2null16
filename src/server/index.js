@@ -3,6 +3,7 @@ require('node-jsx').install({harmony: true, extension: '.jsx'});
 var http = require('http'),
     Hapi = require('hapi'),
     _ = require('lodash'),
+    joi = require('joi'),
     promise = require('bluebird'),
     path = require("path");
 
@@ -115,15 +116,31 @@ server.register([
             path: '/api/articles/{articleId}',
             handler: renderJsonHandler({article:articleService.get})
         });
-        server.route({
-            method: 'GET',
-            path: '/api/articles/create',
-            handler: renderJsonHandler({article:articleService.save})
-        });
+        //server.route({
+        //    method: 'GET',
+        //    path: '/api/articles/create',
+        //    handler: renderJsonHandler({article:articleService.save})
+        //});
         server.route({
             method: 'GET',
             path: '/api/users',
             handler: renderJsonHandler({users:userService.getUsers})
+        });
+        server.route({
+            method: 'PUT',
+            path: '/articles/{articleId}',
+            handler: renderJsonHandler({users:articleService.save}),
+            config:{
+                auth:"simple",
+                validate:{
+                    payload:{
+                        article:joi.object().required(),
+                        meta:joi.object().required(),
+                        _id:joi.string().optional()
+                    }
+                }
+            },
+
         });
 
         //Views

@@ -40,7 +40,7 @@ function createAccount(credentials) {
 function getArticleWithId(id) {
     return new Promise(function (resolve, reject) {
 
-        articleCol.find({_id:id}).limit(1).next(function (err,article) {
+        articleCol.find({_id:ObjectId(id)}).limit(1).next(function (err,article) {
             if (err)reject(err);
             resolve(article);
 
@@ -48,9 +48,20 @@ function getArticleWithId(id) {
     });
 }
 
-function saveArticle(articleData) {
+function createArticle(articleData) {
     return new Promise(function (resolve, reject) {
         articleCol.insertOne(articleData,{w:1},function (err, article) {
+            if (err)reject(err);
+            resolve(article);
+        });
+    });
+}
+
+function saveArticle(id,articleData) {
+    delete articleData._id;
+    return new Promise(function (resolve, reject) {
+        articleCol.update({_id:ObjectId(id)},articleData,{upsert: true},function (err, article) {
+            console.log(err)
             if (err)reject(err);
             resolve(article);
         });

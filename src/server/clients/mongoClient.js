@@ -9,7 +9,7 @@ var collections = ["articles"],
     ObjectId = require("mongodb").ObjectId,
     _ = require("lodash"),
     db,
-    accountsCol,sessionsCol,articleCol;
+    accountsCol,sessionsCol,articleCol,imageCol;
 MongoClient.connect(databaseUrl, function (err, database) {
     if (err) {
         console.error("Database connection can not be established");
@@ -19,6 +19,7 @@ MongoClient.connect(databaseUrl, function (err, database) {
     accountsCol = db.collection("accounts");
     sessionsCol = db.collection("sessions");
     articleCol = db.collection("articles");
+    imageCol = db.collection("images");
 });
 function findAccountByAccountId(accountId) {
     accountsCol.find({_id: accountId}).limit(1)
@@ -125,6 +126,27 @@ function getUsers(){
         });
     });
 }
+
+function saveImageUrl(imageData){
+    return new Promise(function(resolve,reject){
+        imageCol.insertOne(imageData,{w:1},function (err, image) {
+            if (err){return reject(err);}
+            resolve(image);
+        });
+    })
+}
+
+function getImageList(){
+    return new Promise(function(resolve,reject){
+       imageCol.find().toArray(function(err,images){
+           if(err){
+             return reject(err)
+           }
+           resolve(images);
+       })
+    });
+}
+
 module.exports = {
     findAccountByAccountId,
     findAccountByEmail,
@@ -135,6 +157,7 @@ module.exports = {
     saveArticle,
     listArticles,
     removeArticle,
-
+    saveImageUrl,
+    getImageList,
     getUsers
 };

@@ -1,7 +1,7 @@
 var React = require("react");
 var Router = require('react-router');
 var Link = Router.Link;
-var {getJSON,saveArticle} = require("../services/ajaxService.jsx");
+var {getJSON,saveArticle,uploadImage} = require("../services/ajaxService.jsx");
 var {receivedArticle,receiveArticleStart,activateAjax,getImages,getImagesStart} = require("./../actions/actions.jsx");
 
 var { connect } =require('react-redux');
@@ -22,6 +22,7 @@ var {CardHeader,
 var Remarkable = require("react-remarkable");
 var ArticleView = require("./articleView.jsx");
 var _ = require("lodash");
+var Dropzone = require('react-dropzone');
 
 
 var Dashboard = React.createClass({
@@ -68,6 +69,19 @@ var Dashboard = React.createClass({
     backToAdmin(){
       this.props.history.replaceState(null,"/admin");
     },
+    onDrop(files){
+        console.log('Received files: ', files);
+        var {dispatch} = this.props;
+        uploadImage(files,function(){
+            dispatch(getImagesStart());
+            getJSON("/api/images").then(function(images){
+                dispatch(getImages(images));
+            });
+            console.log('fertig');
+        },function(){
+            alert("Fehler beim hochladen!");
+        });
+    },
     render () {
         var {images}  = this.props;
         if(!this.props.article){
@@ -76,6 +90,9 @@ var Dashboard = React.createClass({
         return (
             <div className="admin-col-wrapper">
                 <div className="admin-col images" >
+                    <Dropzone onDrop={this.onDrop}>
+                        <div>Bild hochladen</div>
+                    </Dropzone>
                     <GridList cellHeight={100}>
                         {images.map(function(image){
                         return (<GridTile

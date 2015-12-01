@@ -111,6 +111,19 @@ function createArticle(success,error){
         });
 }
 
+function uploadImage(fileList,success,error){
+    var file = fileList[0];
+    request
+        .post("/images")
+        .attach("image",file)
+        .end(function(err,res){
+            if (res && res.ok) {
+                success &&  success(res.body);
+            } else {
+                error && error(res.text);
+            }
+        });
+}
 module.exports.getJSON = getJSON;
 module.exports.register = register;
 module.exports.login = login;
@@ -119,3 +132,4 @@ module.exports.changePass = changePass;
 module.exports.saveArticle = saveArticle;
 module.exports.toggleArticle = toggleArticle;
 module.exports.createArticle = createArticle;
+module.exports.uploadImage = uploadImage;

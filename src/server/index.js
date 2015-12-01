@@ -131,11 +131,7 @@ server.register([
             path: '/api/users',
             handler: renderJsonHandler({users:userService.getUsers})
         });
-        server.route({
-            method: 'GET',
-            path: '/api/images',
-            handler: renderJsonHandler({images:imageService.list})
-        });
+
         server.route({
             method: 'PUT',
             path: '/api/articles/publish/{articleId}/{type}',
@@ -163,10 +159,37 @@ server.register([
                         _id:joi.string().optional()
                     }
                 }
-            },
+            }
 
         });
-
+        //Images
+        server.route({
+           method:"POST",
+            path:"/images",
+            config:{
+                payload: {
+                    output: 'stream',
+                    parse: true,
+                    allow: 'multipart/form-data'
+                }
+            },
+            handler:renderJsonHandler(imageService.upload)
+        });
+        server.route({
+            method: 'GET',
+            path: '/api/images',
+            handler: renderJsonHandler({images:imageService.list})
+        });
+        server.route({
+            method: 'GET',
+            path: '/images/{p*}',
+            handler: {
+                directory: {
+                    path:process.env.IMAGE_DIRNAME || "./tmp"
+                }
+            },
+            config: {auth: false}
+        });
         //Views
         server.route({
             method: 'GET',

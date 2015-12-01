@@ -20,7 +20,7 @@ module.exports.upload = function(request){
             var name = data.image.hapi.filename;
             var fileEnding = getFileEnding(data.image.hapi.headers["content-type"]);
             var fileName = "image_"+new Date().getTime()+fileEnding;
-            var path = (process.env.IMAGE_DIRNAME || "./tmp/") + fileName;
+            var path = (process.env.IMAGE_DIRNAME || "./tmp") + "/"+fileName;
             var file = fs.createWriteStream(path);
             file.on('error', function (err) {
                 console.error(err);

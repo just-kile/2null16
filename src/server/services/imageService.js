@@ -4,11 +4,6 @@ var mongoClient = require("./../clients/mongoClient");
 module.exports.list = function(){
  return mongoClient.getImageList();
 };
-module.exports.get = function(){
-    return new promise(function(resolve,reject){
-
-    })
-};
 
 
 module.exports.upload = function(request){

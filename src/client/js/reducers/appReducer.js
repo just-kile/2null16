@@ -8,6 +8,7 @@ var GET_IMAGES= require("./../actions/actionTypes").GET_IMAGES;
 var GET_IMAGES_START = require("./../actions/actionTypes").GET_IMAGES_START;
 var ACTIVATE_AJAX = require("./../actions/actionTypes").ACTIVATE_AJAX;
 var CHANGE_DASHBOARD_TEXTAREA = require("./../actions/actionTypes").CHANGE_DASHBOARD_TEXTAREA;
+var CHANGE_DASHBOARD_META = require("./../actions/actionTypes").CHANGE_DASHBOARD_META;
 var _ = require("lodash");
 module.exports = function(state,action){
     switch(action.type){
@@ -51,8 +52,15 @@ module.exports = function(state,action){
                     _id:state.article._id
                 }
             });
+        case CHANGE_DASHBOARD_META:
+            return Object.assign({}, state, {
+                article:{
+                    article:state.article.article,
+                    meta:_.extend( {},state.article.meta,action.meta),
+                    _id:state.article._id
+                }
+            });
         default:
             return state;
     }
-    return state;
 };

@@ -5,7 +5,7 @@ var {getJSON,saveArticle,uploadImage} = require("../services/ajaxService.jsx");
 var {receivedArticle,receiveArticleStart,activateAjax,getImages,getImagesStart} = require("./../actions/actions.jsx");
 
 var { connect } =require('react-redux');
-var {changeDashboardTextarea} = require("./../actions/actions.jsx");
+var {changeDashboardTextarea,changeDashboardMeta} = require("./../actions/actions.jsx");
 var {CardHeader,
     Avatar,
     Card,
@@ -47,6 +47,12 @@ var Dashboard = React.createClass({
         obj[property] = event.target.value;
         dispatch(changeDashboardTextarea(obj))
 
+    },
+    handleMetaTextfieldChange(property,event){
+        var {dispatch} = this.props;
+        var obj = {};
+        obj[property] = event.target.value;
+        dispatch(changeDashboardMeta(obj))
     },
     handleTitleImage(imgUrl,event){
         var selectionStart = this.refs.articleText.selectionStart;
@@ -107,6 +113,10 @@ var Dashboard = React.createClass({
                     </GridList>
                 </div>
                 <div className="admin-col text">
+                    <label>
+                        <div>Author</div>
+                        <input type="text" value={this.props.article.meta.author} onChange={this.handleMetaTextfieldChange.bind(this,"author")}/>
+                    </label>
                     <label>
                         <div>Title</div>
                         <input type="text" value={this.props.article.article.title} onChange={this.handleTextfieldChange.bind(this,"title")}/>

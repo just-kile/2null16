@@ -7,6 +7,7 @@ const {GET_ARTICLE,
     GET_ARTICLE_START,
     GET_ARTICLE_LIST_START,
     CHANGE_DASHBOARD_TEXTAREA,
+    CHANGE_DASHBOARD_META,
     ACTIVATE_AJAX} = require("./actionTypes");
 
 
@@ -71,7 +72,12 @@ function changeDashboardTextarea(val){
         article:val
     }
 }
-
+function changeDashboardMeta(val){
+    return {
+        type: CHANGE_DASHBOARD_META,
+        meta:val
+    }
+}
 module.exports = {
     receivedArticle,
     receivedArticleList,
@@ -81,6 +87,7 @@ module.exports = {
     getUsers,
     activateAjax,
     changeDashboardTextarea,
+    changeDashboardMeta,
     getImagesStart,
-    getImages,
+    getImages
 }

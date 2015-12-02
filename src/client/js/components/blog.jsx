@@ -52,7 +52,7 @@ var Blog = React.createClass({
                                     <img src={article.article.titlePicture.url}l/>
                                 </CardMedia>
                                 <CardText className="articleText">
-                                    {article.article.text.substr(0,300)}...
+                                    {article.article.text.substr(0,300).replace(/!\[.+\]\(\/image.+\)/g,"")}...
                                 </CardText>
 
                             </Card>

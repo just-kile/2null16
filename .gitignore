@@ -2,3 +2,6 @@
 build
 node_modules
 *.iml
+.node-gyp
+.npm
+tmp

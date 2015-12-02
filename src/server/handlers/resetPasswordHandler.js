@@ -22,7 +22,7 @@ module.exports = function (req, reply) {
 
     mongoClient.findAccountByEmail(req.payload.email)
         .then(function (account) {
-            bcrypt.hash(""+(new Date().getTime()* Math.random()), 8, function(err, hash) {
+            bcrypt.hash(""+(new Date().getTime()* Math.random()), 3, function(err, hash) {
                 if(err){
                     console.error(err);
                     return reply(Boom.badImplementation());

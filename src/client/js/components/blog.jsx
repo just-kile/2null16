@@ -14,8 +14,19 @@ var {Card,CardHeader,
 var { connect } =require('react-redux');
 var {Link} = require("react-router");
 var moment = require("moment");
+var Remarkable = require("react-remarkable");
+var remarkableOptions = {
+    linkify:true,
+    html:true,
+    breaks:true
+};
+
 function formatDate(date){
     return moment(new Date(date)).format('MMMM Do YYYY, h:mm:ss a')
+}
+function calcTimeToRead(text){
+    var CHARS_PER_MIN =750;
+    return Math.round(text.length/CHARS_PER_MIN)||1;
 }
 var Blog = React.createClass({
     componentDidMount(){
@@ -43,7 +54,7 @@ var Blog = React.createClass({
                             <Card style={styles.card}>
                                 <CardHeader
                                     title={<strong>{article.meta.author}</strong>}
-                                    subtitle={<span>erstellt am {formatDate(article.meta.createdAt)} - 4min Lesezeit</span>}
+                                    subtitle={<span>erstellt am {formatDate(article.meta.createdAt)} - {calcTimeToRead(article.article.text)}min Lesezeit</span>}
                                     avatar={<Avatar>{article.meta.author.substring(0,1)}</Avatar>}
                                     titleColor={styles.cardHeader.color}
                                     subtitleColor={styles.cardHeader.color}
@@ -52,7 +63,9 @@ var Blog = React.createClass({
                                     <img src={article.article.titlePicture.url}l/>
                                 </CardMedia>
                                 <CardText className="articleText">
-                                    {article.article.text.substr(0,300).replace(/!\[.+\]\(\/image.+\)/g,"")}...
+                                    <Remarkable options={remarkableOptions}>
+                                        {article.article.text.substr(0,300).replace(/!\[.+\]\(\/image.+\)/g,"")}...
+                                    </Remarkable>
                                 </CardText>
 
                             </Card>

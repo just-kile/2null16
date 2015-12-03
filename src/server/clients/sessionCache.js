@@ -6,11 +6,10 @@ var sessionCache = new NodeCache();
 var TIME = 7*24*60*60;//7 Days
 function save(session,ttl) {
     return new Promise(function (resolve, reject) {
-        console.log("save",session);
+        console.info("save",session);
         sessionCache.set(session.id, session,ttl || TIME, function (err, success) {
-            isValid("123").then(console.log)
-
             if (err) {
+                console.error(err);
                 return reject(err);
             }
             resolve(success);

@@ -1,13 +1,14 @@
 var config = require("../config/config"),
     Joi = require('joi'),
     aguid = require("aguid"),
-    bcrypt = require("bcrypt"),
+    sha256 = require("crypto-js/sha256"),
     Boom = require("boom"),
     sessionCache = require("./../clients/sessionCache"),
     mongoClient = require("../clients/mongoClient"),
     nodemailer = require("nodemailer"),
     smtpTransport = require('nodemailer-smtp-transport'),npm
     JWT = require("jsonwebtoken");
+
 var transporter = nodemailer.createTransport(smtpTransport({
     host: 'smtp.goneo.de',
     secure:true,
@@ -22,27 +23,23 @@ module.exports = function (req, reply) {
 
     mongoClient.findAccountByEmail(req.payload.email)
         .then(function (account) {
-            bcrypt.hash(""+(new Date().getTime()* Math.random()), 3, function(err, hash) {
+            var hash = sha256(new Date().getTime()* Math.random()).toString();
+            console.info(hash)
+            var session = {
+                id: hash, // a random session id,
+                account:account,
+                exp: new Date().getTime() + 30 * 60 * 1000 // expires in 30 minutes time
+            };
+
+            sessionCache.save(session,30*60);
+            sendEmail(req.payload.email,hash,function(err){
                 if(err){
                     console.error(err);
                     return reply(Boom.badImplementation());
                 }
-                var session = {
-                    id: hash, // a random session id,
-                    account:account,
-                    exp: new Date().getTime() + 30 * 60 * 1000 // expires in 30 minutes time
-                };
-
-                sessionCache.save(session,30*60);
-                sendEmail(req.payload.email,hash,function(err){
-                    if(err){
-                        console.error(err);
-                        return reply(Boom.badImplementation());
-                    }
-                    reply({}).code(201);
-                });
-
+                reply({}).code(201);
             });
+
 
         })
     .catch(function(){

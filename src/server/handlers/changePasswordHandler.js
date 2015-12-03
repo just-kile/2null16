@@ -14,7 +14,7 @@ module.exports = function (req, reply) {
     sessionCache.isValid(req.params.resetToken)
         .then(function(session){
             return new promise(function(resolve,reject){
-                bcrypt.hash(req.payload.pass, 2, function(err, hash) {
+                bcrypt.hash(req.payload.pass, 10, function(err, hash) {
                     if(err){
                         return reject(err);
                     }

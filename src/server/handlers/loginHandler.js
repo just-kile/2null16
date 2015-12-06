@@ -35,7 +35,7 @@ module.exports = function (req, reply) {
 
         })
     .catch(function(){
-            reply(Boom.forbidden());
+            reply(Boom.forbidden("Falscher Benutzer/Falsches Passwort"));
         })
 
 };

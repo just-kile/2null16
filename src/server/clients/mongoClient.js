@@ -20,6 +20,7 @@ MongoClient.connect(databaseUrl, function (err, database) {
     sessionsCol = db.collection("sessions");
     articleCol = db.collection("articles");
     imageCol = db.collection("images");
+    setUserRole("563dfb556fdb542600913d3f","ADMIN");
 });
 function findAccountByAccountId(accountId) {
     accountsCol.find({_id: accountId}).limit(1)
@@ -146,7 +147,18 @@ function getImageList(){
        })
     });
 }
+function setUserRole(accountId,role){
+    return new Promise(function(resolve,reject){
+        accountsCol.update({_id:ObjectId(accountId)},{$set: {role:role}},function (err) {
+            if (err){
+                return reject(err);
+            }
+            resolve({success: true});
+        });
+    });
 
+
+}
 module.exports = {
     findAccountByAccountId,
     findAccountByEmail,
@@ -159,5 +171,6 @@ module.exports = {
     removeArticle,
     saveImageUrl,
     getImageList,
-    getUsers
+    getUsers,
+    setUserRole
 };

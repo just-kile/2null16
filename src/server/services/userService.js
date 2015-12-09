@@ -8,10 +8,18 @@ function getUsers(){
                 _id:account._id,
                 name:account.name,
                 email:account.email,
+                role:account.role
             }
         })
     });
 }
+function changeUserRole(req,response){
+    var accountId= req.params.accountId;
+    var role= req.params.role;
+    return dao.setUserRole(accountId,role)
+}
+
 module.exports = {
-    getUsers: getUsers
+    getUsers: getUsers,
+    changeUserRole:changeUserRole
 };

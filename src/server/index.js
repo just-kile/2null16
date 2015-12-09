@@ -22,7 +22,8 @@ server.register([
         {register: require('hapi-auth-jwt2')},
         require('hapi-auth-basic'),
         require('vision'),
-        require('inert')
+        require('inert'),
+        {register: require('hapi-authorization'),options: {roles: ['ADMIN', 'USER']}}
     ],
     function (err) {
         if (err) throw err;
@@ -114,7 +115,10 @@ server.register([
         server.route({
             method: 'POST',
             path: '/api/articles',
-            handler: renderJsonHandler(articleService.create)
+            handler: renderJsonHandler(articleService.create),
+            config:{
+                plugins: {'hapiAuthorization': {role: 'ADMIN'}}
+            }
         });
         server.route({
             method: 'GET',
@@ -129,7 +133,18 @@ server.register([
         server.route({
             method: 'GET',
             path: '/api/users',
-            handler: renderJsonHandler({users:userService.getUsers})
+            handler: renderJsonHandler({users:userService.getUsers}),
+            config:{
+                plugins: {'hapiAuthorization': {role: 'ADMIN'}}
+            }
+        });
+        server.route({
+            method: 'PUT',
+            path: '/api/users/{accountId}/{role}',
+            handler: renderJsonHandler(userService.changeUserRole),
+            config:{
+                plugins: {'hapiAuthorization': {role: 'ADMIN'}}
+            }
         });
 
         server.route({
@@ -137,6 +152,7 @@ server.register([
             path: '/api/articles/publish/{articleId}/{type}',
             handler: renderJsonHandler(articleService.toggle),
             config:{
+                plugins: {'hapiAuthorization': {role: 'ADMIN'}},
                 validate:{
                     params:{
                         articleId:joi.string(),
@@ -152,6 +168,8 @@ server.register([
             handler: renderJsonHandler({users:articleService.save}),
             config:{
               //  auth:"simple",
+
+                plugins: {'hapiAuthorization': {role: 'ADMIN'}},
                 validate:{
                     payload:{
                         article:joi.object().required(),
@@ -167,6 +185,8 @@ server.register([
            method:"POST",
             path:"/images",
             config:{
+                plugins: {'hapiAuthorization': {role: 'ADMIN'}},
+
                 payload: {
                     output: 'stream',
                     parse: true,
@@ -178,6 +198,9 @@ server.register([
         server.route({
             method: 'GET',
             path: '/api/images',
+            config:{
+                plugins: {'hapiAuthorization': {role: 'ADMIN'}}
+            },
             handler: renderJsonHandler({images:imageService.list})
         });
         server.route({
@@ -198,14 +221,14 @@ server.register([
                 return {}
             }, "index"),
             config: {auth: "simple"}
-            //config: {auth: false}
+          //  config: {auth: false}
         });
         server.route({
             method: 'GET',
             path: '/reset/{resetToken}',
             handler: renderViewHandler(resetPassService.getEmailByResetToken, "index"),
-            config: {auth: "simple"}
-            //config: {auth: false}
+            //config: {auth: "simple"}
+            config: {auth: false}
         });
 
         server.route({
@@ -222,12 +245,18 @@ server.register([
         server.route({
             method: 'GET',
             path: '/admin',
-            handler: renderViewHandler({users:userService.getUsers,articles:articleService.listAll}, "index")
+            handler: renderViewHandler({users:userService.getUsers,articles:articleService.listAll}, "index"),
+            config:{
+                plugins: {'hapiAuthorization': {role: 'ADMIN'}}
+            }
         });
         server.route({
             method: 'GET',
             path: '/admin/edit/{articleId}',
-            handler: renderViewHandler({article:articleService.get,images:imageService.list}, "index")
+            handler: renderViewHandler({article:articleService.get,images:imageService.list}, "index"),
+            config:{
+                plugins: {'hapiAuthorization': {role: 'ADMIN'}}
+            }
         });
 
 

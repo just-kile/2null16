@@ -9,6 +9,9 @@ var {Tab, Tabs } = require('material-ui');
 var ThemeManager = require('material-ui/lib/styles/theme-manager');
 var ajaxService = require("./../services/ajaxService.jsx");
 var MyRawTheme = require('./../theme');
+var {activateAjax} = require("./../actions/actions.jsx");
+var { connect } =require('react-redux');
+
 var Login = React.createClass({
     childContextTypes : {
         muiTheme: React.PropTypes.object
@@ -28,6 +31,11 @@ var Login = React.createClass({
     },
     register(e){
         e.preventDefault();
+        const {dispatch} = this.props;
+        if(!this.props.activateAjax){
+            dispatch(activateAjax());
+        }
+
         ajaxService.register(this.state,()=>
                 this.props.history.pushState(null,'/blog')
 
@@ -48,6 +56,10 @@ var Login = React.createClass({
     },
     login(e){
         e.preventDefault();
+        const {dispatch} = this.props;
+        if(!this.props.activateAjax){
+            dispatch(activateAjax());
+        }
         ajaxService.login(this.state.email,this.state.pass,()=>
                 this.props.history.pushState(null,'/blog')
 
@@ -105,3 +117,9 @@ var Login = React.createClass({
 
 
 module.exports = Login;
+
+module.exports = connect(function(state){
+    return {
+        activateAjax: state.activateAjax
+    };
+})(Login);

@@ -1,7 +1,7 @@
 var React = require("react");
 var Router = require('react-router');
 var Link = Router.Link;
-var {getJSON,toggleArticle,createArticle} = require("../services/ajaxService.jsx");
+var {getJSON,toggleArticle,toggleUserRole,createArticle} = require("../services/ajaxService.jsx");
 var { connect } =require('react-redux');
 var {getUsersStart,getUsers,activateAjax} = require("./../actions/actions.jsx");
 var {RefreshIndicator,List,ListDivider,ListItem,Avatar,Toggle,IconButton,FlatButton} = require("material-ui");
@@ -14,6 +14,7 @@ var TableHeaderColumn = require('material-ui/lib/table/table-header-column');
 var TableRow = require('material-ui/lib/table/table-row');
 var TableRowColumn = require('material-ui/lib/table/table-row-column');
 var {receivedArticleList,receiveArticleListStart} = require("./../actions/actions.jsx");
+var Toggle = require('material-ui/lib/toggle');
 
 var Article = React.createClass({
     componentDidMount(){
@@ -35,6 +36,9 @@ var Article = React.createClass({
       console.log(event,checked);
         toggleArticle(articleId,checked)
     },
+    handleAdmin(accountId,event,checked){
+      toggleUserRole(accountId,checked?"ADMIN" :"USER");
+    },
     createNewArticle(){
         createArticle(function(result){
             var id = _.get(result,"result.upserted[0]._id");
@@ -52,7 +56,7 @@ var Article = React.createClass({
             <div>
             <div className="articles">
                 <Table selectable={false}>
-                    <TableHeader><TableRow><TableHeaderColumn>Name</TableHeaderColumn><TableHeaderColumn>Email</TableHeaderColumn></TableRow></TableHeader>
+                    <TableHeader><TableRow><TableHeaderColumn>Name</TableHeaderColumn><TableHeaderColumn>Email</TableHeaderColumn><TableHeaderColumn>Is Admin</TableHeaderColumn></TableRow></TableHeader>
                     <TableBody style={styles.list}>
                     {
                         this.props.users.map(function (user,index) {
@@ -60,8 +64,9 @@ var Article = React.createClass({
                             <TableRow styles={styles.listItem} key={user._id}>
                                 <TableRowColumn styles={styles.listItem}>{user.name}</TableRowColumn>
                                 <TableRowColumn styles={styles.listItem}>{user.email}</TableRowColumn>
+                                <TableRowColumn styles={styles.listItem}><Toggle defaultToggled={user.role==="ADMIN"} onToggle={this.handleAdmin.bind(this,user._id)}/></TableRowColumn>
                             </TableRow>)
-                        })
+                        }.bind(this))
                     }
                     </TableBody>
                 </Table>
@@ -97,7 +102,7 @@ const styles = {
     },
     listItem:{
         textColor:"black",
-        backgroundColor:"#000000"
+        backgroundColor:"#999"
     }
 }
 

@@ -22,6 +22,7 @@ module.exports = function (req, reply) {
                 var session = {
                     valid: true, // this will be set to false when the person logs out
                     id: account._id.toString(), // a random session id
+                    role:account.role || "USER",
                     exp: new Date().getTime() + 30 * 60 * 1000 // expires in 30 minutes time
                 };
 

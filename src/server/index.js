@@ -46,7 +46,7 @@ server.register([
             });
 
         server.auth.default('jwt');
-       // server.auth.strategy('simple', 'basic', { validateFunc: require("./auth/basicAuthHandler").validate });
+        server.auth.strategy('simple', 'basic', { validateFunc: require("./auth/basicAuthHandler").validate });
         //public assets
         server.route({
             method: 'GET',
@@ -220,8 +220,8 @@ server.register([
             handler: renderViewHandler(function () {
                 return {}
             }, "index"),
-            config: {auth: "simple"}
-          //  config: {auth: false}
+           // config: {auth: "simple"}
+            config: {auth: false}
         });
         server.route({
             method: 'GET',

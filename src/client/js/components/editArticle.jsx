@@ -23,10 +23,22 @@ var Remarkable = require("react-remarkable");
 var ArticleView = require("./articleView.jsx");
 var _ = require("lodash");
 var Dropzone = require('react-dropzone');
+function saveEvent(){
+    document.addEventListener("keydown", keyDownTextField, false);
 
+    function keyDownTextField(e) {
+        var keyCode = e.keyCode;
+        if(keyCode==13) {
+            alert("You hit the enter key.");
+        } else {
+            alert("Oh no you didn't.");
+        }
+    }
+}
 
 var Dashboard = React.createClass({
     componentDidMount(){
+        document.addEventListener("keypress", this.handleGlobalSave, false);
         const {dispatch} = this.props;
         if(!this.props.activateAjax){
             dispatch(activateAjax());
@@ -40,6 +52,19 @@ var Dashboard = React.createClass({
         getJSON("/api/images").then(function(images){
             dispatch(getImages(images));
         });
+
+
+    },
+    componentWillUnmount(){
+        document.removeEventListener("keypress", this.handleGlobalSave, false);
+    },
+    handleGlobalSave(e){
+
+        var keyCode = e.keyCode;
+        if(keyCode==19 && e.ctrlKey) {
+            e.preventDefault()
+            this.handleSave()
+        }
     },
     handleTextfieldChange(property,event){
         var {dispatch} = this.props;

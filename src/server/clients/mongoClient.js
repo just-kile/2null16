@@ -83,6 +83,14 @@ function listArticles(allArticles) {
     });
 }
 function removeArticle(id) {
+    return new Promise(function (resolve, reject) {
+        articleCol.deleteOne({_id:new ObjectId(id)},function(err,result){
+            if (err){
+                return reject(err);
+            }
+            resolve(result);
+        });
+    });
 
 }
 

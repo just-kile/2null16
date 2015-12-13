@@ -125,6 +125,14 @@ server.register([
             path: '/api/articles/{articleId}',
             handler: renderJsonHandler({article:articleService.get})
         });
+        server.route({
+            method: 'DELETE',
+            path: '/api/articles/{articleId}',
+            handler: renderJsonHandler(articleService.remove),
+            config:{
+                plugins: {'hapiAuthorization': {role: 'ADMIN'}}
+            }
+        });
         //server.route({
         //    method: 'GET',
         //    path: '/api/articles/create',

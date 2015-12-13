@@ -1,7 +1,7 @@
 var React = require("react");
 var Router = require('react-router');
 var Link = Router.Link;
-var {getJSON,toggleArticle,toggleUserRole,createArticle} = require("../services/ajaxService.jsx");
+var {getJSON,toggleArticle,toggleUserRole,createArticle,deleteArticle} = require("../services/ajaxService.jsx");
 var { connect } =require('react-redux');
 var {getUsersStart,getUsers,activateAjax} = require("./../actions/actions.jsx");
 var {RefreshIndicator,List,ListDivider,ListItem,Avatar,Toggle,IconButton,FlatButton} = require("material-ui");
@@ -46,6 +46,15 @@ var Article = React.createClass({
         }.bind(this))
 
     },
+    deleteArticle(id){
+        deleteArticle(id,function(){
+            var {dispatch} = this.props;
+            dispatch(receiveArticleListStart());
+            getJSON("/api/articles?allArticles=true").then(function(articles){
+                dispatch(receivedArticleList(articles));
+            });
+        }.bind(this));
+    },
     render () {
         const {users,articles} = this.props;
         if(!users || !articles){
@@ -85,7 +94,10 @@ var Article = React.createClass({
                             rightToggle={<Toggle defaultToggled={article.meta.active} onToggle={this.handleToggle.bind(this,article._id)} />}
                             secondaryText={
                               <p>
-                                <Link to={"/admin/edit/"+article._id}><IconButton iconClassName="material-icons" tooltip="Edit">edit</IconButton></Link>
+                                <Link to={"/admin/edit/"+article._id}>
+                                    <IconButton iconClassName="material-icons" tooltip="Edit">edit</IconButton>
+                                </Link>
+                                <IconButton iconClassName="material-icons" tooltip="Delete" onClick={this.deleteArticle.bind(this,article._id)}>delete</IconButton>
                               </p>
                             }
                             secondaryTextLines={2} />)

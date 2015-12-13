@@ -136,6 +136,17 @@ function toggleUserRole(accountId,role,success,error){
             }
         });
 }
+function deleteArticle(id,success,error){
+    request
+        .delete("/api/articles/"+id)
+        .end(function(err,res){
+            if (res && res.ok) {
+                success &&  success(res.body);
+            } else {
+                error && error(res.text);
+            }
+        });
+}
 module.exports.getJSON = getJSON;
 module.exports.register = register;
 module.exports.login = login;
@@ -144,5 +155,6 @@ module.exports.changePass = changePass;
 module.exports.saveArticle = saveArticle;
 module.exports.toggleArticle = toggleArticle;
 module.exports.createArticle = createArticle;
+module.exports.deleteArticle = deleteArticle;
 module.exports.uploadImage = uploadImage;
 module.exports.toggleUserRole = toggleUserRole;

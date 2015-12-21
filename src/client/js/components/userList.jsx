@@ -32,6 +32,11 @@ var Article = React.createClass({
             dispatch(receivedArticleList(articles));
         });
     },
+    componentWillUnmount(){
+        const {dispatch} = this.props;
+        dispatch(getUsersStart());
+        dispatch(receiveArticleListStart());
+    },
     handleToggle(articleId,event,checked){
       console.log(event,checked);
         toggleArticle(articleId,checked)

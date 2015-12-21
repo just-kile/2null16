@@ -57,6 +57,10 @@ var Dashboard = React.createClass({
     },
     componentWillUnmount(){
         document.removeEventListener("keypress", this.handleGlobalSave, false);
+        const {dispatch} = this.props;
+        dispatch(receiveArticleStart());
+        dispatch(getImagesStart());
+
     },
     handleGlobalSave(e){
 

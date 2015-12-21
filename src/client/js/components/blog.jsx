@@ -13,6 +13,7 @@ var {Card,CardHeader,
     RefreshIndicator} = require("material-ui");
 var { connect } =require('react-redux');
 var {Link} = require("react-router");
+var ImgPreload = require("./imgpreload.jsx");
 var moment = require("moment");
 var Remarkable = require("react-remarkable");
 var remarkableOptions = {
@@ -40,6 +41,10 @@ var Blog = React.createClass({
             dispatch(receivedArticleList(articles));
         });
     },
+    componentWillUnmount(){
+        const {dispatch} = this.props;
+        dispatch(receiveArticleListStart());
+    },
     render () {
         const {articles} = this.props;
         if(!articles){
@@ -60,7 +65,7 @@ var Blog = React.createClass({
                                     subtitleColor={styles.cardHeader.color}
                                     />
                                 <CardMedia overlay={<CardTitle title={article.article.title} subtitle={article.article.subtitle}/>}>
-                                    <img src={article.article.titlePicture.url}l/>
+                                    <ImgPreload image={article.article.titlePicture}/>
                                 </CardMedia>
                                 <CardText className="articleText">
                                     <Remarkable options={remarkableOptions}>

@@ -34,6 +34,10 @@ var Article = React.createClass({
           dispatch(receivedArticle(article));
       });
     },
+    componentWillUnmount(){
+        const {dispatch} = this.props;
+        dispatch(receiveArticleStart());
+    },
     render () {
         const { article } = this.props;
         if(!article){

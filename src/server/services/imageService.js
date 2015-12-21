@@ -1,6 +1,7 @@
 var promise = require("bluebird");
 var fs = require("fs");
 var mongoClient = require("./../clients/mongoClient");
+var gm = require("gm");
 module.exports.list = function(){
  return mongoClient.getImageList();
 };
@@ -28,16 +29,26 @@ module.exports.upload = function(request){
                     console.error(err);
                     reject(err);
                 }
-                mongoClient.saveImageUrl({
-                    url:"/images/"+fileName,
-                    title:data.image.hapi.filename
-                }).then(function(){
-                    var ret = {
-                        filename: fileName,
-                        headers: data.image.hapi.headers
-                    };
-                    resolve(ret);
-                });
+                gm(path)
+                    .blur(30, 20)
+                    .scale(40)
+                    .type("Optimize")
+                    .autoOrient()
+                    .toBuffer('JPEG',function (err, buffer) {
+                        if (err) return reject(err);
+                        mongoClient.saveImageUrl({
+                            url:"/images/"+fileName,
+                            title:data.image.hapi.filename,
+                            preview:"data:image/jpeg;base64,"+buffer.toString("base64")
+                        }).then(function(){
+                            var ret = {
+                                filename: fileName,
+                                headers: data.image.hapi.headers
+                            };
+                            resolve(ret);
+                        });
+                    });
+
 
             });
         }

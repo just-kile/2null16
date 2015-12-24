@@ -14,6 +14,7 @@ var {Card,CardHeader,
 var { connect } =require('react-redux');
 var {Link} = require("react-router");
 var ImgPreload = require("./imgpreload.jsx");
+var SideBar = require("./sidebar.jsx");
 var moment = require("moment");
 var Remarkable = require("react-remarkable");
 var remarkableOptions = {
@@ -69,7 +70,7 @@ var Blog = React.createClass({
                                 </CardMedia>
                                 <CardText className="articleText">
                                     <Remarkable options={remarkableOptions}>
-                                        {article.article.text.substr(0,300).replace(/!\[.+\]\(\/image.+\)/g,"")}...
+                                        {article.article.text.substr(0,300).replace(/!\[.+\]\(\/image.+\)/g,"")+"..."}
                                     </Remarkable>
                                 </CardText>
 
@@ -82,13 +83,7 @@ var Blog = React.createClass({
 
             </div>
                 <div className="sidebar">
-                        <ListItem style={styles.sidebarItem}>
-                            <Card style={styles.card}>
-                                <CardMedia overlay={<CardTitle title="Zimmmerbelegung bald verfügbar!" />}>
-                                    <img src="http://lorempixel.com/600/337/nature/"/>
-                                </CardMedia>
-                            </Card>
-                        </ListItem>
+                    <SideBar />
 
                 </div>
             </div>
@@ -101,9 +96,6 @@ var styles = {
     },
     cardHeader: {
         color:"rgba(255,255,255,0.6)"
-    },
-    sidebarItem:{
-        backgroundColor:"#000"
     }
 
 };

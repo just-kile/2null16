@@ -34,6 +34,10 @@ var App = React.createClass({
                 <article>
                     {this.props.children}
                 </article>
+                <footer>
+                    <hr />
+                    <div>© 2016 - 2null16.de</div>
+                </footer>
             </div>
         );
     }

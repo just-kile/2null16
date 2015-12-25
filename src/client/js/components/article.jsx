@@ -8,6 +8,7 @@ var {RefreshIndicator} = require("material-ui");
 var {CardHeader,Avatar,Card,CardText,CardMedia,CardTitle} = require("material-ui");
 var Remarkable = require("react-remarkable");
 var ArticleView = require("./articleView.jsx");
+var Comments = require("./comments.jsx");
 var remarkableOptions = {
     linkify:true,
     html:true,
@@ -46,6 +47,7 @@ var Article = React.createClass({
         return (
             <div className="n16-article">
                 <ArticleView article={this.props.article} />
+                <Comments />
             </div>
         );
     }

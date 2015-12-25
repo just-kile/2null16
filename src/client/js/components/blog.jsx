@@ -8,6 +8,7 @@ var {Card,CardHeader,
     CardText,
     Avatar,
     List,
+    IconButton,
     ListItem,
     CardTitle,
     RefreshIndicator} = require("material-ui");
@@ -68,10 +69,9 @@ var Blog = React.createClass({
                                 <CardMedia overlay={<CardTitle title={article.article.title} subtitle={article.article.subtitle}/>}>
                                     <ImgPreload image={article.article.titlePicture}/>
                                 </CardMedia>
-                                <CardText className="articleText">
-                                    <Remarkable options={remarkableOptions}>
-                                        {article.article.text.substr(0,300).replace(/!\[.+\]\(\/image.+\)/g,"")+"..."}
-                                    </Remarkable>
+                                <CardText style={styles.comments}>
+                                    <span className="material-icons" style={styles.commentsIcon}>chat_bubble_outline </span>
+                                    <span style={styles.commentsText}>3 Kommentare</span>
                                 </CardText>
 
                             </Card>
@@ -96,6 +96,18 @@ var styles = {
     },
     cardHeader: {
         color:"rgba(255,255,255,0.6)"
+    },
+    comments:{
+        textAlign:"right",
+        paddingBottom:"0"
+    },
+    commentsIcon:{
+        fontSize:"14px",
+        marginRight:"5px",
+        verticalAlign:"middle"
+    },
+    commentsText:{
+        verticalAlign:"middle"
     }
 
 };

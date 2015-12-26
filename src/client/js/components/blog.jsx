@@ -42,6 +42,7 @@ var Blog = React.createClass({
         getJSON("/api/articles").then(function(articles){
             dispatch(receivedArticleList(articles));
         });
+        window.scrollTo(0,0);
     },
     componentWillUnmount(){
         const {dispatch} = this.props;

@@ -34,6 +34,7 @@ var Article = React.createClass({
       getJSON("/api/articles/"+this.props.params.articleId).then(function(article){
           dispatch(receivedArticle(article));
       });
+      window.scrollTo(0,0)
     },
     componentWillUnmount(){
         const {dispatch} = this.props;

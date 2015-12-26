@@ -71,7 +71,7 @@ var Blog = React.createClass({
                                 </CardMedia>
                                 <CardText style={styles.comments}>
                                     <span className="material-icons" style={styles.commentsIcon}>chat_bubble_outline </span>
-                                    <span style={styles.commentsText}>3 Kommentare</span>
+                                    <span style={styles.commentsText}>{article.meta.comments?article.meta.comments.length:"Kein"} Kommentar{(article.meta.comments && article.meta.comments.length>1)?"e":""}</span>
                                 </CardText>
 
                             </Card>

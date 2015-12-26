@@ -47,7 +47,7 @@ var Article = React.createClass({
         return (
             <div className="n16-article">
                 <ArticleView article={this.props.article} />
-                <Comments />
+                <Comments article={this.props.article}/>
             </div>
         );
     }

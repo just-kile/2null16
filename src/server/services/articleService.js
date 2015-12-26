@@ -17,14 +17,20 @@ function createArticle(){
     var article = articleJson.rawArticle();
     return dao.saveArticle(article._id,article);
 }
+function removeComments(articles){
+        return articles.map(function(article){
+            article.meta.comments = article.meta.comments?new Array(article.meta.comments.length):0;
+            return article;
+        });
+}
 function listArticles(request){
     var allArticles = !!request.query.allArticles;
-    return  dao.listArticles(allArticles)
+    return  dao.listArticles(allArticles).then(removeComments)
 
 }
 
 function listAllArticles(){
-    return  dao.listArticles(true)
+    return  dao.listArticles(true).then(removeComments)
 
 }
 

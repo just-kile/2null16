@@ -12,6 +12,7 @@ var renderViewHandler = require("./handlers/renderViewHandler"),
     articleService = require("./services/articleService"),
     imageService = require("./services/imageService"),
     userService = require("./services/userService"),
+    commentsService = require("./services/commentsService"),
     resetPassService = require("./services/resetPassService");
 
 var server = new Hapi.Server();
@@ -23,7 +24,7 @@ server.register([
         require('hapi-auth-basic'),
         require('vision'),
         require('inert'),
-        {register: require('hapi-authorization'),options: {roles: ['ADMIN', 'USER']}}
+       {register: require('hapi-authorization'),options: {roles: ['ADMIN', 'USER']}}
     ],
     function (err) {
         if (err) throw err;
@@ -46,7 +47,7 @@ server.register([
             });
 
         server.auth.default('jwt');
-        server.auth.strategy('simple', 'basic', { validateFunc: require("./auth/basicAuthHandler").validate });
+        //server.auth.strategy('simple', 'basic', { validateFunc: require("./auth/basicAuthHandler").validate });
         //public assets
         server.route({
             method: 'GET',
@@ -70,7 +71,6 @@ server.register([
             }
 
         });
-
         server.route({
             method: ['POST'],
             path: '/login',
@@ -125,6 +125,19 @@ server.register([
             path: '/api/articles/{articleId}',
             handler: renderJsonHandler({article:articleService.get})
         });
+        server.route({
+            method: 'PUT',
+            path: '/api/articles/{articleId}/comment',
+            handler: renderJsonHandler(commentsService.addComment),
+            config:{
+                validate:{
+                    payload:{
+                        comment:joi.string()
+                    }
+                }
+            }
+        });
+
         server.route({
             method: 'DELETE',
             path: '/api/articles/{articleId}',

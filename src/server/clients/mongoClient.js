@@ -167,6 +167,29 @@ function setUserRole(accountId,role){
 
 
 }
+
+function addComment(articleId,userId,comment){
+    return new Promise(function(resolve,reject){
+        accountsCol.find({_id:ObjectId(userId)}).limit(1).toArray(function (err,data) {
+            if (err){
+                return reject(err);
+            }
+            var account = data[0];
+            var commentData = {
+                userName:account.name,
+                createdAt:new Date(),
+                comment:comment
+            };
+            articleCol.update({_id:ObjectId(articleId)},{$push:{"meta.comments":commentData}},function(err){
+                if (err){
+                    return reject(err);
+                }
+                resolve(commentData);
+            });
+
+        });
+    });
+}
 module.exports = {
     findAccountByAccountId,
     findAccountByEmail,
@@ -180,5 +203,6 @@ module.exports = {
     saveImageUrl,
     getImageList,
     getUsers,
-    setUserRole
+    setUserRole,
+    addComment
 };

@@ -23,6 +23,9 @@ var Remarkable = require("react-remarkable");
 var ArticleView = require("./articleView.jsx");
 var _ = require("lodash");
 var Dropzone = require('react-dropzone');
+var KEYS = {
+    s:19
+}
 function saveEvent(){
     document.addEventListener("keydown", keyDownTextField, false);
 
@@ -65,8 +68,8 @@ var Dashboard = React.createClass({
     handleGlobalSave(e){
 
         var keyCode = e.keyCode;
-        if(keyCode==19 && e.ctrlKey) {
-            e.preventDefault()
+        if(keyCode==KEYS.s && e.ctrlKey) {
+            e.preventDefault();
             this.handleSave()
         }
     },

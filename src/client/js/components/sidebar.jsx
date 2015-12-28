@@ -20,7 +20,7 @@ var SideBar = React.createClass({
                 <List style={styles.list} subheader="Facts" subheaderStyle={styles.subheader}>
                     <ListItem leftIcon={<IconButton iconClassName="material-icons">{LIST_ICON}</IconButton>} style={styles.sidebarItem} primaryText="34 Plätze"/>
                     <ListItem leftIcon={<IconButton iconClassName="material-icons">{LIST_ICON}</IconButton>} style={styles.sidebarItem} primaryText="Turnhalle/Sauna/Schwimmhalle"/>
-                    <ListItem style={styles.sidebarItem} primaryText="PAs, Basshörner" leftIcon={<IconButton iconClassName="material-icons">{LIST_ICON}</IconButton>}/>
+                    <ListItem style={styles.sidebarItem} primaryText="PA mit Basshörnern" leftIcon={<IconButton iconClassName="material-icons">{LIST_ICON}</IconButton>}/>
                     <ListItem style={styles.sidebarItem} primaryText="Shitload an Beleuchtung" leftIcon={<IconButton iconClassName="material-icons">{LIST_ICON}</IconButton>}/>
                     <ListItem style={styles.sidebarItem} primaryText="The B.R.A" leftIcon={<IconButton iconClassName="material-icons">{LIST_ICON}</IconButton>}/>
                 </List>

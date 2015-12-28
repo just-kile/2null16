@@ -12,7 +12,7 @@ var SideBar = React.createClass({
                 <ListItem style={styles.sidebarItem} href="http://www.herrenhaus-luebbenow.de/index.php" target="_blank">
                     <Card style={styles.card}>
                         <CardMedia overlay={<CardTitle title="Das Herrenhaus in Lübbenow" />}>
-                            <img src="//2null16.de/images/image_1450971564234.jpg"/>
+                            <img src="/assets/public/herrenhaus.jpg"/>
                         </CardMedia>
                     </Card>
 

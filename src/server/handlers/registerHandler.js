@@ -43,5 +43,8 @@ module.exports.validation = {
         email: Joi.string().email().required(),
         password: Joi.string().required(),
         location: Joi.string().valid("herrenhaus").valid("lübbenow").insensitive().required()
+    },
+    failAction:function(request, reply){
+        reply({message:"Bitte überprüfe deine Eingaben"}).code(400);
     }
 };

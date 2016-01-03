@@ -100,6 +100,9 @@ function findAccountByEmail(email) {
             if (err){
                 return reject(err);
             }
+            if(accounts.length===0){
+                return reject();
+            }
             resolve(accounts[0]);
         });
     });

@@ -25,7 +25,7 @@ module.exports = function (req, reply) {
                 })
             })
 
-        }).then(function(account){
+        }).then(function(){
             reply().code(201);
         })
 

@@ -28,8 +28,8 @@ module.exports = function (req, reply) {
 
             })
             .catch(function (err) {
-                console.error(err);
-                reply(err).code(400);
+                console.error("error",err);
+                reply().code(400);
             });
     });
 

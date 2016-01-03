@@ -26,18 +26,24 @@ function findAccountByAccountId(accountId) {
     accountsCol.find({_id: accountId}).limit(1)
 }
 function createAccount(credentials) {
-   return findAccountByEmail(credentials.email).then(function (account) {
-        return new Promise(function (resolve, reject) {
-            if(account){
-                return reject({message:"Account exists!"});
-            }
-            accountsCol.insert(credentials, function (err,resultAccount) {
-                if (err){return reject(err);}
-                resolve(resultAccount.ops[0]);
+   return findAccountByEmail(credentials.email)
+       .then(function(){
+           throw new Error("Account exists!");
+       })
+       .catch(function (err) {
+           if(err){
+               throw err;
+           }
+            return new Promise(function (resolve, reject) {
+                accountsCol.insert(credentials, function (err,resultAccount) {
+                    if (err){return reject(err);}
+                    resolve(resultAccount.ops[0]);
 
+                });
             });
-        });
     })
+
+
 }
 function getArticleWithId(id) {
     return new Promise(function (resolve, reject) {

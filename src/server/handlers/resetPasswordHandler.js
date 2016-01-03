@@ -2,6 +2,7 @@ var config = require("../config/config"),
     Joi = require('joi'),
     aguid = require("aguid"),
     sha256 = require("crypto-js/sha256"),
+    enc = require("crypto-js").enc,
     Boom = require("boom"),
     sessionCache = require("./../clients/sessionCache"),
     mongoClient = require("../clients/mongoClient"),
@@ -23,8 +24,7 @@ module.exports = function (req, reply) {
 
     mongoClient.findAccountByEmail(req.payload.email)
         .then(function (account) {
-            var hash = sha256(new Date().getTime()* Math.random()).toString();
-            console.info(hash)
+            var hash = sha256((new Date().getTime()* Math.random()).toString()).toString(enc.UTF8);
             var session = {
                 id: hash, // a random session id,
                 account:account,

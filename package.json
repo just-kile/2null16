@@ -22,6 +22,7 @@
     "confidence": "^1.4.2",
     "crypto-js": "^3.1.5",
     "del": "^2.0.2",
+    "escape-html": "^1.0.3",
     "gm": "^1.21.1",
     "gulp": "^3.9.0",
     "gulp-autoprefixer": "^3.1.0",

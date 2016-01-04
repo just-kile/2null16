@@ -44,8 +44,7 @@ var Comments = React.createClass({
                            titleColor={styles.cardHeader.color}
                            subtitleColor={styles.cardHeader.color}
                            avatar={<Avatar>{val.userName.substring(0,1)}</Avatar>}/>
-                           <CardText>
-                            {val.comment}
+                           <CardText dangerouslySetInnerHTML={{__html:val.comment}}>
                            </CardText>
                        </Card>)
 

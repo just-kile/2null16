@@ -8,6 +8,8 @@ const {GET_ARTICLE,
     GET_ARTICLE_LIST_START,
     CHANGE_DASHBOARD_TEXTAREA,
     CHANGE_DASHBOARD_META,
+    GET_REGISTRATION_COUNT_START,
+    GET_REGISTRATION_COUNT,
     ACTIVATE_AJAX} = require("./actionTypes");
 
 
@@ -78,6 +80,17 @@ function changeDashboardMeta(val){
         meta:val
     }
 }
+function getRegistrationCount(val){
+    return {
+        type:GET_REGISTRATION_COUNT,
+        registrationCount:val
+    }
+}
+function getRegistrationCountStart(val){
+    return {
+        type:GET_REGISTRATION_COUNT_START
+    }
+}
 module.exports = {
     receivedArticle,
     receivedArticleList,
@@ -89,5 +102,7 @@ module.exports = {
     changeDashboardTextarea,
     changeDashboardMeta,
     getImagesStart,
-    getImages
+    getImages,
+    getRegistrationCount,
+    getRegistrationCountStart,
 }

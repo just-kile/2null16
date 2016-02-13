@@ -24,14 +24,40 @@ function getUserNames(){
         })
     });
 }
-function changeUserRole(req,response){
+function changeUserRole(req){
     var accountId= req.params.accountId;
     var role= req.params.role;
     return dao.setUserRole(accountId,role)
 }
-
+function getUser(request){
+    var userId = _.get(request.auth,"credentials.id");
+    return dao.getUser(userId)
+      .then(function(user){
+          return {
+              _id:user._id,
+              name:user.name,
+          }
+      });
+}
+function registerUser(request){
+    var userId = _.get(request.auth,"credentials.id");
+    var wholeWeek = request.payload.wholeWeek;
+    return dao.registerUser(userId,wholeWeek)
+      .then(function(user){
+          return {
+              name:user.name,
+              registration:user.registration
+          }
+      });
+}
+function getRegistrationCount(){
+    return dao.getRegistrationCount();
+}
 module.exports = {
-    getUsers: getUsers,
-    changeUserRole:changeUserRole,
-    getUserNames:getUserNames
+    getUsers,
+    changeUserRole,
+    getRegistrationCount,
+    getUserNames,
+    getUser,
+    registerUser
 };

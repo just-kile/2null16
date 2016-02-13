@@ -113,6 +113,11 @@ server.register([
             handler: renderJsonHandler({articles:articleService.list})
         });
         server.route({
+            method: 'GET',
+            path: '/api/registrationCount',
+            handler: renderJsonHandler({registrationCount:userService.getRegistrationCount})
+        });
+        server.route({
             method: 'POST',
             path: '/api/articles',
             handler: renderJsonHandler(articleService.create),
@@ -158,6 +163,11 @@ server.register([
             method: 'GET',
             path: '/api/user',
             handler: renderJsonHandler({users:userService.getUser}),
+        });
+        server.route({
+            method:"POST",
+            path:'/api/user/registerForEvent',
+            handler:renderJsonHandler({user:userService.registerUser})
         });
         /*server.route({
             method: 'GET',
@@ -261,7 +271,7 @@ server.register([
         server.route({
             method: 'GET',
             path: '/blog',
-            handler: renderViewHandler({articles:articleService.list}, "index")
+            handler: renderViewHandler({articles:articleService.list,registrationCount:userService.getRegistrationCount}, "index")
         });
         server.route({
             method: 'GET',

@@ -13,6 +13,8 @@ module.exports = function handleJsonRender(propertyHandler) {
         }
         promise.then(function (data) {
             reply(data);
-        }).catch(errorHandler(reply));
+        }).catch(function(error){
+            reply(error).code(400);
+        });
     }
 };

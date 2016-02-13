@@ -1,17 +1,17 @@
 var React = require("react");
-var {getJSON} = require("../services/ajaxService.jsx");
+var {getJSON,registerForEvent} = require("../services/ajaxService.jsx");
 var { connect } =require('react-redux');
-var {getUsersStart,getUsers,activateAjax} = require("./../actions/actions.jsx");
+var {getRegistrationCount,getRegistrationCountStart,activateAjax} = require("./../actions/actions.jsx");
 var {RefreshIndicator,RaisedButton,Dialog,Badge,Checkbox,List,ListItem,Avatar} = require("material-ui");
 var _ = require("lodash");
 var SLOT_SIZE = {
   SLOT_1: 34,
   SLOT_2: 40,
-  SLOT_3: 500
+  SLOT_3: Infinity
 };
 var RegisterDialog = React.createClass({
   getInitialState(){
-    return {open: false, user: null};
+    return {open: false, user: null,wholeWeek:true};
   },
   handleOpen()  {
     this.setState({open: true});
@@ -24,21 +24,26 @@ var RegisterDialog = React.createClass({
 
   },
   componentDidMount(){
-   /* const {dispatch} = this.props;
-    dispatch(getUsersStart());
-    getJSON("/api/users/names").then(function (users) {
-      dispatch(getUsers(users));
-    });*/
+    const {dispatch} = this.props;
+    dispatch(getRegistrationCountStart());
+    getJSON("/api/registrationCount").then(function (count) {
+      dispatch(getRegistrationCount(count.registrationCount));
+    });
   },
-  register(id){
-    /*        deleteArticle(id,function(){
-     var {dispatch} = this.props;
-     dispatch(receiveArticleListStart());
-     getJSON("/api/articles?allArticles=true").then(function(articles){
-     dispatch(receivedArticleList(articles));
-     });
-     }.bind(this));
-     */
+  register(){
+    registerForEvent(this.state.wholeWeek,function(){
+      this.handleClose();
+      const {dispatch} = this.props;
+      dispatch(getRegistrationCountStart());
+      getJSON("/api/registrationCount").then(function (count) {
+        dispatch(getRegistrationCount(count.registrationCount));
+      });
+    }.bind(this),function(error){
+      alert("Es ist ein Fehler aufgetreten: "+ error)
+    });
+  },
+  check(){
+    this.setState({wholeWeek:!this.state.wholeWeek});
   },
   render () {
     const actions = [
@@ -46,10 +51,10 @@ var RegisterDialog = React.createClass({
         label="Anmelden"
         primary={true}
         keyboardFocused={true}
-        onTouchTap={this.handleClose}
+        onTouchTap={this.register}
         />
     ];
-    const countOfRegistrations = 34;
+    const countOfRegistrations =this.props.registrationCount;
     const slot1 = Math.max(SLOT_SIZE.SLOT_1 - countOfRegistrations, 0);
     const slot2 = Math.max(SLOT_SIZE.SLOT_2 - countOfRegistrations, 0);
     const activeSlot = slot2 > 0 ? (slot1 > 0 ? "slot1" : "slot2") : "slot3";
@@ -69,6 +74,7 @@ var RegisterDialog = React.createClass({
           <Checkbox
             label="Ich bin mindestens 5 Tage dabei."
             defaultChecked={true}
+            onCheck={this.check}
             labelStyle={styles.checkbox}
             style={styles.checkboxMargin}
             />
@@ -153,6 +159,7 @@ const styles = {
 
 module.exports = connect(function (state) {
   return {
-    user:state.user
+    user:state.user,
+    registrationCount:state.registrationCount
   };
 })(RegisterDialog);

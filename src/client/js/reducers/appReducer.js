@@ -9,6 +9,8 @@ var GET_IMAGES_START = require("./../actions/actionTypes").GET_IMAGES_START;
 var ACTIVATE_AJAX = require("./../actions/actionTypes").ACTIVATE_AJAX;
 var CHANGE_DASHBOARD_TEXTAREA = require("./../actions/actionTypes").CHANGE_DASHBOARD_TEXTAREA;
 var CHANGE_DASHBOARD_META = require("./../actions/actionTypes").CHANGE_DASHBOARD_META;
+var GET_REGISTRATION_COUNT = require("./../actions/actionTypes").GET_REGISTRATION_COUNT;
+var GET_REGISTRATION_COUNT_START = require("./../actions/actionTypes").GET_REGISTRATION_COUNT_START;
 var _ = require("lodash");
 module.exports = function(state,action){
     switch(action.type){
@@ -59,6 +61,14 @@ module.exports = function(state,action){
                     meta:_.extend( {},state.article.meta,action.meta),
                     _id:state.article._id
                 }
+            });
+        case GET_REGISTRATION_COUNT:
+            return Object.assign({}, state, {
+                registrationCount:action.registrationCount
+            });
+        case GET_REGISTRATION_COUNT_START:
+            return Object.assign({}, state, {
+                registrationCount:state.registrationCount
             });
         default:
             return state;

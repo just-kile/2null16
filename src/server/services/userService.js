@@ -13,6 +13,17 @@ function getUsers(){
         })
     });
 }
+
+function getUserNames(){
+    return dao.getUsers().then(function(accounts){
+        return _.map(accounts,function(account){
+            return {
+                _id:account._id,
+                name:account.name
+            }
+        })
+    });
+}
 function changeUserRole(req,response){
     var accountId= req.params.accountId;
     var role= req.params.role;
@@ -21,5 +32,6 @@ function changeUserRole(req,response){
 
 module.exports = {
     getUsers: getUsers,
-    changeUserRole:changeUserRole
+    changeUserRole:changeUserRole,
+    getUserNames:getUserNames
 };

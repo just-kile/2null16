@@ -146,11 +146,6 @@ server.register([
                 plugins: {'hapiAuthorization': {role: 'ADMIN'}}
             }
         });
-        //server.route({
-        //    method: 'GET',
-        //    path: '/api/articles/create',
-        //    handler: renderJsonHandler({article:articleService.save})
-        //});
         server.route({
             method: 'GET',
             path: '/api/users',
@@ -159,6 +154,17 @@ server.register([
                 plugins: {'hapiAuthorization': {role: 'ADMIN'}}
             }
         });
+        server.route({
+            method: 'GET',
+            path: '/api/user',
+            handler: renderJsonHandler({users:userService.getUser}),
+        });
+        /*server.route({
+            method: 'GET',
+            path: '/api/users/names',
+            handler: renderJsonHandler({users:userService.getUserNames}),
+        });
+*/
         server.route({
             method: 'PUT',
             path: '/api/users/{accountId}/{role}',

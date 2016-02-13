@@ -4,7 +4,6 @@ var {getJSON} = require("../services/ajaxService.jsx");
 var {Card,CardHeader,
     CardMedia,
     CardActions,
-    FlatButton,
     CardText,
     Avatar,
     List,

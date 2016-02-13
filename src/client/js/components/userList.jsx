@@ -4,7 +4,7 @@ var Link = Router.Link;
 var {getJSON,toggleArticle,toggleUserRole,createArticle,deleteArticle} = require("../services/ajaxService.jsx");
 var { connect } =require('react-redux');
 var {getUsersStart,getUsers,activateAjax} = require("./../actions/actions.jsx");
-var {RefreshIndicator,List,ListDivider,ListItem,Avatar,Toggle,IconButton,FlatButton} = require("material-ui");
+var {RefreshIndicator,List,ListDivider,ListItem,Avatar,Toggle,IconButton,RaisedButton} = require("material-ui");
 var _ = require("lodash");
 var Table = require('material-ui/lib/table/table');
 var TableBody = require('material-ui/lib/table/table-body');
@@ -86,7 +86,7 @@ var Article = React.createClass({
                 </Table>
             </div>
             <div className="sidebar">
-                <FlatButton type="button" label="Artikel erstellen" primary={true} onClick={this.createNewArticle} />
+                <RaisedButton type="button" label="Artikel erstellen" primary={true} onClick={this.createNewArticle} />
                 <List subheader="Artikel verwalten">
                 {articles.map(function(article){
                     return (

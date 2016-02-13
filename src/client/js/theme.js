@@ -24,11 +24,11 @@ module.exports = {
         primary1Color: colorsStyleguide._roseCherry,
         primary2Color: colorsStyleguide._lipstick,
         primary3Color: Colors.lightBlack,
-        accent1Color: colorsStyleguide._ripeLemon,
+        accent1Color: colorsStyleguide._roseCherry,
         accent2Color: colorsStyleguide._bahia,
         accent3Color: Colors.grey500,
         textColor: Colors.fullWhite,
-        alternateTextColor: colorsStyleguide._lipstick,
+        alternateTextColor: colorsStyleguide._ripeLemon,
         canvasColor: Colors.white,
         borderColor: Colors.grey300,
         disabledColor: colorsStyleguide._mercury

@@ -4,7 +4,7 @@ var Link = Router.Link;
 var {getJSON,addComment} = require("../services/ajaxService.jsx");
 var { connect } =require('react-redux');
 var {RefreshIndicator} = require("material-ui");
-var {TextField,FlatButton,Avatar,Card,CardText,CardHeader,CardMedia,CardTitle} = require("material-ui");
+var {TextField,RaisedButton,Avatar,Card,CardText,CardHeader,CardMedia,CardTitle} = require("material-ui");
 var Remarkable = require("react-remarkable");
 var _ = require("lodash");
 var {changeDashboardMeta} = require("./../actions/actions.jsx");
@@ -56,7 +56,7 @@ var Comments = React.createClass({
                    fullWidth={true}
                    value={this.state.comment} onChange={this.handleCommentChange.bind(this,"comment")}
                    multiLine={true} />
-               <FlatButton label="Abschicken" primary={true} onClick={this.handleComment}/>
+               <RaisedButton label="Abschicken" primary={true} onClick={this.handleComment}/>
                ​
             </div>
         );

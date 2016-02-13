@@ -3,7 +3,7 @@ var Router = require('react-router');
 var Link = Router.Link;
 var {getJSON} = require("../services/ajaxService.jsx");
 var TextField = require("material-ui/lib/text-field");
-var FlatButton = require("material-ui/lib/flat-button");
+var RaisedButton = require("material-ui/lib/flat-button");
 var Snackbar = require('material-ui/lib/snackbar');
 var {Tab, Tabs } = require('material-ui');
 var ThemeManager = require('material-ui/lib/styles/theme-manager');
@@ -44,7 +44,7 @@ var Login = React.createClass({
                 <div className="register-form">
                             <form onSubmit= {this.changePass}>
                                 <div className="text-field"><TextField type="password" floatingLabelText="Passwort" value={this.state.pass} onChange={this.handleTextfieldChange.bind(this,"pass")}/></div>
-                                <div className="text-field"><FlatButton type="submit" label="Password ändern" primary={true} /></div>
+                                <div className="text-field"><RaisedButton type="submit" label="Password ändern" primary={true} /></div>
                             </form>
                 </div>
                 <Snackbar ref="snackbarSuccess" message="Erfolg" />

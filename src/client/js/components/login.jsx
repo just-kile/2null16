@@ -3,7 +3,7 @@ var Router = require('react-router');
 var Link = Router.Link;
 var {getJSON} = require("../services/ajaxService.jsx");
 var TextField = require("material-ui/lib/text-field");
-var FlatButton = require("material-ui/lib/flat-button");
+var RaisedButton = require("material-ui/lib/flat-button");
 var Snackbar = require('material-ui/lib/snackbar');
 var {Tab, Tabs } = require('material-ui');
 var ThemeManager = require('material-ui/lib/styles/theme-manager');
@@ -90,7 +90,7 @@ var Login = React.createClass({
                                 <div className="text-field"><TextField floatingLabelText="E-Mail" value={this.state.email} onChange={this.handleTextfieldChange.bind(this,"email")}/></div>
                                 <div className="text-field"><TextField type="password" floatingLabelText="Passwort" value={this.state.pass} onChange={this.handleTextfieldChange.bind(this,"pass")}/></div>
                                 <div className="text-field"><TextField floatingLabelText="Wo gehts hin?" value={this.state.location} onChange={this.handleTextfieldChange.bind(this,"location")}/></div>
-                                <div className="text-field"><FlatButton type="submit" label="Registrieren" primary={true} /></div>
+                                <div className="text-field"><RaisedButton type="submit" label="Registrieren" primary={true} /></div>
                             </form>
                         </Tab>
                         <Tab label="Login">
@@ -98,7 +98,7 @@ var Login = React.createClass({
                                 <div className="text-field"><TextField floatingLabelText="E-Mail" value={this.state.email} onChange={this.handleTextfieldChange.bind(this,"email")}/></div>
                                 <div className="text-field"><TextField type="password" floatingLabelText="Passwort" value={this.state.pass} onChange={this.handleTextfieldChange.bind(this,"pass")}/></div>
                                 <div className="text-field">
-                                    <FlatButton type="submit" label="Login" primary={true} />
+                                    <RaisedButton type="submit" label="Login" primary={true} />
                                     <a className="forgot-pass" onClick={this.forgotPassPhrase}>Passwort vergessen?</a>
                                 </div>
                             </form>

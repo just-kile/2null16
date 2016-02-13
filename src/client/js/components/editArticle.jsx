@@ -15,7 +15,7 @@ var {CardHeader,
     GridList,
     GridTile,
     IconButton,
-    FlatButton,
+    RaisedButton,
     RefreshIndicator,
     Snackbar,
     StarBorder} = require("material-ui");
@@ -157,9 +157,9 @@ var Dashboard = React.createClass({
                         <div>Text:</div>
                         <textarea ref="articleText" value={this.props.article.article.text} onChange={this.handleTextfieldChange.bind(this,"text")}/>
                     </label>
-                    <FlatButton type="button" label="Speichern" primary={true} onClick={this.handleSave}/>
-                    <FlatButton type="button" label="Preview" secondary={true} onClick={this.openPreview}/>
-                    <FlatButton type="button" label="Zurück Zur Übersicht" onClick={this.backToAdmin}/>
+                    <RaisedButton type="button" label="Speichern" primary={true} onClick={this.handleSave}/>
+                    <RaisedButton type="button" label="Preview" secondary={true} onClick={this.openPreview}/>
+                    <RaisedButton type="button" label="Zurück Zur Übersicht" onClick={this.backToAdmin}/>
                 </div>
 
                 <div className="admin-col preview">

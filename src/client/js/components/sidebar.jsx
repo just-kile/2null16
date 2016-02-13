@@ -2,6 +2,7 @@ var React = require("react");
 var Router = require('react-router');
 var Link = Router.Link;
 var {getJSON} = require("../services/ajaxService.jsx");
+var RegisterDialog = require("./registerDialog.jsx");
 var {CardHeader,Avatar,Card,CardText,CardMedia,CardTitle,ListItem,List,IconButton} = require("material-ui");
 var _ = require("lodash");
 var LIST_ICON = "done"
@@ -24,6 +25,9 @@ var SideBar = React.createClass({
                     <ListItem style={styles.sidebarItem} primaryText="Shitload an Beleuchtung" leftIcon={<IconButton iconClassName="material-icons">{LIST_ICON}</IconButton>}/>
                     <ListItem style={styles.sidebarItem} primaryText="The B.R.A" leftIcon={<IconButton iconClassName="material-icons">{LIST_ICON}</IconButton>}/>
                 </List>
+                <ListItem style={styles.sidebarItem}>
+                    <RegisterDialog />
+                </ListItem>
             </List>
         );
     }

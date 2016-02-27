@@ -4,6 +4,8 @@ var GET_ARTICLE_LIST = require("./../actions/actionTypes").GET_ARTICLE_LIST;
 var GET_ARTICLE_LIST_START = require("./../actions/actionTypes").GET_ARTICLE_LIST_START;
 var GET_USERS= require("./../actions/actionTypes").GET_USERS;
 var GET_USERS_START = require("./../actions/actionTypes").GET_USERS_START;
+var GET_USER= require("./../actions/actionTypes").GET_USER;
+var GET_USER_START = require("./../actions/actionTypes").GET_USER_START;
 var GET_IMAGES= require("./../actions/actionTypes").GET_IMAGES;
 var GET_IMAGES_START = require("./../actions/actionTypes").GET_IMAGES_START;
 var ACTIVATE_AJAX = require("./../actions/actionTypes").ACTIVATE_AJAX;
@@ -33,6 +35,12 @@ module.exports = function(state,action){
         case GET_USERS:
             return Object.assign({}, state, {
                 users: action.users.users
+            });
+        case GET_USER_START:
+            return state;
+        case GET_USER:
+            return Object.assign({}, state, {
+                user: action.user.user
             });
         case GET_IMAGES_START:
             return Object.assign({}, state, {

@@ -1,7 +1,7 @@
 var React = require("react");
 var {getJSON,registerForEvent} = require("../services/ajaxService.jsx");
 var { connect } =require('react-redux');
-var {getRegistrationCount,getRegistrationCountStart,activateAjax} = require("./../actions/actions.jsx");
+var {getRegistrationCount,getRegistrationCountStart,activateAjax,getUser,getUserStart} = require("./../actions/actions.jsx");
 var {RefreshIndicator,RaisedButton,Dialog,Badge,Checkbox,List,ListItem,Avatar} = require("material-ui");
 var _ = require("lodash");
 var SLOT_SIZE = {
@@ -29,6 +29,12 @@ var RegisterDialog = React.createClass({
     getJSON("/api/registrationCount").then(function (count) {
       dispatch(getRegistrationCount(count.registrationCount));
     });
+    dispatch(getUserStart());
+
+    getJSON("/api/user").then(function(users){
+      dispatch(getUser(users));
+    });
+
   },
   register(){
     registerForEvent(this.state.wholeWeek,function(){
@@ -37,6 +43,11 @@ var RegisterDialog = React.createClass({
       dispatch(getRegistrationCountStart());
       getJSON("/api/registrationCount").then(function (count) {
         dispatch(getRegistrationCount(count.registrationCount));
+      });
+
+      dispatch(getUserStart());
+      getJSON("/api/user").then(function(users){
+        dispatch(getUser(users));
       });
     }.bind(this),function(error){
       alert("Es ist ein Fehler aufgetreten: "+ error)
@@ -58,9 +69,10 @@ var RegisterDialog = React.createClass({
     const slot1 = Math.max(SLOT_SIZE.SLOT_1 - countOfRegistrations, 0);
     const slot2 = Math.max(SLOT_SIZE.SLOT_2 - countOfRegistrations, 0);
     const activeSlot = slot2 > 0 ? (slot1 > 0 ? "slot1" : "slot2") : "slot3";
+    const isRegistered = _.has(this,"props.user.registration");
     return (
       <div>
-        <RaisedButton type="button" label="Verbindlich anmelden!" primary={true} onClick={this.handleOpen}/>
+        <RaisedButton type="button" label={isRegistered?"Du bist angemeldet!":"Verbindlich anmelden!"} primary={true} onClick={this.handleOpen} disabled={isRegistered}/>
         <Dialog
           title="Verbindlich bei 2null16 anmelden"
           contentStyle={styles.listItem}

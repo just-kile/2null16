@@ -5,6 +5,8 @@ module.exports.GET_ARTICLE_LIST_START ="GET_ARTICLE_LIST_START";
 
 module.exports.GET_USERS_START ="GET_USERS_START";
 module.exports.GET_USERS ="GET_USERS";
+module.exports.GET_USER_START ="GET_USER_START";
+module.exports.GET_USER ="GET_USER";
 
 module.exports.GET_IMAGES_START ="GET_IMAGES_START";
 module.exports.GET_IMAGES ="GET_IMAGES";

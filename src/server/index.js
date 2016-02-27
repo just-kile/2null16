@@ -162,7 +162,7 @@ server.register([
         server.route({
             method: 'GET',
             path: '/api/user',
-            handler: renderJsonHandler({users:userService.getUser}),
+            handler: renderJsonHandler({user:userService.getUser}),
         });
         server.route({
             method:"POST",
@@ -271,7 +271,7 @@ server.register([
         server.route({
             method: 'GET',
             path: '/blog',
-            handler: renderViewHandler({articles:articleService.list,registrationCount:userService.getRegistrationCount}, "index")
+            handler: renderViewHandler({user:userService.getUser,articles:articleService.list,registrationCount:userService.getRegistrationCount}, "index")
         });
         server.route({
             method: 'GET',

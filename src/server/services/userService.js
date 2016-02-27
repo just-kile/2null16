@@ -36,6 +36,7 @@ function getUser(request){
           return {
               _id:user._id,
               name:user.name,
+              registration:user.registration
           }
       });
 }

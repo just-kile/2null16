@@ -2,6 +2,8 @@ const {GET_ARTICLE,
     GET_ARTICLE_LIST,
     GET_USERS,
     GET_USERS_START,
+    GET_USER,
+    GET_USER_START,
     GET_IMAGES,
     GET_IMAGES_START,
     GET_ARTICLE_START,
@@ -43,6 +45,12 @@ function getUsersStart(){
     }
 
 }
+function getUserStart(){
+    return {
+        type: GET_USER_START
+    }
+
+}
 function getImagesStart(){
     return {
         type: GET_IMAGES_START
@@ -60,6 +68,12 @@ function getUsers(users){
     return {
         type: GET_USERS,
         users:users
+    }
+}
+function getUser(user){
+    return {
+        type: GET_USER,
+        user:user
     }
 }
 function activateAjax(){
@@ -98,6 +112,8 @@ module.exports = {
     receiveArticleListStart,
     getUsersStart,
     getUsers,
+    getUserStart,
+    getUser,
     activateAjax,
     changeDashboardTextarea,
     changeDashboardMeta,

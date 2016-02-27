@@ -8,7 +8,8 @@ function getUsers(){
                 _id:account._id,
                 name:account.name,
                 email:account.email,
-                role:account.role
+                role:account.role,
+                registration:account.registration
             }
         })
     });
@@ -33,6 +34,7 @@ function getUser(request){
     var userId = _.get(request.auth,"credentials.id");
     return dao.getUser(userId)
       .then(function(user){
+          user = user || {};
           return {
               _id:user._id,
               name:user.name,

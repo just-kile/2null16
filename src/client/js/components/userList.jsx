@@ -70,7 +70,14 @@ var Article = React.createClass({
             <div>
             <div className="articles">
                 <Table selectable={false}>
-                    <TableHeader><TableRow><TableHeaderColumn>Name</TableHeaderColumn><TableHeaderColumn>Email</TableHeaderColumn><TableHeaderColumn>Is Admin</TableHeaderColumn></TableRow></TableHeader>
+                    <TableHeader>
+                        <TableRow>
+                            <TableHeaderColumn>Name</TableHeaderColumn>
+                            <TableHeaderColumn>Email</TableHeaderColumn>
+                            <TableHeaderColumn>Is Admin</TableHeaderColumn>
+                            <TableHeaderColumn>Whole Week</TableHeaderColumn>
+                            <TableHeaderColumn>RegisterNo</TableHeaderColumn>
+                        </TableRow></TableHeader>
                     <TableBody style={styles.list}>
                     {
                         this.props.users.map(function (user,index) {
@@ -79,6 +86,8 @@ var Article = React.createClass({
                                 <TableRowColumn styles={styles.listItem}>{user.name}</TableRowColumn>
                                 <TableRowColumn styles={styles.listItem}>{user.email}</TableRowColumn>
                                 <TableRowColumn styles={styles.listItem}><Toggle defaultToggled={user.role==="ADMIN"} onToggle={this.handleAdmin.bind(this,user._id)}/></TableRowColumn>
+                                <TableRowColumn styles={styles.listItem}>{""+_.get(user,"registration.wholeWeek")}</TableRowColumn>
+                                <TableRowColumn styles={styles.listItem}>{_.get(user,"registration.registerNo")}</TableRowColumn>
                             </TableRow>)
                         }.bind(this))
                     }
@@ -108,6 +117,8 @@ var Article = React.createClass({
                             secondaryTextLines={2} />)
                 }.bind(this))}
                 </List>
+                Registrierung aktiviert
+                <Toggle defaultToggled={true}/>
             </div>
             </div>
         );
@@ -119,7 +130,9 @@ const styles = {
     },
     listItem:{
         textColor:"black",
-        backgroundColor:"#999"
+        backgroundColor:"#999",
+        textOverflow:"clip",
+
     }
 }
 

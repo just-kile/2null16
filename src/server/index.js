@@ -12,6 +12,7 @@ var renderViewHandler = require("./handlers/renderViewHandler"),
     articleService = require("./services/articleService"),
     imageService = require("./services/imageService"),
     userService = require("./services/userService"),
+    configService = require("./services/configService"),
     commentsService = require("./services/commentsService"),
     resetPassService = require("./services/resetPassService");
 
@@ -111,6 +112,24 @@ server.register([
             method: 'GET',
             path: '/api/articles',
             handler: renderJsonHandler({articles:articleService.list})
+        });
+        server.route({
+            method: 'GET',
+            path: '/api/config',
+            handler: renderJsonHandler({config:configService.getConfig})
+        });
+        server.route({
+            method: 'PUT',
+            path: '/api/config/registration/{active}',
+            handler: renderJsonHandler({config:configService.setRegistrationActive}),
+            config:{
+                plugins: {'hapiAuthorization': {role: 'ADMIN'}},
+                validate:{
+                    params:{
+                        active:joi.boolean()
+                    }
+                }
+            }
         });
         server.route({
             method: 'GET',
@@ -271,7 +290,12 @@ server.register([
         server.route({
             method: 'GET',
             path: '/blog',
-            handler: renderViewHandler({user:userService.getUser,articles:articleService.list,registrationCount:userService.getRegistrationCount}, "index")
+            handler: renderViewHandler({
+                user:userService.getUser,
+                articles:articleService.list,
+                registrationCount:userService.getRegistrationCount,
+                config:configService.getConfig
+            }, "index")
         });
         server.route({
             method: 'GET',
@@ -282,7 +306,7 @@ server.register([
         server.route({
             method: 'GET',
             path: '/admin',
-            handler: renderViewHandler({users:userService.getUsers,articles:articleService.listAll}, "index"),
+            handler: renderViewHandler({users:userService.getUsers,articles:articleService.listAll,config:configService.getConfig}, "index"),
             config:{
                 plugins: {'hapiAuthorization': {role: 'ADMIN'}}
             }

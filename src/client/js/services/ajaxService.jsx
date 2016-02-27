@@ -170,6 +170,16 @@ function registerForEvent(wholeWeek,success,error){
               error && error(res.text);
           }
       });
+}function setRegistrationActive(active,success,error){
+    request
+      .put("/api/config/registration/"+active)
+      .end(function(err,res){
+          if (res && res.ok) {
+              success &&  success(res.body);
+          } else {
+              error && error(res.text);
+          }
+      });
 }
 module.exports.getJSON = getJSON;
 module.exports.register = register;
@@ -184,3 +194,4 @@ module.exports.uploadImage = uploadImage;
 module.exports.addComment = addComment;
 module.exports.toggleUserRole = toggleUserRole;
 module.exports.registerForEvent = registerForEvent;
+module.exports.setRegistrationActive = setRegistrationActive;

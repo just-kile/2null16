@@ -1,9 +1,9 @@
 var React = require("react");
 var Router = require('react-router');
 var Link = Router.Link;
-var {getJSON,toggleArticle,toggleUserRole,createArticle,deleteArticle} = require("../services/ajaxService.jsx");
+var {getJSON,toggleArticle,toggleUserRole,createArticle,deleteArticle,setRegistrationActive} = require("../services/ajaxService.jsx");
 var { connect } =require('react-redux');
-var {getUsersStart,getUsers,activateAjax} = require("./../actions/actions.jsx");
+var {getUsersStart,getUsers,getConfig,getConfigStart,activateAjax} = require("./../actions/actions.jsx");
 var {RefreshIndicator,List,ListDivider,ListItem,Avatar,Toggle,IconButton,RaisedButton} = require("material-ui");
 var _ = require("lodash");
 var Table = require('material-ui/lib/table/table');
@@ -31,6 +31,10 @@ var Article = React.createClass({
         getJSON("/api/articles?allArticles=true").then(function(articles){
             dispatch(receivedArticleList(articles));
         });
+        dispatch(getConfigStart());
+        getJSON("/api/config").then(function(config){
+            dispatch(getConfig(config));
+        });
     },
     componentWillUnmount(){
         const {dispatch} = this.props;
@@ -43,6 +47,9 @@ var Article = React.createClass({
     },
     handleAdmin(accountId,event,checked){
       toggleUserRole(accountId,checked?"ADMIN" :"USER");
+    },
+    handleRegistrationActive(event,checked){
+        setRegistrationActive(checked);
     },
     createNewArticle(){
         createArticle(function(result){
@@ -61,7 +68,7 @@ var Article = React.createClass({
         }.bind(this));
     },
     render () {
-        const {users,articles} = this.props;
+        const {users,articles,config} = this.props;
         if(!users || !articles){
             return (<div className="loadingIndicator"><RefreshIndicator size={40} left={0} top={0} status="loading" /></div>)
         }
@@ -118,7 +125,7 @@ var Article = React.createClass({
                 }.bind(this))}
                 </List>
                 Registrierung aktiviert
-                <Toggle defaultToggled={true}/>
+                <Toggle defaultToggled={_.get(config,"registration")} onToggle={this.handleRegistrationActive}/>
             </div>
             </div>
         );
@@ -139,6 +146,7 @@ const styles = {
 module.exports = connect(function (state) {
     return {
         users: state.users,
+        config: state.config,
         articles:state.articles,
         activateAjax: state.activateAjax,
     };

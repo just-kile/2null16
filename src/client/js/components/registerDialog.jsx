@@ -1,7 +1,7 @@
 var React = require("react");
 var {getJSON,registerForEvent} = require("../services/ajaxService.jsx");
 var { connect } =require('react-redux');
-var {getRegistrationCount,getRegistrationCountStart,activateAjax,getUser,getUserStart} = require("./../actions/actions.jsx");
+var {getRegistrationCount,getRegistrationCountStart,activateAjax,getUser,getUserStart,getConfig,getConfigStart} = require("./../actions/actions.jsx");
 var {RefreshIndicator,RaisedButton,Dialog,Badge,Checkbox,List,ListItem,Avatar} = require("material-ui");
 var _ = require("lodash");
 var SLOT_SIZE = {
@@ -34,6 +34,11 @@ var RegisterDialog = React.createClass({
     getJSON("/api/user").then(function(users){
       dispatch(getUser(users));
     });
+    getConfigStart()
+    getJSON("/api/config").then(function(config){
+      dispatch(getConfig(config));
+    });
+
 
   },
   register(){
@@ -72,7 +77,8 @@ var RegisterDialog = React.createClass({
     const isRegistered = _.has(this,"props.user.registration");
     return (
       <div>
-        <RaisedButton type="button" label={isRegistered?"Du bist angemeldet!":"Verbindlich anmelden!"} primary={true} onClick={this.handleOpen} disabled={isRegistered}/>
+        {_.get(this.props,"config.registration") && <RaisedButton type="button" label={isRegistered?"Du bist angemeldet!":"Verbindlich anmelden!"} primary={true} onClick={this.handleOpen} disabled={isRegistered}/>}
+
         <Dialog
           title="Verbindlich bei 2null16 anmelden"
           contentStyle={styles.listItem}
@@ -154,17 +160,17 @@ const styles = {
   },
   listItem: {
     textColor: "black",
-    color: "black",
+    color: "black"
 
   },
   listItemDisabled: {
     textColor: "grey",
-    color: "grey",
+    color: "grey"
 
   },
   date: {
     backgroundColor: "black",
-    color: "black",
+    color: "black"
 
   }
 };
@@ -172,6 +178,7 @@ const styles = {
 module.exports = connect(function (state) {
   return {
     user:state.user,
+    config:state.config,
     registrationCount:state.registrationCount
   };
 })(RegisterDialog);

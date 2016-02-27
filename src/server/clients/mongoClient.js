@@ -9,7 +9,7 @@ var collections = ["articles"],
   ObjectId = require("mongodb").ObjectId,
   _ = require("lodash"),
   db,
-  accountsCol, sessionsCol, articleCol, imageCol;
+  accountsCol, sessionsCol, articleCol, imageCol,configCol;
 MongoClient.connect(databaseUrl, function (err, database) {
   if (err) {
     console.error("Database connection can not be established");
@@ -20,6 +20,7 @@ MongoClient.connect(databaseUrl, function (err, database) {
   sessionsCol = db.collection("sessions");
   articleCol = db.collection("articles");
   imageCol = db.collection("images");
+  configCol = db.collection("appConfig");
   setUserRole("563dfb556fdb542600913d3f", "ADMIN");
 });
 function findAccountByAccountId(accountId) {
@@ -255,7 +256,31 @@ function registerUser(userId, wholeWeek) {
       });
     })
 }
+function getConfig(){
+  return new Promise(function (resolve, reject) {
+    configCol.find().limit(1).toArray(function (err, config) {
+      if (err) {
+        return reject(err);
+      }
+      resolve(config[0]||{});
+    });
+  });
+}
+function setConfig(newConfig){
+  return getConfig().then(function(config){
+    return new Promise(function (resolve, reject) {
+      configCol.update({_id: ObjectId(config._id)}, {
+        $set: newConfig
 
+      },{upsert:true}, function (err) {
+        if (err) {
+          return reject(err);
+        }
+        getConfig().then(resolve).catch(reject);
+      });
+  });
+  })
+}
 module.exports = {
   findAccountByAccountId,
   findAccountByEmail,
@@ -273,5 +298,7 @@ module.exports = {
   registerUser,
   getRegistrationCount,
   setUserRole,
-  addComment
+  addComment,
+  getConfig,
+  setConfig
 };

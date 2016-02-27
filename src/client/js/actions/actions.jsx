@@ -12,6 +12,8 @@ const {GET_ARTICLE,
     CHANGE_DASHBOARD_META,
     GET_REGISTRATION_COUNT_START,
     GET_REGISTRATION_COUNT,
+    GET_CONFIG_START,
+    GET_CONFIG,
     ACTIVATE_AJAX} = require("./actionTypes");
 
 
@@ -105,6 +107,17 @@ function getRegistrationCountStart(val){
         type:GET_REGISTRATION_COUNT_START
     }
 }
+function getConfig(val){
+    return {
+        type:GET_CONFIG,
+        config:val
+    }
+}
+function getConfigStart(){
+    return {
+        type:GET_CONFIG_START
+    }
+}
 module.exports = {
     receivedArticle,
     receivedArticleList,
@@ -114,6 +127,8 @@ module.exports = {
     getUsers,
     getUserStart,
     getUser,
+    getConfigStart,
+    getConfig,
     activateAjax,
     changeDashboardTextarea,
     changeDashboardMeta,

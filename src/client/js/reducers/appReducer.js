@@ -6,6 +6,8 @@ var GET_USERS= require("./../actions/actionTypes").GET_USERS;
 var GET_USERS_START = require("./../actions/actionTypes").GET_USERS_START;
 var GET_USER= require("./../actions/actionTypes").GET_USER;
 var GET_USER_START = require("./../actions/actionTypes").GET_USER_START;
+var GET_CONFIG= require("./../actions/actionTypes").GET_CONFIG;
+var GET_CONFIG_START = require("./../actions/actionTypes").GET_CONFIG_START;
 var GET_IMAGES= require("./../actions/actionTypes").GET_IMAGES;
 var GET_IMAGES_START = require("./../actions/actionTypes").GET_IMAGES_START;
 var ACTIVATE_AJAX = require("./../actions/actionTypes").ACTIVATE_AJAX;
@@ -35,6 +37,12 @@ module.exports = function(state,action){
         case GET_USERS:
             return Object.assign({}, state, {
                 users: action.users.users
+            });
+        case GET_CONFIG_START:
+            return state;
+        case GET_CONFIG:
+            return Object.assign({}, state, {
+                config: action.config.config
             });
         case GET_USER_START:
             return state;
